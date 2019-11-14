@@ -1,3 +1,5 @@
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 fffff
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+int main(){
+    "
+}
