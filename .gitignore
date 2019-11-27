@@ -30,8 +30,13 @@
 *.exe
 *.out
 *.app
+
 #excel
 *.xlsx
+
 #mac
 .DS_Store
+
+#word 
+*.docx
 
