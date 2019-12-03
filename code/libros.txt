@@ -1,0 +1,20 @@
+Principles of Concurrent and Distributed Programming
+Concurrent Programming. Principles and Practice
+Introduction to Algorithms
+Structure and Interpretation of Computer Programs
+The C Programming Language
+The Art of Computer Programming
+Introduction to the Theory of Computation
+Artificial Intelligence: A Modern Approach
+Advanced Programming in the UNIX Environment
+Compilers: Principles, Techniques, and Tools
+Introduction to Automata Theory, Languages, and Computation
+A Discipline of Programming
+Concrete Mathematics: A Foundation for Computer Science
+Database System Concepts
+An Introduction to Database Systems
+The UNIX Programming Environment
+Structured Computer Organization
+Computational Complexity
+Mathematical Logic for Computer Science
+The Temporal Logic of Concurrent and Distributes Systems
