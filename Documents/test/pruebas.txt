@@ -1,0 +1,7 @@
+- Comprobar que la conexion funciona(cliente servidor)
+- Estadistico gurda el orden de las pobalciones
+- servidor da poblaciones correctas
+- Poblacion inicial correctas
+- fitness correcto
+- siempre duvuelve la poblacion con el mismo número de gente 
+- 
