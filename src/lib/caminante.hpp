@@ -11,7 +11,10 @@ private:
     int camino[CITY_MAX];
     int fitness;
 public:
+
+    Caminante();
     Caminante(string MiCamino);
+    void ini();
     ~Caminante();
     int MyFit();
     void Mutar();
@@ -60,7 +63,7 @@ class Poblacion
 private:
 
         int dist[CITY_MAX][CITY_MAX];
-        Caminante caminantes[CAM_MAX];
+        Caminante caminantes[CAM_MAX](9);
         string cities[CITY_MAX];
         
 
