@@ -6,8 +6,8 @@ const int CAM_MAX = 100 ;
 class Caminante
 {
 private:
-    /* data */
-    friend class Poblacion;
+    
+    friend void Poblacion::calcFit();
     int camino[CITY_MAX];
     int fitness;
 public:
@@ -88,23 +88,34 @@ class Poblacion
 private:
 
         int dist[CITY_MAX][CITY_MAX];
+        int numCam;
         Caminante caminantes[CAM_MAX];
         string cities[CITY_MAX];
+        int numCities;
         
 
     public:
         Poblacion(int caminantes, string entrada = "entrada.txt");
         Poblacion(string data);
         ~Poblacion();
+        void actualizar();
         void calcFit();
         void dividir(int n, Poblacion pobs[]);
         int mejorFit();
         int mediaFit();
         void serializar();
 };
-
-Poblacion::Poblacion(int caminantes, string entrada = "entrada.txt")
+//le indicas cuantos caminantes va a haber y la entrada donde estan los datos
+Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
 {
+    //inicializar numCam
+    //rellenar la matriz
+    //inicializar numCities
+    for (int i = 0; i < numCam; i++)
+    {
+        caminantes[i].ini(numCities);
+    }
+    
 }
 
 
@@ -115,23 +126,41 @@ Poblacion::Poblacion(string data)
 Poblacion::~Poblacion()
 {
 }
-void calcFit()
+
+//actualiza los caminnates de una poblacion a partir de un string, util para 
+//el servidor
+void actualizar(){
+
+
+}
+
+//calculas el fit de un caminante y se lo guardas
+void Poblacion::calcFit()
 {
 
 }
+//divide la poblacion en n subpoblaciones y las devuelve en array
 void dividir(int n, Poblacion pobs[])
 {
 
 }
+
+//obtiene el mejor fitnes de la poblacion
 int mejorFit()
 {
 
 }
+
+//obtiene la media de todos los fits de la poblacion
 int mediaFit()
 {
 
 }
+
+//transforma los datos de la poblacion en un único 
 void serializar()
 {
 
 }
+
+
