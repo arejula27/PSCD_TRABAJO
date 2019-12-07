@@ -13,8 +13,7 @@ private:
 public:
 
     Caminante();
-    Caminante(string MiCamino);
-    void ini();
+    void ini(string MiCamino);
     ~Caminante();
     int MyFit();
     void Mutar();
@@ -22,7 +21,20 @@ public:
     string serializar();
 };
 
-Caminante::Caminante(string MiCamino)
+//Constructor del caminante
+Caminante::Caminante()
+{   
+    camino[0]=-1;
+    fitness = -1;
+}
+
+Caminante::~Caminante()
+{
+}
+
+//Guarda el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
+// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
+void Caminante::ini(string MiCamino)
 {   
     int i=0;
     int j=0;
@@ -34,26 +46,38 @@ Caminante::Caminante(string MiCamino)
             j++;
             i++;
         }
+        i++;
     }
 }
 
-Caminante::~Caminante()
-{
-}
-
+//Devuelve el fitness del caminante.
 int Caminante::MyFit()
 {    
     return fitness;
 }
 
+//Función de mutar.
 void Caminante::Mutar()
 {    
 }
 
+//Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
 {
 }
 
+//Devuelve en una cadena el camino seguido por el Caminante según el formato: 
+// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
+string Caminante::serializar()
+{
+    string aux = "";
+    string ciudad;
+    for (int i=0; i<CITY_MAX; i++){
+        ciudad = to_string(camino[i]);
+        aux += ciudad +',';
+    }
+    return aux;
+}
 
 
 
@@ -82,9 +106,10 @@ private:
 Poblacion::Poblacion(int caminantes, string entrada = "entrada.txt")
 {
 }
+
+
 Poblacion::Poblacion(string data)
 {
-
 }
 
 Poblacion::~Poblacion()
