@@ -109,6 +109,9 @@ private:
         //recibe los caminantes de un cliente/servidor, esta funcion sustituye los actuales por 
         //los nuevos
         void actualizar();
+        //recibe la poblacion de un cliente/servidor, copia todos los datos en tu poblacion,
+        //utilizar para inicializarla copiando otra
+        void ini();
         //calcula el fin de un caminante y cambia su propio fit 
         void calcFit(Caminante &caminante);
         //divide la poblacion en n subpoblaciones
@@ -227,7 +230,7 @@ void Poblacion::enviar(int flg = ALL_POB)
             {
                 msg+=caminantes[i].serializar()+";";
             }
-            return msg;
+            
             break;
 
         default:
