@@ -32,6 +32,7 @@ Caminante::Caminante(string MiCamino)
 {   
     int i=0;
     int j=0;
+    char aux;
     while(MiCamino[i]!='\n'){
         camino[j]=0;
         while(MiCamino[i]!=',' && MiCamino[i]!='\n'){
