@@ -129,11 +129,11 @@ Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
     {
         caminantes[i].ini("numCities");
         #warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
-    }
+        
     
+    }
+
 }
-
-
 Poblacion::Poblacion(string data)
 {
 }
