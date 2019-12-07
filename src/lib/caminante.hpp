@@ -106,7 +106,7 @@ private:
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
-        //tras recibir los caminantes de un cliente/servidor, esta funcion sustituye los actuales por 
+        //recibe los caminantes de un cliente/servidor, esta funcion sustituye los actuales por 
         //los nuevos
         void actualizar();
         //calcula el fin de un caminante y cambia su propio fit 
@@ -117,7 +117,9 @@ private:
         int mejorFit();
         //obtiene el fites medio de la poblacion
         int mediaFit();
-        string serializar(int flg = ALL_POB);
+        //envia la poblacion, usar ALL_POB para enviar la poblacion con todos sus datos o
+        //UPGRADE_POB para enviar ÚNICAMENTE los caminates 
+        void enviar(int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
@@ -203,7 +205,7 @@ int Poblacion::mediaFit()
 //con UPGRADE_POB, unicamente el vector de caminantes
 //ALL_POB=>
 //UPGRADE_POB=> "numCam:[caminante]*"
-string Poblacion::serializar(int flg = ALL_POB)
+void Poblacion::enviar(int flg = ALL_POB)
 {
     string msg;
     switch (flg)
