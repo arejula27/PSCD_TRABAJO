@@ -11,7 +11,10 @@ private:
     int camino[CITY_MAX];
     int fitness;
 public:
+
+    Caminante();
     Caminante(string MiCamino);
+    void ini();
     ~Caminante();
     int MyFit();
     void Mutar();
