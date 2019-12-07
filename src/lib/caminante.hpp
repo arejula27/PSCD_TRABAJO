@@ -15,7 +15,7 @@ public:
     ~Caminante();
     int MyFit();
     void Mutar();
-    void Cruzar(const Caminante &O1, &O2);
+    void Cruzar(const Caminante &O1, const Caminante &O2);
     string serializar();
 };
 
@@ -26,7 +26,7 @@ Caminante::Caminante(string MiCamino)
     while(MiCamino[i]!='\n'){
         camino[j]=0;
         while(MiCamino[i]!=',' && MiCamino[i]!='\n'){
-            camino[j]=camino[j]*10+atoi(MiCamino[i]);
+            camino[j]=camino[j]*10+atoi((const char *)MiCamino[i]);
             j++;
             i++;
         }
@@ -37,18 +37,23 @@ Caminante::~Caminante()
 {
 }
 
-Caminante::MyFit()
+int Caminante::MyFit()
 {    
-    return Caminante.fitness;
+    return fitness;
 }
 
-Caminante::Mutar()
+void Caminante::Mutar()
 {    
 }
 
-Caminante::Cruzar()
+void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
 {
 }
+
+
+
+
+
 
 class Poblacion
 {
