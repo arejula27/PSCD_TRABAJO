@@ -15,7 +15,7 @@ public:
     ~Caminante();
     int MyFit();
     void Mutar();
-    void Cruzar(const Caminante &O1, &O2);
+    void Cruzar(const Caminante& O1, const Caminante& O2);
     string serializar();
 };
 
@@ -23,6 +23,7 @@ Caminante::Caminante(string MiCamino)
 {   
     int i=0;
     int j=0;
+    char aux;
     while(MiCamino[i]!='\n'){
         camino[j]=0;
         while(MiCamino[i]!=',' && MiCamino[i]!='\n'){
