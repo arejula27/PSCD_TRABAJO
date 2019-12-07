@@ -63,7 +63,7 @@ class Poblacion
 private:
 
         int dist[CITY_MAX][CITY_MAX];
-        Caminante caminantes[CAM_MAX](9);
+        Caminante caminantes[CAM_MAX];
         string cities[CITY_MAX];
         
 
