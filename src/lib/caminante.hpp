@@ -113,7 +113,7 @@ Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
     //inicializar numCities
     for (int i = 0; i < numCam; i++)
     {
-        caminantes[i].ini(numCities);
+        caminantes[i].ini(/*numCities*/);  //Coflicto con mi función.
     }
     
 }
