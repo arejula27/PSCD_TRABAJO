@@ -258,16 +258,19 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     avance++;
     while(MiMatriz[avance] != ")"){
         while(MiMatriz[avance] != ";"){
-            while(MiMatriz[avance] != ","){
-                aux = aux*10 + stoi(&MiMatriz[avance]);
+            aux = stoi(&MiMatriz[avance]);
+            while(MiMatriz[avance] != "," || MiMatriz[avance] != ";"){
                 avance++;
             }
+            avance++;
             dist[fil][col]=aux;
             col++;
             aux = 0;
         }
+        fil++;
         avance++;
     }
+    avance++;
 }
 
 //transforma los datos de la poblacion en un único string, por defecto toda
