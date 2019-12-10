@@ -132,9 +132,7 @@ private:
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
-        //recibe la poblacion de un cliente/servidor, copia todos los datos en tu poblacion,
-        //utilizar para inicializarla copiando otra
-        void ini();
+
         //calcula el fin de un caminante y cambia su propio fit 
         void calcFit(Caminante &caminante);
         //divide la poblacion en n subpoblaciones
@@ -257,7 +255,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     while(MiMatriz[avance] != ")"){
         while(MiMatriz[avance] != ";"){
             while(MiMatriz[avance] != ","){
-                aux = aux*10 + stoi(&Mimatriz[avance]);
+                aux = aux*10 + stoi(&MiMatriz[avance]);
                 avance++;
             }
             dist[fil][col]=aux;
