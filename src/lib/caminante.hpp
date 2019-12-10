@@ -162,7 +162,7 @@ Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
     //inicializar numCities
     for (int i = 0; i < numCam; i++)
     {
-        caminantes[i].ini("numCities");
+        caminantes[i].ini(0,0);
         #warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
         
     
