@@ -147,7 +147,7 @@ private:
         //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
         void codificar(int flg = ALL_POB);
 
-        void descodificar(int flg = ALL_POB);
+        void descodificar(string mag, int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
@@ -262,13 +262,33 @@ void Poblacion::codificar(int flg = ALL_POB)
     } 
 }
 
-void descodificar(string mag, int flg = ALL_POB)
+
+
+
+void Poblacion::descodificar(string msg, int flg = ALL_POB)
 {
     switch (flg)
     {
     case ALL_POB:
-        to_string(numCities) + ":";
-        numCities = strtok() 
+       
+        int inx=0;
+        numCities = stoi(msg);
+        while (msg[inx++] != ':');
+        descodificarMatriz(&msg,inx);
+        numCam = stoi(&msg[inx]);
+        while (msg[inx++] != ':');
+        //descodificar todos los viajeros 
+        for (int i = 0; i < numCam; i++)
+        {
+            int avz=0;
+            caminantes[i].desCodificar(&msg[inx],avz);
+            inx+=avz;
+        }
+        
+       
+        
+        
+        
         #warning serializar matriz
         msg += to_string(numCam) + ":";
         for (int i = 0; i < numCam; i++)
