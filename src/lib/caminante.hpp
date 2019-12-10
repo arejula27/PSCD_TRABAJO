@@ -169,12 +169,7 @@ Poblacion::~Poblacion()
 {
 }
 
-//actualiza los caminnates de una poblacion a partir de un string, util para 
-//el servidor
-void actualizar(){
 
-
-}
 
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate)
