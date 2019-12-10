@@ -1,5 +1,5 @@
 
-//compile: make pilatest
+//compile: make pobtest -f Makefile_p5_e1
 
 #include <iostream>
 #include "caminante.hpp"
