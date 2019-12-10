@@ -11,7 +11,7 @@ private:
     
     friend void Poblacion::calcFit(Caminante &caminante);
     int camino[CITY_MAX];
-    int fitness;
+    float fitness;
 public:
 
     Caminante();
@@ -129,9 +129,6 @@ private:
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
-        //recibe los caminantes de un cliente/servidor, esta funcion sustituye los actuales por 
-        //los nuevos
-        void actualizar();
         //recibe la poblacion de un cliente/servidor, copia todos los datos en tu poblacion,
         //utilizar para inicializarla copiando otra
         void ini();
