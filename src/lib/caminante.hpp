@@ -11,7 +11,7 @@ private:
     
     friend void Poblacion::calcFit(Caminante &caminante);
     int camino[CITY_MAX];
-    int fitness;
+    float fitness;
 public:
 
     Caminante();
@@ -132,9 +132,6 @@ private:
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
-        //recibe los caminantes de un cliente/servidor, esta funcion sustituye los actuales por 
-        //los nuevos
-        void actualizar();
         //recibe la poblacion de un cliente/servidor, copia todos los datos en tu poblacion,
         //utilizar para inicializarla copiando otra
         void ini();
@@ -157,7 +154,7 @@ private:
         //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
         void codificar(int flg = ALL_POB);
 
-        void descodificar(int flg = ALL_POB);
+        void descodificar(string mag, int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
@@ -182,12 +179,7 @@ Poblacion::~Poblacion()
 {
 }
 
-//actualiza los caminnates de una poblacion a partir de un string, util para 
-//el servidor
-void actualizar(){
 
-
-}
 
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate)
@@ -305,36 +297,50 @@ void Poblacion::codificar(int flg = ALL_POB)
             
             break;
 
-        default:
-            break;
+       
     } 
 }
 
-void descodificar(string mag, int flg = ALL_POB)
+
+
+
+void Poblacion::descodificar(string msg, int flg = ALL_POB)
 {
     switch (flg)
     {
     case ALL_POB:
-        to_string(numCities) + ":";
-        numCities = strtok() 
-        #warning serializar matriz
-        msg += to_string(numCam) + ":";
+       
+        int inx=0;
+        numCities = stoi(msg);
+        while (msg[inx++] != ':');
+        descodificarMatriz(&msg,inx);
+        numCam = stoi(&msg[inx]);
+        while (msg[inx++] != ':');
+        //descodificar todos los viajeros 
         for (int i = 0; i < numCam; i++)
         {
-            msg += caminantes[i].codificar();
+            int avz=0;
+            caminantes[i].desCodificar(&msg[inx],avz);
+            inx+=avz;
         }
-
+        
         break;
+
     case UPGRADE_POB:
-        msg = to_string(numCam) + ":";
+
+        int inx = 0;
+        numCam = stoi(msg);
+        while (msg[inx++] != ':')
+            ;
+        //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            msg += caminantes[i].codificar() + ";";
+            int avz = 0;
+            caminantes[i].desCodificar(&msg[inx], avz);
+            inx += avz;
         }
-
         break;
 
-    default:
-        break;
+
     }
 }
