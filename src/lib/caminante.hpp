@@ -53,7 +53,11 @@ void Caminante::desCodificar(const string MiCamino, int &avance)
     }
     camino[i] = camino[0];
     avance++;
-    stof()
+    stof(&MiCamino[avance]);
+    while(MiCamino[avance] != ";"){
+        avance++;
+    }
+    avance++;
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
