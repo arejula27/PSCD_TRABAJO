@@ -36,25 +36,28 @@ Caminante::~Caminante()
 }
 
 //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
-// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
-void Caminante::desCodificar(const string MiCamino)
+// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
+//Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
+void Caminante::desCodificar(const string MiCamino, int &avance)
 {   
+    avance = 0;
     int i=0;
-    int j=0;
-    char aux;
-    while(MiCamino[i]!='\n'){
-        camino[j]=0;
-        while(MiCamino[i]!=',' && MiCamino[i]!='\n'){
-            camino[j]=camino[j]*10+atoi((const char *)MiCamino[i]);
-            j++;
-            i++;
+    while(MiCamino[avance]!=':'){
+        camino[i]=0;
+        camino[i]=stoi(&MiCamino[avance]);
+        while(MiCamino[avance]!=',' || MiCamino[avance]!=':'){
+            avance++;
         }
+        avance++;
         i++;
     }
+    camino[i] = camino[0];
+    avance++;
+    stof()
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
-// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
+// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 string Caminante::codificar()
 {
     int inicio = camino[0];
@@ -143,6 +146,13 @@ private:
         int mejorFit();
         //obtiene el fites medio de la poblacion
         int mediaFit();
+        //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
+        // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+        string codificarMatriz();
+        //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
+        // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+        //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
+        void descodificarMatriz(const string MiMatriz, int &avance);
         //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
         //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
         void codificar(int flg = ALL_POB);
@@ -226,6 +236,44 @@ int Poblacion::mejorFit()
 //obtiene la media de todos los fits de la poblacion
 int Poblacion::mediaFit()
 {
+}
+
+//Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
+// "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;) "
+string Poblacion::codificarMatriz()
+{
+    string MiMat = "(";
+    for (int i = 0; i<numCities; i++){
+        for (int j = 0; i<numCities-1; j++){
+            MiMat += dist[i][j] + ',';
+        }
+        MiMat += dist[i][numCities-1] + ";";
+    }
+    MiMat += ")";
+    return MiMat;
+}
+
+//Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
+// "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+//Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
+void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
+{
+    int fil = 0;
+    int col = 0;
+    int aux = 0;
+    avance++;
+    while(MiMatriz[avance] != ")"){
+        while(MiMatriz[avance] != ";"){
+            while(MiMatriz[avance] != ","){
+                aux = aux*10 + stoi(&Mimatriz[avance]);
+                avance++;
+            }
+            dist[fil][col]=aux;
+            col++;
+            aux = 0;
+        }
+        avance++;
+    }
 }
 
 //transforma los datos de la poblacion en un único string, por defecto toda
