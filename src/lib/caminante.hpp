@@ -120,9 +120,11 @@ private:
         int mejorFit();
         //obtiene el fites medio de la poblacion
         int mediaFit();
-        //envia la poblacion, usar ALL_POB para enviar la poblacion con todos sus datos o
-        //UPGRADE_POB para enviar ÚNICAMENTE los caminates 
-        void enviar(int flg = ALL_POB);
+        //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
+        //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
+        void codificar(int flg = ALL_POB);
+
+        void descodificar(int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
@@ -208,7 +210,7 @@ int Poblacion::mediaFit()
 //con UPGRADE_POB, unicamente el vector de caminantes
 //ALL_POB=>
 //UPGRADE_POB=> "numCam:[caminante]*"
-void Poblacion::enviar(int flg = ALL_POB)
+void Poblacion::codificar(int flg = ALL_POB)
 {
     string msg;
     switch (flg)
@@ -219,7 +221,7 @@ void Poblacion::enviar(int flg = ALL_POB)
             msg += to_string(numCam) + ":";
             for (int i = 0; i < numCam; i++)
             {
-                msg += caminantes[i].serializar() + ";";
+                msg += caminantes[i].codificar();
             }
             
 
@@ -228,7 +230,7 @@ void Poblacion::enviar(int flg = ALL_POB)
         msg=to_string(numCam)+":";
             for (int i = 0; i < numCam ; i++)
             {
-                msg+=caminantes[i].serializar()+";";
+                msg+=caminantes[i].codificar()+";";
             }
             
             break;
@@ -238,4 +240,31 @@ void Poblacion::enviar(int flg = ALL_POB)
     } 
 }
 
+void descodificar(string mag, int flg = ALL_POB)
+{
+    switch (flg)
+    {
+    case ALL_POB:
+        to_string(numCities) + ":";
+        numCities = strtok() 
+        #warning serializar matriz
+        msg += to_string(numCam) + ":";
+        for (int i = 0; i < numCam; i++)
+        {
+            msg += caminantes[i].codificar();
+        }
 
+        break;
+    case UPGRADE_POB:
+        msg = to_string(numCam) + ":";
+        for (int i = 0; i < numCam; i++)
+        {
+            msg += caminantes[i].codificar() + ";";
+        }
+
+        break;
+
+    default:
+        break;
+    }
+}
