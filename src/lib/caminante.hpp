@@ -249,8 +249,7 @@ void Poblacion::codificar(int flg = ALL_POB)
             
             break;
 
-        default:
-            break;
+       
     } 
 }
 
@@ -277,28 +276,23 @@ void Poblacion::descodificar(string msg, int flg = ALL_POB)
             inx+=avz;
         }
         
-       
-        
-        
-        
-        #warning serializar matriz
-        msg += to_string(numCam) + ":";
-        for (int i = 0; i < numCam; i++)
-        {
-            msg += caminantes[i].codificar();
-        }
-
         break;
+
     case UPGRADE_POB:
-        msg = to_string(numCam) + ":";
+
+        int inx = 0;
+        numCam = stoi(msg);
+        while (msg[inx++] != ':')
+            ;
+        //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            msg += caminantes[i].codificar() + ";";
+            int avz = 0;
+            caminantes[i].desCodificar(&msg[inx], avz);
+            inx += avz;
         }
-
         break;
 
-    default:
-        break;
+
     }
 }
