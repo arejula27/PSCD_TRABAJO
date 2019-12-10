@@ -17,7 +17,7 @@ public:
     Caminante();
     ~Caminante();
     void ini(int inicio, int max);
-    void desCodificar(const string MiCamino);
+    void desCodificar(const string MiCamino, int &avance);
     string codificar();
     int MyFit();
     void Mutar();
