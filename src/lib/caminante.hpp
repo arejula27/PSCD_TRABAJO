@@ -15,12 +15,13 @@ private:
 public:
 
     Caminante();
-    void ini(string MiCamino);
     ~Caminante();
+    void ini(int inicio, int max);
+    void desCodificar(const string MiCamino);
+    string codificar();
     int MyFit();
     void Mutar();
     void Cruzar(const Caminante &O1, const Caminante &O2);
-    string serializar();
 };
 
 //Constructor del caminante
@@ -34,9 +35,9 @@ Caminante::~Caminante()
 {
 }
 
-//Guarda el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
+//Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
-void Caminante::ini(string MiCamino)
+void Caminante::desCodificar(const string MiCamino)
 {   
     int i=0;
     int j=0;
@@ -50,6 +51,41 @@ void Caminante::ini(string MiCamino)
         }
         i++;
     }
+}
+
+//Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
+// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
+string Caminante::codificar()
+{
+    int inicio = camino[0];
+    string MiCamino = to_string(inicio) + ',';
+    int i = 1;
+    while(camino[i]!=inicio){
+        MiCamino += to_string(camino[i]) + ',';
+    }
+    MiCamino += to_string(inicio) + ';';
+    return MiCamino;
+}
+
+//Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
+void Caminante::ini(int inicio, int max)
+{
+    int aux;
+    bool recorridos[max];
+    for (int i=0; i<max; i++){
+        recorridos[i]=false;
+    }
+    recorridos[inicio] = true;
+    camino[0] = inicio;
+    for (int i=1; i<max-1; i++){
+        aux = rand()%max;
+        while(recorridos[aux]){
+            aux = (aux+1)%max;
+        }
+        recorridos[aux] = true;
+        camino[i] = aux;
+    }
+    camino[max-1] = inicio;
 }
 
 //Devuelve el fitness del caminante.
@@ -66,19 +102,6 @@ void Caminante::Mutar()
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
 {
-}
-
-//Devuelve en una cadena el camino seguido por el Caminante según el formato: 
-// "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN;"
-string Caminante::serializar()
-{
-    string aux = "";
-    string ciudad;
-    for (int i=0; i<CITY_MAX; i++){
-        ciudad = to_string(camino[i]);
-        aux += ciudad +',';
-    }
-    return aux;
 }
 
 
@@ -203,7 +226,6 @@ int Poblacion::mejorFit()
 //obtiene la media de todos los fits de la poblacion
 int Poblacion::mediaFit()
 {
-
 }
 
 //transforma los datos de la poblacion en un único string, por defecto toda
