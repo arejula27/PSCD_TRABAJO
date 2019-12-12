@@ -5,6 +5,8 @@ const int CAM_MAX = 100 ;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
+class Poblacion;
+
 class Caminante
 {
     friend void Poblacion::calcFit(Caminante &caminante);
@@ -161,7 +163,7 @@ private:
         void descodificar(string mag, int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
-Poblacion::Poblacion(int numCam, string entrada = "entrada.txt")
+Poblacion::Poblacion(int numCam, string entrada )
 {
     //inicializar numCam
     //rellenar la matriz
@@ -279,7 +281,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 //con UPGRADE_POB, unicamente el vector de caminantes
 //ALL_POB=>
 //UPGRADE_POB=> "numCam:[caminante]*"
-void Poblacion::codificar(int flg = ALL_POB)
+void Poblacion::codificar(int flg )
 {
     string msg;
     switch (flg)
@@ -311,32 +313,17 @@ void Poblacion::codificar(int flg = ALL_POB)
 
 
 
-void Poblacion::descodificar(string msg, int flg = ALL_POB)
+void Poblacion::descodificar(string msg, int flg )
 {
-    switch (flg)
-    {
-    case ALL_POB:
-       
-        int inx=0;
+  
+    int inx = 0;
+    if(flg==ALL_POB){
+
         numCities = stoi(msg);
-        while (msg[inx++] != ':');
-        descodificarMatriz(msg,inx);
+        while (msg[inx++] != ':')
+            ;
+        descodificarMatriz(msg, inx);
         numCam = stoi(&msg[inx]);
-        while (msg[inx++] != ':');
-        //descodificar todos los viajeros 
-        for (int i = 0; i < numCam; i++)
-        {
-            int avz=0;
-            caminantes[i].desCodificar(&msg[inx],avz);
-            inx+=avz;
-        }
-        
-        break;
-
-    case UPGRADE_POB:
-
-        int inx = 0;
-        numCam = stoi(msg);
         while (msg[inx++] != ':')
             ;
         //descodificar todos los viajeros
@@ -346,8 +333,31 @@ void Poblacion::descodificar(string msg, int flg = ALL_POB)
             caminantes[i].desCodificar(&msg[inx], avz);
             inx += avz;
         }
-        break;
-
-
     }
-}
+       
+       
+        
+        
+      
+
+   else if(flg== UPGRADE_POB){
+
+       numCam = stoi(msg);
+       while (msg[inx++] != ':')
+           ;
+       //descodificar todos los viajeros
+       for (int i = 0; i < numCam; i++)
+       {
+           int avz = 0;
+           caminantes[i].desCodificar(&msg[inx], avz);
+           inx += avz;
+       }
+   }
+
+        
+        
+       
+
+
+ }
+
