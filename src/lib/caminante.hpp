@@ -7,9 +7,11 @@ const int ALL_POB =1;
 
 class Caminante
 {
+    friend void Poblacion::calcFit(Caminante &caminante);
+
 private:
     
-    friend void Poblacion::calcFit(Caminante &caminante);
+    
     int camino[CITY_MAX];
     float fitness;
 public:
@@ -54,7 +56,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance)
     camino[i] = camino[0];
     avance++;
     stof(&MiCamino[avance]);
-    while(MiCamino[avance] != ";"){
+    while(MiCamino[avance] != ';'){
         avance++;
     }
     avance++;
@@ -241,7 +243,7 @@ string Poblacion::codificarMatriz()
         for (int j = 0; i<numCities-1; j++){
             MiMat += dist[i][j] + ',';
         }
-        MiMat += dist[i][numCities-1] + ";";
+        MiMat += dist[i][numCities-1] + ';';
     }
     MiMat += ")";
     return MiMat;
@@ -256,10 +258,10 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     int col = 0;
     int aux = 0;
     avance++;
-    while(MiMatriz[avance] != ")"){
-        while(MiMatriz[avance] != ";"){
+    while(MiMatriz[avance] != ')'){
+        while(MiMatriz[avance] != ';'){
             aux = stoi(&MiMatriz[avance]);
-            while(MiMatriz[avance] != "," || MiMatriz[avance] != ";"){
+            while(MiMatriz[avance] != ',' || MiMatriz[avance] != ';'){
                 avance++;
             }
             avance++;
@@ -318,7 +320,7 @@ void Poblacion::descodificar(string msg, int flg = ALL_POB)
         int inx=0;
         numCities = stoi(msg);
         while (msg[inx++] != ':');
-        descodificarMatriz(&msg,inx);
+        descodificarMatriz(msg,inx);
         numCam = stoi(&msg[inx]);
         while (msg[inx++] != ':');
         //descodificar todos los viajeros 
