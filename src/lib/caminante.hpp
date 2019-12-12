@@ -70,10 +70,13 @@ string Caminante::codificar()
 {
     int inicio = camino[0];
     string MiCamino = to_string(inicio) + ',';
-    int i = 1;
-    while(camino[i]!=inicio){
+    int i = 0;
+    
+    while(camino[++i]!=inicio){
         MiCamino += to_string(camino[i]) + ',';
+        
     }
+   
     MiCamino += to_string(inicio) + ';';
     return MiCamino;
 }
@@ -81,6 +84,7 @@ string Caminante::codificar()
 //Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
 void Caminante::ini(int inicio, int max)
 {
+    srand(time(0));
     int aux;
     bool recorridos[max];
     for (int i=0; i<max; i++){
@@ -88,7 +92,7 @@ void Caminante::ini(int inicio, int max)
     }
     recorridos[inicio] = true;
     camino[0] = inicio;
-    for (int i=1; i<max-1; i++){
+    for (int i=1; i<max; i++){
         aux = rand()%max;
         while(recorridos[aux]){
             aux = (aux+1)%max;
@@ -96,7 +100,7 @@ void Caminante::ini(int inicio, int max)
         recorridos[aux] = true;
         camino[i] = aux;
     }
-    camino[max-1] = inicio;
+    camino[max] = inicio;
 }
 
 //Devuelve el fitness del caminante.

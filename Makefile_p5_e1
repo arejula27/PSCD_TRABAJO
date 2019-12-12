@@ -12,9 +12,7 @@
 #---------------------------------------------------------
 CC=g++
 #---------------------------------------------------------
-CLIENT=Cliente
-SERVER=Servidor
-MULTI_SERVER=ServidorMulticliente
+
 
 SRC = src
 LIB = ${SRC}/lib
@@ -22,7 +20,7 @@ LIB = ${SRC}/lib
 SOCKET_DIR= ${LIB}Socket
 SOCKET=${SOCKET_DIR}/Socket
 
-
+BUILD = ./build
 
 TEST = test
 POBTEST = ${TEST}/pobMain
@@ -43,7 +41,7 @@ ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
 	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
 #-----------------------------------------------------------	
 pobtest: ${POBTEST}.cpp
-	${CC}  ${POBTEST}.cpp ${TESTPOBFLG}  -o ${BUILD}pilaTest
+	${CC}  ${POBTEST}.cpp ${TESTPOBFLG}  -o ${BUILD}/pobTest
 
 #-----------------------------------------------------------	
 #---------------------------------------------------------

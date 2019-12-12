@@ -27,11 +27,42 @@ using namespace std;
  *****/
 
 
-//Creo un test con titulo,subtitulo
 
-TEST(Caminante, crear)
+
+
+
+
+//Creo un test con titulo,subtitulo
+string ruta,ruta2;
+TEST(CAMINANTE, codificar)
 {
-    EXPECT_FALSE(true);
+    Caminante cam;
+    cam.ini(3, 6);
+    string ruta;
+    EXPECT_NO_FATAL_FAILURE(ruta = cam.codificar());
+    cout << "cam empieza en 3 y pasa por 6: " << ruta << endl;
+    
+}
+TEST(CAMINANTE, descodificar)
+{
+   
+    Caminante cam2;
+    int n;
+    EXPECT_NO_FATAL_FAILURE(cam2.desCodificar(ruta, n));
+    EXPECT_NO_FATAL_FAILURE(ruta2 = cam2.codificar());
+    cout << "cam2: " << cam2.codificar() << endl;
+    EXPECT_EQ(ruta, ruta2);
+}
+
+TEST(CAMINANTE, descodificar)
+{
+
+    Caminante cam2;
+    int n;
+    EXPECT_NO_FATAL_FAILURE(cam2.desCodificar(ruta, n));
+    EXPECT_NO_FATAL_FAILURE(ruta2 = cam2.codificar());
+    cout << "cam2: " << cam2.codificar() << endl;
+    EXPECT_EQ(ruta, ruta2);
 }
 
 int main(int argc, char **argv)
