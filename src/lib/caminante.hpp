@@ -5,11 +5,11 @@ const int CAM_MAX = 100 ;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
-class Poblacion;
+
 
 class Caminante
 {
-    friend void Poblacion::calcFit(Caminante &caminante);
+    //friend void Poblacion::calcFit(Caminante &caminante);
 
 private:
     
@@ -121,6 +121,7 @@ void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
 
 class Poblacion
 {
+    friend Caminante;
 private:
 
         int dist[CITY_MAX][CITY_MAX];
