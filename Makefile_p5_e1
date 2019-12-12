@@ -30,7 +30,7 @@ POBTEST = ${TEST}/pobMain
 #----------------------------------------------------------------------------
 CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -O2 -std=c++11 -lsockets # Flags compilacion
 LDFLAGS=-pthread # Flags linkado threads
-
+TESTPOBFLG= -I.  -I${LIB} -O2 -std=c++11  -lgtest  -lgtest_main -pthread # Flags compilacion
 all: 
 #----------------------------------------------------------------------------
 #Para gestionar opciones de compilación según la máquina: hendrix tiene sus manías
@@ -43,7 +43,7 @@ ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
 	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
 #-----------------------------------------------------------	
 pobtest: ${POBTEST}.cpp
-	${CC}  ${POBTEST}.cpp ${CPPFLAGS}  -o ${BUILD}pilaTest
+	${CC}  ${POBTEST}.cpp ${TESTPOBFLG}  -o ${BUILD}pilaTest
 
 #-----------------------------------------------------------	
 #---------------------------------------------------------

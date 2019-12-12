@@ -1,9 +1,9 @@
 
 //compile: make pobtest -f Makefile_p5_e1
-
 #include <iostream>
 #include "caminante.hpp"
 #include <gtest/gtest.h>
+using namespace std;
 
 /*****
  * Prueba                    Demuestra
@@ -26,19 +26,13 @@
  * 
  *****/
 
-//creo el dato de tipo pila
-Poblacion pbl;
-
-
-
 
 //Creo un test con titulo,subtitulo
-TEST(CreacionPob, crear)
+
+TEST(Caminante, crear)
 {
-   
+    EXPECT_FALSE(true);
 }
-
-
 
 int main(int argc, char **argv)
 {
