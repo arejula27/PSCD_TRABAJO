@@ -1,51 +1,32 @@
-
 //*****************************************************************
 // File:   Servidor.cpp
-// Author: PSCD-Unizar
-// Date:   noviembre 2015
-// Coms:   Ejemplo de servidor con comunicación síncrona mediante sockets
-//         Compilar el fichero "Makefile" asociado, mediante
-//         "make".
+// Date:   diciembre 2019
 //*****************************************************************
 
 #include <iostream>
 #include "Socket.hpp"
+#include <thread>
+#include <cstring>
+#include "PoblacionAProcesar.hpp"
+//#include "caminante.hpp"
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 
 //-------------------------------------------------------------
-// Cuenta el número de vocales existentes en un mensaje
-// PRE: 
-// POST: Devuelve el número de vocales existentes en el mensaje 'message'
-int cuentaVocales(string message) {
-	int count = 0;
-
-	for (int i=0; i < message.length(); i++) {
-
-		switch(message[i]) {
-			case 'a': case 'A': 
-			case 'e': case 'E': 
-			case 'i': case 'I': 
-			case 'o': case 'O': 
-			case 'u': case 'U': 
-						count++;
-					  	break;
-		}
-	}
-
-	return count;
-}
-//-------------------------------------------------------------
-int main() {
+int main(int argc, char *argv[]) {
 	char MENS_FIN[]="END OF SERVICE";
-	// Puerto donde escucha el proceso servidor
-    int SERVER_PORT = 2000;
+	
+    if(argc != 2) {	// Comprobar que se introduce el puerto de escucha
+        cout << "Introduce un puerto (Por ejemplo: ./Servidor 2000)" << endl;
+        exit(1);
+    }
 
-	// Creación del socket con el que se llevará a cabo
-	// la comunicación con el servidor.
-	Socket socket(SERVER_PORT);
+    int SERVER_PORT = atoi(argv[1]);
+	cout << "Puerto seleccionado: " << SERVER_PORT << endl;
+
+	Socket socket(SERVER_PORT);		// Creación del socket
 
 	// Bind 
 	int socket_fd =socket.Bind();
@@ -61,8 +42,7 @@ int main() {
 	if (error_code == -1) {
 		string mensError(strerror(errno));
     	cerr << "Error en el listen: " + mensError + "\n";
-		// Cerramos el socket
-		socket.Close(socket_fd);
+		socket.Close(socket_fd);	// Se cierra el socket
 		exit(1);
 	}
 
@@ -71,14 +51,12 @@ int main() {
 	if (client_fd == -1) {
 		string mensError(strerror(errno));
     	cerr << "Error en el accept: " + mensError + "\n";
-		// Cerramos el socket
-		socket.Close(socket_fd);
+		socket.Close(socket_fd);	// Se cierra el socket
 		exit(1);
 	}
 
 	// Buffer para recibir el mensaje
-	int length = 100;
-	string buffer;
+	string buffer;  // Alamacena el mensaje
 
 	bool out = false; // Inicialmente no salir del bucle
 	while (!out) {
@@ -87,28 +65,31 @@ int main() {
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
-			// Cerramos los sockets
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
 
-		cout << "Mensaje recibido: '" + buffer + "'\n";
-
-		// Si recibimos "END OF SERVICE" --> Fin de la comunicación
-		if (buffer == MENS_FIN) {
-			out = true; // Salir del bucle
-		} else {
-			// Contamos las vocales recibidas en el mensaje anterior
-			int num_vocales = cuentaVocales(buffer);
-
-			// Enviamos la respuesta
-			string resp = to_string(num_vocales);
+		cout << "Subpoblacion recibida: " << buffer << endl;
 		
-			int send_bytes = socket.Send(client_fd, resp);
+		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
+			out = true; 
+		} else {
+			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
+			PoblacionAProcesar pAp(buffer); 	// Construir monitor con la sub-poblacion recibida
+
+			// thread procesos[n];
+
+			// lanzamiento de procesos
+
+			//generar cadena resultado
+
+			string nuevaSubPoblacion = "la respuesta que sea";
+			
+            // Send, enviar nueva sub-poblacion al cliente
+			int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
 			if(send_bytes == -1) {
 				string mensError(strerror(errno));
     			cerr << "Error al enviar datos: " + mensError + "\n";
-				// Cerramos los sockets
 				socket.Close(client_fd);
 				socket.Close(socket_fd);
 				exit(1);
@@ -129,8 +110,8 @@ int main() {
     	string mensError(strerror(errno));
     	cerr << "Error cerrando el socket del servidor: " + mensError + "\n";
     }
-	// Mensaje de despedida
-	cout << "Bye bye" << endl;
+
+	cout << "Fin de la comunicacion" << endl;
 
     return error_code;
 }
