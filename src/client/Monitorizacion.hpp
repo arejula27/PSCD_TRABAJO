@@ -5,16 +5,21 @@
 #include <string>
 #include <mutex>
 #include <condition_variable>
+#include "caminante.hpp"
 
 using namespace std;
 
 class Monitorizacion{
+    friend Caminante;
+public:
+    Monitorizacion();
+    ~Monitorizacion();
+    void calculoFit(Caminante &caminante);
+    int mejorFit();
+    int avgFit();
 
-    public:
-
-
-    private:
-        mutex mtx;
-
+private:
+    mutex mtx;
+    
 };
 #endif
