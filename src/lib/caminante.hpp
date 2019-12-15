@@ -139,7 +139,7 @@ private:
         //constructo predeterminado
         Poblacion();
         //constructo para inicializar una poblacion a partir de un archivo de texto
-        //con una matriz, se le debe de undicar el numero de caminantes de la pobaclion 
+        //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion 
         //con maximo CAM_MAX
         Poblacion(int caminantes, string entrada = "entrada.txt");
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
@@ -168,7 +168,7 @@ private:
         void descodificar(string mag, int flg = ALL_POB);
 };
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
-Poblacion::Poblacion(int numCam, string entrada )
+Poblacion::Poblacion(int numCam, string entrada)
 {
     //inicializar numCam
     //rellenar la matriz
@@ -178,7 +178,7 @@ Poblacion::Poblacion(int numCam, string entrada )
         caminantes[i].ini(0,0);
         #warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
         
-    
+        
     }
 
 }
