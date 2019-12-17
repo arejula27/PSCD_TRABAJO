@@ -10,12 +10,16 @@
 #include <chrono>
 #include <thread>
 #include "Socket.hpp"
+#include "PoblacionActual.hpp"
+
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 
 int main() {
+
+	
 	const string MENS_FIN("END OF SERVICE");
     // Dirección y número donde escucha el proceso servidor
     string SERVER_ADDRESS = "localhost";

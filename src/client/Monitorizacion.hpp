@@ -1,5 +1,5 @@
-#ifndef MONITORIZACION
-#define MONITORIZACION
+#ifndef Monitorizacion
+#define Monitorizacion
 
 #include <iostream>
 #include <string>
@@ -20,36 +20,22 @@ using namespace std;
     #endif
 #endif
 
-class Monitorizacion{
+class Estadistico
+{
     friend Caminante;
 public:
-    //Construye el monitor
-    Monitorizacion();
-    //Destructor
-    ~Monitorizacion();
-    //Crea poblaciones según el parámetro n
-    Poblacion crearPob(int n);
-    //Divide la poblacion en n subpoblaciones
-    void dividir(Poblacion pob,int n, Poblacion pobs[]);
-    //Devuelve una poblacionn fruto de fusionar pobs[]
-    Poblacion fusionar(Poblacion pobs[]);
-    //Devuelve el mejor fitness de la poblacion
+    Estadistico(int n);
+    ~Estadistico();
+     //Devuelve el mejor fitness de la poblacion
     int mejorFit(Poblacion pob);
     //Devuelve la media de fitness de la poblacion
     int mediaFit(Poblacion pob);
-    //Prepara los datos para ser enviados por el socket
-    void codificar(Poblacion pob,int flg = ALL_POB);
-    //flg: 1=ALL_POB 2=UPGRADE_POB
-    void descodificar(Poblacion pob,string mag, int flg);
+    //Inserta los datos en la matriz del estadistico
+    void agnadirDatos(int numGen, int mejorFit, int avgFit);
 
 private:
-
+    int historico[][2];
     mutex mtx;
-
-    int numGen; //Número de poblaciones generadas hasta el momento
-    
-    //Condicion para que el estadistico pueda tomar los datos como validos
-    condition_variable (datosListos); //Es necesario?
-    
 };
+
 #endif

@@ -2,52 +2,26 @@
 #include "Monitorizacion.hpp"
 
 
-Monitorizacion:: Monitorizacion(){
-
-}
-
-Monitorizacion:: ~Monitorizacion(){
-
-}
-
-void Monitorizacion::codificar(Poblacion pob, int flg){
-    unique_lock <mutex> lck(mtx);
-    pob.codificar(flg);
-
+Estadistico::Estadistico(int n){
+    historico[n][2];
+    mutex mtx;
 }
 
 
-void Monitorizacion::descodificar(Poblacion pob,string msg,int flg){
-    unique_lock <mutex> lck(mtx);
-    pob.descodificar(msg,flg);
-
-}
-
-
-
-
-Poblacion Monitorizacion::crearPob(int n){
-    unique_lock <mutex> lck(mtx);
-    //No se con cual de las tres ha que llamar
-
-}
-
-void Monitorizacion::dividir(Poblacion pob,int n,Poblacion pobs[]){
-    unique_lock <mutex> lck(mtx);
-    pob.dividir(n,pobs);
-}
-
-Poblacion Monitorizacion::fusionar(Poblacion pobs[]){
-    
-    //No tengo claro como hacerla
-}
-
-int Monitorizacion::mejorFit(Poblacion pob){
+int Estadistico::mejorFit(Poblacion pob){
     unique_lock <mutex> lck(mtx);
     pob.mejorFit();
 }
 
-int Monitorizacion::mediaFit(Poblacion pob){
+int Estadistico::mediaFit(Poblacion pob){
     unique_lock <mutex> lck(mtx);
     pob.mediaFit(); 
+}
+
+void Estadistico::agnadirDatos(int numGen, int mejorFit, int avgFit){
+
+    unique_lock <mutex> lck(mtx);
+    historico[numGen][0]=mejorFit;
+    historico[numGen][1]=avgFit;
+
 }
