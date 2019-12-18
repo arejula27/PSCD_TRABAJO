@@ -73,6 +73,8 @@ private:
         void calcFit(Caminante &caminante);
         //divide la poblacion en n subpoblaciones
         void dividir(int n, Poblacion pobs[]);
+        //fuisona la poblacion en n subpoblaciones
+        void fusionar(int n, Poblacion pobs[]);
         //obtiene el mejor fit de la poblacion
         int mejorFit();
         //obtiene el fites medio de la poblacion
@@ -86,7 +88,7 @@ private:
         void descodificarMatriz(const string MiMatriz, int &avance);
         //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
         //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
-        void codificar(int flg = ALL_POB);
+        string codificar(int flg = ALL_POB);
 
         void descodificar(string mag, int flg = ALL_POB);
 };
