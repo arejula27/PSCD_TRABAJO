@@ -3,7 +3,6 @@
 
 
 PobActual:: PobActual(){
-    mutex mtx;
     numGen = 0;
 
 }
