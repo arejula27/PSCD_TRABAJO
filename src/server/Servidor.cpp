@@ -8,11 +8,16 @@
 #include <thread>
 #include <cstring>
 #include "PoblacionAProcesar.hpp"
-//#include "caminante.hpp"
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+
+//-------------------------------------------------------------
+void procesoCaminante(PoblacionAProcesar &pAp) {
+
+
+}
 
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
@@ -68,8 +73,6 @@ int main(int argc, char *argv[]) {
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
-
-		cout << "Subpoblacion recibida: " << buffer << endl;
 		
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
@@ -77,11 +80,24 @@ int main(int argc, char *argv[]) {
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			PoblacionAProcesar pAp(buffer); 	// Construir monitor con la sub-poblacion recibida
 
-			// thread procesos[n];
+			Poblacion pob(buffer);			// Construir pobalcion
+			pob.descodificar(buffer,1);		// Descodificacion de la poblacion recibida
+			
+			int n = 0;				// Obtener numero de caminantes
+			// int n = pob.getNumCam();
+			thread proceso[n];	
+			for(int i=0; i<n; i++) {
+				proceso[i] = thread(&procesoCaminante,ref(pAp));
+			}
 
-			// lanzamiento de procesos
+			for(int i=0; i<n; i++) {
+				proceso[i].join();
+			}
 
-			//generar cadena resultado
+			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
+			pob = pAp.getPoblacion();
+
+			pob.codificar();	//generar cadena resultado, !!!deberia devolver un string
 
 			string nuevaSubPoblacion = "la respuesta que sea";
 			

@@ -4,34 +4,35 @@
 //*****************************************************************
 
 #ifndef POBLACIONAPROCESAR_H
-#define POBLACIONAPROCESAR_H
+#define POBLACIONAPROCEAR_H
 
 #include <iostream>
 #include <mutex>
 #include <condition_variable>
 #include <cstring>
 #include <thread>
-//#include "caminante.hpp"
+#include "../lib/caminante.hpp"
 
 using namespace std;
 
 class PoblacionAProcesar {
 private:
-	string poblacion;	// string que contiene Sub-poblacion recibida
+	Poblacion poblacion;
 	int numCaminantes;	// numero de caminantes en la poblacion
-	Caminante caminantes[numCaminantes];	// vector de caminantes 
-
 
 	condition_variable cond;
 	mutex mtx;
 
 
 public:
-	//Inicialización del monitor
-	PoblacionAProcesar(string poblacion_);
+	//  Inicialización del monitor, se le pasa el vector de caminantes para
+	//para operar sobre ellos 
+	PoblacionAProcesar(Poblacion poblacion_);
 	void seleccionar();
 	void cruzar();
 	void mutar();
+	// Devuelve la poblacion
+	Poblacion getPoblacion();
 };
 
 #endif

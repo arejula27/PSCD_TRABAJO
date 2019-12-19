@@ -6,7 +6,7 @@
 #include "PoblacionAProcesar.hpp"
 
 //----------------------------------------------------------
-PoblacionAProcesar::PoblacionAProcesar(string poblacion_) {
+PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	this->poblacion = poblacion_;
 
     for(int i=0; i<numCaminantes; i++) {
@@ -26,7 +26,7 @@ void PoblacionAProcesar::seleccionar() {
 // funcion cruzar
 void PoblacionAProcesar::cruzar() {     // Poner parametros para llamar a cruzar
     unique_lock<mutex> lck(mtx);
-    caminante.Cruzar(&o1,&o2);
+    //caminante.Cruzar(&o1,&o2);
 
 }
 
@@ -34,8 +34,15 @@ void PoblacionAProcesar::cruzar() {     // Poner parametros para llamar a cruzar
 // funcion mutar   
 void PoblacionAProcesar::mutar() {
     unique_lock<mutex> lck(mtx);
-    caminante.Mutar();
+    //caminante.Mutar();
 
 }
 
 //----------------------------------------------------------
+
+/*
+// Devuelve la poblacion
+Poblacion PoblacionAProcesar::getPoblacion() {
+    return this->poblacion;
+}
+*/
