@@ -4,7 +4,6 @@
 
 Estadistico::Estadistico(int n){
     historico[n][2];
-    mutex mtx;
 }
 
 
