@@ -11,12 +11,33 @@
 #include <thread>
 #include "Socket.hpp"
 #include "PoblacionActual.hpp"
-
+#include "Monitorizacion.hpp"
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+void controlEstadistico(Socket& soc, int client_fd,Poblacion& personas){
+	int bestFit,avgFit;
+	//esperar fusion 
+	Estadistico datos(10);/*nose a que se refiere la n*/
+	bestFit = datos.mejorFit(personas);
+	avgFit = datos.mediaFit(personas);
+	datos.agnadirDatos(10,bestFit,avgFit);
+}
+void controlGenetico(Socket& soc, int client_fd, Poblacion& personas,PobActual &gente){
+	//Esperar estadistico
+	Poblacion subPob1; Poblacion subPob2; Poblacion subPob3;
+	Poblacion pobs[3];
+	pobs [0] = subPob1;
+	pobs [1] = subPob2;
+	pobs [2] = subPob3;
+	gente.dividir(3,pobs);
 
+	
+
+	
+	
+}
 int main() {
 
 	
@@ -48,9 +69,19 @@ int main() {
     if(socket_fd == -1){
     	return socket_fd;
     }
-
-    
-    string mensaje;
+	//una vez hemos podido conectar con el servidor inicializamos la poblacion
+	string mensaje,personas;
+	//inicializo el monitor pobActual
+	PobActual gente;
+	int n;
+	int caminantes = 312;
+	//falta la funcion que lea el flujo y lo pase a string
+	//creo una poblacion y la igualo al resultado de crearPob
+	Poblacion proletariado = gente.crearPob(n,caminantes,personas);
+	thread estadistico[10];
+	thread GAcontrol[10];
+	estadistico[0] = thread(&controlEstadistico,ref(socket),count,ref(proletariado));
+	GAcontrol[0] = thread(&controlGenetico,ref(socket),count,ref(proletariado));
 	do{
 		// Leer mensaje de la entrada estandar
 		cout << "Frase para contar las vocales: ";
