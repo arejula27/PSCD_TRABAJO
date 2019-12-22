@@ -18,9 +18,7 @@ int Estadistico::mediaFit(Poblacion pob){
 }
 
 void Estadistico::agnadirDatos(int numGen, int mejorFit, int avgFit){
-
     unique_lock <mutex> lck(mtx);
     historico[numGen][0]=mejorFit;
     historico[numGen][1]=avgFit;
-
 }

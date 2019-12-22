@@ -9,23 +9,12 @@
 
 using namespace std;
 
-//-----------------------------------------------------
-//  Compilación condicional: ¿quiero hacer "logging"? Modo no-main: var "logger" se declarará en el "main"
-#ifdef LOGGING_MODE
-    #include <Logger.hpp>
-    extern Logger logger;
-#else
-    #ifndef ADD_EVENT //para evitar redefiniciones
-        #define ADD_EVENT(e)  // nada
-    #endif
-#endif
-
 class PobActual
 {
     friend Caminante;
 public:
     //Construye el monitor
-    PobActual();
+    PobActual(int n);
     //Destructor
     ~PobActual();
     //Crea poblaciones según el parámetro n (llama a uno de los 3 constructores)
@@ -40,14 +29,21 @@ public:
     void descodificar(Poblacion pob,string mag, int flg);
     //Devuelve el numero de generacion hasta el momento
     int numGeneracion();
+     //Devuelve el mejor fitness de la poblacion
+    int mejorFit(Poblacion pob);
+    //Devuelve la media de fitness de la poblacion
+    int mediaFit(Poblacion pob);
+    //Inserta los datos en la matriz del estadistico
+    void agnadirDatos(int numGen, int mejorFit, int avgFit);
+    //añadir funcion bool que indique cuando acabar
+    bool finEjec();
 private:
-
+    int historico[][2];
     mutex mtx;
-
     int numGen; //Número de poblaciones generadas hasta el momento
-    
     //Condicion para que el estadistico pueda tomar los datos como validos
-    condition_variable (datosListos); //Es necesario?
+    condition_variable dormir_estadistico,dormir_GA; //Es necesario?
+    bool finCalculo;
     
 };
 #endif

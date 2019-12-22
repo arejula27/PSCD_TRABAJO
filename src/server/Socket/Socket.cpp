@@ -34,6 +34,22 @@ Socket::Socket(string address, int port) {
 	SERVER_PORT    = port;
 }
 //-------------------------------------------------------------
+// Constructor de la clase indicando la dirección
+// y el puerto de escucha del servidor. Para clientes.
+Socket::Socket() {
+	SERVER_ADDRESS = "localhost";
+	SERVER_PORT    =  -1;
+}
+//-------------------------------------------------------------
+// Constructor de la clase indicando la dirección
+// y el puerto de escucha del servidor. Para clientes.
+void Socket::ini(string address, int port) {
+	// Guardamos datos del servidor
+	SERVER_ADDRESS = address;
+	SERVER_PORT    = port;
+}
+
+//-------------------------------------------------------------
 // Constructor de la clase indicando solo el puerto de 
 // escucha del servidor. Para servidores.
 Socket::Socket(int port) {
