@@ -38,6 +38,14 @@ public:
 	// escucha del servidor. Para servidores.
 	Socket(int port);
 
+	//-------------------------------------------------------------
+	//Constructor por defecto, necesita inicializar posteriromente 
+	Socket();
+
+	//-------------------------------------------------------------
+	// Inicializa un socket
+	void ini(string address, int port);
+
 	// MÉTODOS
 
 	// Acepta la conexión de un nuevo cliente.
