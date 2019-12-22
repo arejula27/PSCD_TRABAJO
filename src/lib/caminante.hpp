@@ -65,6 +65,9 @@ private:
         //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion 
         //con maximo CAM_MAX
         Poblacion(int caminantes, string entrada = "entrada.txt");
+
+        //toma la matriz de otra poblacion
+        void getMatrixFrom(Poblacion pob);
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
