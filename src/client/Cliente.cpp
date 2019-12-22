@@ -16,15 +16,24 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
-void controlEstadistico(Poblacion& personas){
-	int bestFit,avgFit;
-	//esperar fusion 
-	Estadistico datos(10);/*nose a que se refiere la n*/
-	bestFit = datos.mejorFit(personas);
-	avgFit = datos.mediaFit(personas);
-	datos.agnadirDatos(10,bestFit,avgFit);
+void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa){
+	//Sacar estadisticas poner a true fin calculo si el porcentaje de fekas(los mal optimizados xd) 
+	//es pequeño
+	//barrera e sincronizacion para que los procesos acaben en orden 1 2 3 4 5 ... n
+
+
 }
-void controlGenetico(int NUM_SERVERS,int SERVER_PORT, int MAX_GENS, Poblacion& personas, PobActual &pa){
+void controlEstadistico(Poblacion& personas,const int NUM_GENS,PobActual &pa){
+	thread estadisticas[NUM_GENS];
+	int i = 0;
+	while (!pa.finEjec()){
+		estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1);
+		pa.esperarGA();
+		i++;
+	}
+	/*Escribir los datos en un archivo .csv*/
+}
+void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_GENS, Poblacion& personas, PobActual &pa){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[NUM_SERVERS];
@@ -84,8 +93,9 @@ void controlGenetico(int NUM_SERVERS,int SERVER_PORT, int MAX_GENS, Poblacion& p
 
 		}
 		personas.fusionar(serversAceptados,pobs);
-
+		pa.esperarEstadistico();
 	}
+
 
     // Cerramos el socket
 	for (int i = 0; i < serversAceptados; i++){
@@ -112,7 +122,7 @@ int main(int argc, char const *argv[]){
 	cin >> fichero;
 	Poblacion proletariado(NUM_PERSONAS,fichero);
 
-	thread estadistico (&controlEstadistico,ref(proletariado), ref(pa));
+	thread estadistico (&controlEstadistico,ref(proletariado),MAX_GENS,ref(pa));
 	thread GAcontrol (&controlGenetico,NUM_SERVERS,SERVER_PORT,MAX_GENS,ref(proletariado),ref(pa));
 
 	return 0;

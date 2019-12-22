@@ -37,6 +37,11 @@ public:
     void agnadirDatos(int numGen, int mejorFit, int avgFit);
     //añadir funcion bool que indique cuando acabar
     bool finEjec();
+    //haced sleep de GA y despierta estadistico 
+    void esperarEstadistico();
+    // esperar GA control hace signal de ga xq ya ha cogido la poblacion y 
+    //wait de control estadistico
+    void esperarGA();
 private:
     int historico[][2];
     mutex mtx;
