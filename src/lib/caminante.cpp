@@ -217,7 +217,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 //con UPGRADE_POB, unicamente el vector de caminantes
 //ALL_POB=>
 //UPGRADE_POB=> "numCam:[caminante]*"
-void Poblacion::codificar(int flg)
+string Poblacion::codificar(int flg)
 {
     string msg;
     switch (flg)
