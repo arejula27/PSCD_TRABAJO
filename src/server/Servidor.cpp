@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 
-			pob.codificar();	//generar cadena resultado, !!!deberia devolver un string
+			pob.codificar();	//generar cadena resultado, 
 
 			string nuevaSubPoblacion = "la respuesta que sea";
 			
