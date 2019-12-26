@@ -33,7 +33,7 @@ TEST(CAMINANTE, codificar)
     EXPECT_NO_FATAL_FAILURE(ruta = cam.codificar());
 }
 
-TEST(Poblacion, getMatrixFrom)
+TEST(POBLACION, getMatrixFrom)
 {
     Poblacion p1(2, 2, 12,  "uk12.txt");
     Poblacion p2(2, 2, 12);
