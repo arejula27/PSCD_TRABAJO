@@ -1,4 +1,5 @@
 #include <string>
+#include <fstream>
 using namespace std;
 const int  CITY_MAX =500;
 const int CAM_MAX = 100 ;
@@ -64,7 +65,7 @@ private:
         //constructo para inicializar una poblacion a partir de un archivo de texto
         //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion 
         //con maximo CAM_MAX
-        Poblacion(int caminantes, string entrada = "entrada.txt");
+        Poblacion(int caminantes,int ciudIni, int numCiuds, string entrada = "entrada.txt");
 
         //toma la matriz de otra poblacion
         void getMatrixFrom(Poblacion pob);

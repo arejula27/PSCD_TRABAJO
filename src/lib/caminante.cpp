@@ -51,7 +51,7 @@ string Caminante::codificar()
     {
         MiCamino += to_string(camino[i]) + ',';
     }
-
+    MiCamino += to_string(fitness);
     MiCamino += to_string(inicio) + ';';
     return MiCamino;
 }
@@ -106,16 +106,44 @@ void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
  * ********************************************/
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
-Poblacion::Poblacion(int numCam, string entrada)
+Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
 {
     //inicializar numCam
     //rellenar la matriz
     //inicializar numCities
     for (int i = 0; i < numCam; i++)
     {
-        caminantes[i].ini(0,0);
-#warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
+        caminantes[i].ini(ciudIni, numCiuds);
     }
+    ifstream f1;
+    f1.open(entrada);
+    char h[1000000];
+    for(int i=0;i<7;i++){
+        f1.getline(h, 1000000, '\n');
+    }
+    int i=0;
+    int contFil = 0;
+    int contCol = 0;
+    int num;
+   while(f1.getline(h, 1000000, '\n')){      
+        i=0;
+        while(h[i]!='\0'){
+            while(h[i]==' '){
+                i++;
+            }
+            num = atoi(&h[i]);
+            while(h[i]!= ' ' && h[i]!='\0'){
+                i++;
+            }
+            dist[contFil][contCol] = num;
+            contCol++;
+            if(contCol == numCiuds){
+                contCol = 0;
+                contFil++;
+            }
+        } 
+    }
+    f1.close();
 }
 Poblacion::Poblacion(string data)
 {
@@ -174,7 +202,7 @@ string Poblacion::codificarMatriz()
     string MiMat = "(";
     for (int i = 0; i < numCities; i++)
     {
-        for (int j = 0; i < numCities - 1; j++)
+        for (int j = 0; j < numCities - 1; j++)
         {
             MiMat += dist[i][j] + ',';
         }
