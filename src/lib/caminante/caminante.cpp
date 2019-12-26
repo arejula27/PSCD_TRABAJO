@@ -129,7 +129,8 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     ifstream f1;
     f1.open(entrada);
     char h[1000000];
-    for(int i=0;i<7;i++){
+    h[0] = '0';
+    while(h[0] == '#'){
         f1.getline(h, 1000000, '\n');
     }
     int i=0;
