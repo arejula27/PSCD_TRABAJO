@@ -1,8 +1,7 @@
-
-//compile: make pobtest -f Makefile_p5_e1
 #include <iostream>
 #include "caminante.hpp"
 #include <gtest/gtest.h>
+
 using namespace std;
 
 /*****
@@ -26,47 +25,29 @@ using namespace std;
  * 
  *****/
 
-
-
-
-
-
-
-//Creo un test con titulo,subtitulo
-string ruta,ruta2;
 TEST(CAMINANTE, codificar)
 {
     Caminante cam;
     cam.ini(3, 6);
     string ruta;
     EXPECT_NO_FATAL_FAILURE(ruta = cam.codificar());
-    cout << "cam empieza en 3 y pasa por 6: " << ruta << endl;
-    
 }
-TEST(CAMINANTE, descodificar)
+
+TEST(POBLACION, getMatrixFrom)
 {
+    Poblacion p1(2, 2, 12,  "uk12.txt");
+    Poblacion p2(2, 2, 12);
+    p2.getMatrixFrom(p1);
+    string str1= p1.codificarMatriz();
+    string str2 = p2.codificarMatriz();
+    EXPECT_TRUE(str1==str2);
    
-    Caminante cam2;
-    int n;
-    EXPECT_NO_FATAL_FAILURE(cam2.desCodificar(ruta, n));
-    EXPECT_NO_FATAL_FAILURE(ruta2 = cam2.codificar());
-    cout << "cam2: " << cam2.codificar() << endl;
-    EXPECT_EQ(ruta, ruta2);
 }
 
-TEST(CAMINANTE, descodificar)
-{
 
-    Caminante cam2;
-    int n;
-    EXPECT_NO_FATAL_FAILURE(cam2.desCodificar(ruta, n));
-    EXPECT_NO_FATAL_FAILURE(ruta2 = cam2.codificar());
-    cout << "cam2: " << cam2.codificar() << endl;
-    EXPECT_EQ(ruta, ruta2);
-}
-
-int main(int argc, char **argv)
+int main(int argc, char const *argv[])
+    
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    testing::InitGoogleTest();
+        return RUN_ALL_TESTS();
 }

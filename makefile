@@ -20,6 +20,9 @@ LIB = ${SRC}/lib
 SOCKET_DIR= ${LIB}Socket
 SOCKET=${SOCKET_DIR}/Socket
 
+LIB_CAM = ${LIB}/caminante
+CAM =${LIB_CAM}/caminante
+
 BUILD = ./build
 
 TEST = test
@@ -28,7 +31,7 @@ POBTEST = ${TEST}/pobMain
 #----------------------------------------------------------------------------
 CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -O2 -std=c++11 -lsockets # Flags compilacion
 LDFLAGS=-pthread # Flags linkado threads
-TESTPOBFLG= -I.  -I${LIB} -O2 -std=c++11  -lgtest  -lgtest_main -pthread # Flags compilacion
+TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11  -lgtest  -lgtest_main -pthread # Flags compilacion
 all: 
 #----------------------------------------------------------------------------
 #Para gestionar opciones de compilación según la máquina: hendrix tiene sus manías
@@ -40,14 +43,18 @@ all:
 ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
 	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
 #-----------------------------------------------------------	
-pobtest: ${POBTEST}.cpp
-	${CC}  ${POBTEST}.cpp ${TESTPOBFLG}  -o ${BUILD}/pobTest
+#-----------------------------------------------------------
+# Caminate
+# Compilacion libreria de Caminante
+${CAM}.o: ${CAM}.hpp ${CAM}.cpp
+	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
+#-----------------------------------------------------------
+pobtest: ${POBTEST}.cpp ${CAM}.o
+	${CC}  ${POBTEST}.cpp ${CAM}.o ${TESTPOBFLG}  -o ${BUILD}/pobTest
 
 #-----------------------------------------------------------	
 #---------------------------------------------------------
 # LIMPIEZA
 clean:
 	$(RM) ${SOCKET}.o
-	$(RM) ${CLIENT} ${CLIENT}.o
-	$(RM) ${SERVER} ${SERVER}.o
-	$(RM) ${MULTI_SERVER} ${MULTI_SERVER}.o
+	$(RM) ${CAM}.o

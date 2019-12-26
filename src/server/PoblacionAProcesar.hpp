@@ -11,7 +11,7 @@
 #include <condition_variable>
 #include <cstring>
 #include <thread>
-#include "../lib/caminante.hpp"
+#include "caminante.hpp"
 
 using namespace std;
 
