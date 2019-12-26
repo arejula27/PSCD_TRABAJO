@@ -297,7 +297,7 @@ string Poblacion::codificar(int flg)
     {
     case ALL_POB:
         msg = to_string(numCities) + ":";
-#warning serializar matriz
+        msg += codificarMatriz();
         msg += to_string(numCam) + ":";
         for (int i = 0; i < numCam; i++)
         {
