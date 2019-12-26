@@ -223,8 +223,8 @@ float Poblacion::mejorFit()
 {
     int max=0;
     for(int i=0; i<numCam; i++){
-        if(max < caminantes[i].MyFit){
-            max = caminantes[i].MyFit;
+        if(max < caminantes[i].MyFit()){
+            max = caminantes[i].MyFit();
         }
     }
     return max;
@@ -235,7 +235,7 @@ float Poblacion::mediaFit()
 {
     int sum = 0;
     for(int i=0; i<numCam; i++){
-        sum += caminantes[i].MyFit;
+        sum += caminantes[i].MyFit();
     }
     return sum/numCam;
 }
@@ -357,9 +357,7 @@ void Poblacion::descodificar(string msg, int flg)
     }
 }
 
-//toma la matriz de otra poblacion
-void Poblacion::getMatrixFrom(Poblacion pob)
-{
+void Poblacion::getMatrixFrom(Poblacion pob){
 
     memcpy(dist,pob.dist,sizeof(dist));
 

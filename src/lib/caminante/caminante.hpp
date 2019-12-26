@@ -71,8 +71,7 @@ private:
         //con maximo CAM_MAX
         Poblacion(int numCam,int ciudIni, int numCiuds, string entrada = "entrada.txt");
 
-        //toma la matriz de otra poblacion
-        void getMatrixFrom(Poblacion pob);
+        
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
         ~Poblacion();
@@ -99,4 +98,7 @@ private:
         string codificar(int flg = ALL_POB);
 
         void descodificar(string mag, int flg = ALL_POB);
+
+        //toma la matriz de otra poblacion
+        void getMatrixFrom(Poblacion pob);
 };
