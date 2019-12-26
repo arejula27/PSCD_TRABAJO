@@ -57,6 +57,4 @@ pobtest: ${POBTEST}.cpp ${CAM}.o
 # LIMPIEZA
 clean:
 	$(RM) ${SOCKET}.o
-	$(RM) ${CLIENT} ${CLIENT}.o
-	$(RM) ${SERVER} ${SERVER}.o
-	$(RM) ${MULTI_SERVER} ${MULTI_SERVER}.o
+	$(RM) ${CAM}.o
