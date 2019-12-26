@@ -81,6 +81,16 @@ void Caminante::ini(int inicio, int max)
     camino[max] = inicio;
 }
 
+void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
+{
+    int recorrido = 0;
+    for(int i = 0; i<numCiuds; i++)
+    {
+        recorrido += dist[i][i+1];
+    }
+    fitness = 1/recorrido;
+}
+
 //Devuelve el fitness del caminante.
 int Caminante::MyFit()
 {
@@ -111,6 +121,7 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     //inicializar numCam
     //rellenar la matriz
     //inicializar numCities
+    numCities = numCiuds;
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
@@ -154,8 +165,12 @@ Poblacion::~Poblacion()
 }
 
 //calculas el fit de un caminante y se lo guardas
-void Poblacion::calcFit(Caminante &caminate)
+void Poblacion::calcFit()
 {
+    for(int i=0; i<numCam; i++)
+    {
+        caminantes[i].calcMiFit(dist, numCities);
+    }
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
@@ -186,14 +201,25 @@ void Poblacion::dividir(int n, Poblacion pobs[])
 }
 
 //obtiene el mejor fitnes de la poblacion
-int Poblacion::mejorFit()
+float Poblacion::mejorFit()
 {
-    
+    int max=0;
+    for(int i=0; i<numCam; i++){
+        if(max < caminantes[i].MyFit){
+            max = caminantes[i].MyFit;
+        }
+    }
+    return max;
 }
 
 //obtiene la media de todos los fits de la poblacion
-int Poblacion::mediaFit()
+float Poblacion::mediaFit()
 {
+    int sum = 0;
+    for(int i=0; i<numCam; i++){
+        sum += caminantes[i].MyFit;
+    }
+    return sum/numCam;
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
@@ -227,7 +253,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
         while (MiMatriz[avance] != ';')
         {
             aux = stoi(&MiMatriz[avance]);
-            while (MiMatriz[avance] != ',' || MiMatriz[avance] != ';')
+            while (MiMatriz[avance] != ',' && MiMatriz[avance] != ';')
             {
                 avance++;
             }

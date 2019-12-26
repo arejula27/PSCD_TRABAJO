@@ -10,7 +10,7 @@ const int ALL_POB =1;
 
 class Caminante
 {
-    //friend void Poblacion::calcFit(Caminante &caminante);
+    //friend void Poblacion::calcFit();
 
 private:
     
@@ -33,6 +33,8 @@ public:
     //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
     string codificar();
+
+    void calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds);
 
     //Devuelve el fitness del caminante.
     int MyFit();
@@ -73,16 +75,16 @@ private:
         Poblacion(string data);
         ~Poblacion();
 
-        //calcula el fin de un caminante y cambia su propio fit 
-        void calcFit(Caminante &caminante);
+        //calcula el fitness de todos los caminantes de la población y se los da.
+        void calcFit();
         //divide la poblacion en n subpoblaciones
         void dividir(int n, Poblacion pobs[]);
         //fuisona la poblacion en n subpoblaciones
         void fusionar(int n, Poblacion pobs[]);
         //obtiene el mejor fit de la poblacion
-        int mejorFit();
+        float mejorFit();
         //obtiene el fites medio de la poblacion
-        int mediaFit();
+        float mediaFit();
         //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
         // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
         string codificarMatriz();
