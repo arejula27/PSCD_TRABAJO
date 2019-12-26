@@ -101,7 +101,7 @@ int Caminante::MyFit()
 void Caminante::Mutar()
 {
 }
-
+ 
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
 {
@@ -158,6 +158,24 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
 }
 Poblacion::Poblacion(string data)
 {
+
+    int inx = 0;
+    
+
+    numCities = stoi(data);
+    while (data[inx++] != ':');
+    descodificarMatriz(data, inx);
+    numCam = stoi(&data[inx]);
+    while (data[inx++] != ':');
+    //descodificar todos los viajeros
+    for (int i = 0; i < numCam; i++)
+    {
+        int avz = 0;
+        caminantes[i].desCodificar(&data[inx], avz);
+        inx += avz;
+    }
+    
+
 }
 
 Poblacion::~Poblacion()
@@ -340,6 +358,9 @@ void Poblacion::descodificar(string msg, int flg)
 }
 
 //toma la matriz de otra poblacion
-void getMatrixFrom(Poblacion pob){
+void Poblacion::getMatrixFrom(Poblacion pob)
+{
+
+    memcpy(dist,pob.dist,sizeof(dist));
 
 }

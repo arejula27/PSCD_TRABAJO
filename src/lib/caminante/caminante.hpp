@@ -52,6 +52,7 @@ public:
 class Poblacion
 {
     friend Caminante;
+  
 private:
 
         int dist[CITY_MAX][CITY_MAX];
@@ -59,6 +60,7 @@ private:
         Caminante caminantes[CAM_MAX];
         string cities[CITY_MAX];
         int numCities;
+
         
 
     public:
@@ -67,7 +69,7 @@ private:
         //constructo para inicializar una poblacion a partir de un archivo de texto
         //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion 
         //con maximo CAM_MAX
-        Poblacion(int caminantes,int ciudIni, int numCiuds, string entrada = "entrada.txt");
+        Poblacion(int numCam,int ciudIni, int numCiuds, string entrada = "entrada.txt");
 
         //toma la matriz de otra poblacion
         void getMatrixFrom(Poblacion pob);
