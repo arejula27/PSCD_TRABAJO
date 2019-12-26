@@ -31,7 +31,6 @@ TEST(CAMINANTE, codificar)
     cam.ini(3, 6);
     string ruta;
     EXPECT_NO_FATAL_FAILURE(ruta = cam.codificar());
-    cout << "cam empieza en 3 y pasa por 6: " << ruta << endl;
 }
 
 TEST(Poblacion, getMatrixFrom)
