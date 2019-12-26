@@ -241,31 +241,6 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     }
 }
 
-<<<<<<< HEAD:src/lib/caminante.cpp
-=======
-//obtiene el mejor fitnes de la poblacion
-float Poblacion::mejorFit()
-{
-    int max=0;
-    for(int i=0; i<numCam; i++){
-        if(max < caminantes[i].MyFit()){
-            max = caminantes[i].MyFit();
-        }
-    }
-    return max;
-}
-
-//obtiene la media de todos los fits de la poblacion
-float Poblacion::mediaFit()
-{
-    int sum = 0;
-    for(int i=0; i<numCam; i++){
-        sum += caminantes[i].MyFit();
-    }
-    return sum/numCam;
-}
-
->>>>>>> 1901ccd8308e7f61687cd187ca07db3b1a3993f3:src/lib/caminante/caminante.cpp
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
 // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;) "
 string Poblacion::codificarMatriz()
