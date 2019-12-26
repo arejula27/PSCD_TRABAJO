@@ -11,6 +11,7 @@ const int ALL_POB =1;
 class Caminante
 {
     //friend void Poblacion::calcFit(Caminante &caminante);
+   
 
 private:
     
@@ -50,6 +51,7 @@ public:
 class Poblacion
 {
     friend Caminante;
+  
 private:
 
         int dist[CITY_MAX][CITY_MAX];
@@ -57,6 +59,7 @@ private:
         Caminante caminantes[CAM_MAX];
         string cities[CITY_MAX];
         int numCities;
+
         
 
     public:
