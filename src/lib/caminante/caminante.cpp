@@ -202,7 +202,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     {
         pobs[i].numCities = numCities;
 
-#warning copiar matriz  // ¿memcopy con el el tamaño?
+        memcpy(pobs[i].dist, dist, sizeof(dist));
         int numSub = (numCam / n) - 1;
         if (sobr > 0)
         {
