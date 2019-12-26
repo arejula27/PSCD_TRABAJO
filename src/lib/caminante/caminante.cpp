@@ -114,7 +114,8 @@ Poblacion::Poblacion(int numCam, string entrada)
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(0,0);
-#warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
+        #warning PARAMETRO INCORRECTO "caminante.ini(string)"  //Coflicto con mi función.
+    
     }
 }
 Poblacion::Poblacion(string data)
@@ -160,6 +161,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
 //obtiene el mejor fitnes de la poblacion
 int Poblacion::mejorFit()
 {
+    
 }
 
 //obtiene la media de todos los fits de la poblacion
@@ -241,6 +243,8 @@ string Poblacion::codificar(int flg)
 
         break;
     }
+
+    return msg;
 }
 
 void Poblacion::descodificar(string msg, int flg)
@@ -280,4 +284,9 @@ void Poblacion::descodificar(string msg, int flg)
             inx += avz;
         }
     }
+}
+
+//toma la matriz de otra poblacion
+void getMatrixFrom(Poblacion pob){
+
 }

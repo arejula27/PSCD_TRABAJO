@@ -53,7 +53,7 @@ private:
 
         int dist[CITY_MAX][CITY_MAX];
         int numCam;
-        Caminante caminantes[CAM_MAX];
+        
         string cities[CITY_MAX];
         int numCities;
         
