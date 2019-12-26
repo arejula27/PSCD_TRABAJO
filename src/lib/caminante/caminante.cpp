@@ -157,6 +157,7 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     }
     f1.close();
 }
+
 Poblacion::Poblacion(string data)
 {
 
@@ -181,6 +182,10 @@ Poblacion::Poblacion(string data)
 
 Poblacion::~Poblacion()
 {
+}
+
+int Poblacion::getNumCam(){
+    return numCam;
 }
 
 //calculas el fit de un caminante y se lo guardas

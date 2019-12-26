@@ -74,25 +74,36 @@ private:
         
         //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
         Poblacion(string data);
+
         ~Poblacion();
+
+        //Devuelve el número de caminantes en la población
+        int getNumCam();
 
         //calcula el fitness de todos los caminantes de la población y se los da.
         void calcFit();
+
         //divide la poblacion en n subpoblaciones
         void dividir(int n, Poblacion pobs[]);
+
         //fuisona la poblacion en n subpoblaciones
         void fusionar(int n, Poblacion pobs[]);
+
         //obtiene el mejor fit de la poblacion
         float mejorFit();
+
         //obtiene el fites medio de la poblacion
         float mediaFit();
+
         //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
         // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
         string codificarMatriz();
+
         //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
         // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
         //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
         void descodificarMatriz(const string MiMatriz, int &avance);
+
         //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
         //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
         string codificar(int flg = ALL_POB);
