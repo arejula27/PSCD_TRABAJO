@@ -184,12 +184,11 @@ Poblacion::~Poblacion()
 {
 }
 
-int Poblacion::getNumCam(){
+int Poblacion:: getNumCam(){
     return numCam;
 }
 
 //calculas el fit de un caminante y se lo guardas
-<<<<<<< HEAD:src/lib/caminante.cpp
 void Poblacion::calcFit(Caminante &caminate){
     
 }
@@ -213,14 +212,6 @@ float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media)
     media = media/numCam;
     //Devuelve el porcentaje
     return (cont*100)/numCam;
-=======
-void Poblacion::calcFit()
-{
-    for(int i=0; i<numCam; i++)
-    {
-        caminantes[i].calcMiFit(dist, numCities);
-    }
->>>>>>> 1901ccd8308e7f61687cd187ca07db3b1a3993f3:src/lib/caminante/caminante.cpp
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
