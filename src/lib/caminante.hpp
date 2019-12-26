@@ -12,8 +12,6 @@ class Caminante
     //friend void Poblacion::calcFit(Caminante &caminante);
 
 private:
-    
-    
     int camino[CITY_MAX];
     float fitness;
 public:
@@ -34,7 +32,7 @@ public:
     string codificar();
 
     //Devuelve el fitness del caminante.
-    int MyFit();
+    float MyFit();
 
     //Función de mutar.
     void Mutar();
@@ -72,16 +70,16 @@ private:
         Poblacion(string data);
         ~Poblacion();
 
-        //calcula el fin de un caminante y cambia su propio fit 
+        //calcula el fit de un caminante y cambia su propio fit 
         void calcFit(Caminante &caminante);
+        //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
+        //tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+        //media de fitness de los caminates
+        float stats(Poblacion &subPob, float fit, float &mejorFit, float &media);
         //divide la poblacion en n subpoblaciones
         void dividir(int n, Poblacion pobs[]);
         //fuisona la poblacion en n subpoblaciones
         void fusionar(int n, Poblacion pobs[]);
-        //obtiene el mejor fit de la poblacion
-        int mejorFit();
-        //obtiene el fites medio de la poblacion
-        int mediaFit();
         //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
         // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
         string codificarMatriz();

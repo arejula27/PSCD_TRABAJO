@@ -82,7 +82,7 @@ void Caminante::ini(int inicio, int max)
 }
 
 //Devuelve el fitness del caminante.
-int Caminante::MyFit()
+float Caminante::MyFit()
 {
     return fitness;
 }
@@ -126,8 +126,29 @@ Poblacion::~Poblacion()
 }
 
 //calculas el fit de un caminante y se lo guardas
-void Poblacion::calcFit(Caminante &caminate)
-{
+void Poblacion::calcFit(Caminante &caminate){
+    
+}
+//Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+//media de fitness de los caminates
+float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media){
+    int cont = 0;
+    for (int i = 0; i < numCam; i++){
+        subPob.calcFit(caminantes[i]); // Calcula el fit
+        if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
+            cont++;
+        }
+        //Calculo del mejor fit
+        if (caminantes[i].MyFit() >= mejorFit){
+            mejorFit = caminantes[i].MyFit();
+        }
+        //calculo de la media
+        media += caminantes[i].MyFit();
+    }
+    media = media/numCam;
+    //Devuelve el porcentaje
+    return (cont*100)/numCam;
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
@@ -155,16 +176,6 @@ void Poblacion::dividir(int n, Poblacion pobs[])
         }
         indx += numSub;
     }
-}
-
-//obtiene el mejor fitnes de la poblacion
-int Poblacion::mejorFit()
-{
-}
-
-//obtiene la media de todos los fits de la poblacion
-int Poblacion::mediaFit()
-{
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
