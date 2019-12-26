@@ -7,7 +7,7 @@
 # Unignore all dirs
 !*/
 
-!Makefile_p5_e1
+!makefile
 
 # Prerequisites
 *.d
