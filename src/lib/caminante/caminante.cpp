@@ -363,3 +363,7 @@ void Poblacion::getMatrixFrom(Poblacion pob){
     memcpy(dist,pob.dist,sizeof(dist));
 
 }
+
+Caminante Poblacion::getCaminante(int id) {
+    return caminantes[id];
+} 

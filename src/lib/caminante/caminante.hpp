@@ -104,4 +104,8 @@ private:
 
         //toma la matriz de otra poblacion
         void getMatrixFrom(Poblacion pob);
+
+        // Devuelve un caminante dado un id
+        Caminante getCaminante(int id);
+        
 };
