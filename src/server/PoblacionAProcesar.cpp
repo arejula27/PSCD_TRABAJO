@@ -8,41 +8,38 @@
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	this->poblacion = poblacion_;
-
-    for(int i=0; i<numCaminantes; i++) {
-        //caminantes[i] = obtener de poblacion
-    }
 };
 
 
 //----------------------------------------------------------
 // funcion seleccionar
-void PoblacionAProcesar::seleccionar() {
+void PoblacionAProcesar::seleccionar(int id) {
     unique_lock<mutex> lck(mtx);
 
 }
 
 //----------------------------------------------------------
 // funcion cruzar
-void PoblacionAProcesar::cruzar() {     // Poner parametros para llamar a cruzar
+void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para llamar a cruzar
     unique_lock<mutex> lck(mtx);
-    //caminante.Cruzar(&o1,&o2);
+    Caminante cam = poblacion.getCaminante(id);
+    Caminante cam2 = poblacion.getCaminante(id2);
+    cam.Cruzar(cam,cam2);
 
 }
 
 //----------------------------------------------------------
 // funcion mutar   
-void PoblacionAProcesar::mutar() {
+void PoblacionAProcesar::mutar(int id) {
     unique_lock<mutex> lck(mtx);
-    //caminante.Mutar();
-
+    Caminante cam = poblacion.getCaminante(id);
+    cam.Mutar();
 }
 
 //----------------------------------------------------------
 
-/*
+
 // Devuelve la poblacion
 Poblacion PoblacionAProcesar::getPoblacion() {
     return this->poblacion;
 }
-*/
