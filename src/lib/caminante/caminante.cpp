@@ -366,4 +366,10 @@ void Poblacion::getMatrixFrom(Poblacion pob){
 
 Caminante Poblacion::getCaminante(int id) {
     return caminantes[id];
-} 
+}
+
+//aumenta en num el numero de caminantes posibles en la población
+void Poblacion::addCams(int num){
+    assert(num+numCam > CAM_MAX);
+    numCam+=num;
+}
