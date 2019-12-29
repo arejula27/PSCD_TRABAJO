@@ -8,7 +8,7 @@
 #include "caminante.hpp"
 
 using namespace std;
-
+const int MAX_GENS = 100;
 class PobActual
 {
 public:
@@ -37,6 +37,8 @@ public:
     // esperar GA control hace signal de ga xq ya ha cogido la poblacion y 
     //wait de control estadistico
     void esperaGA();
+    void syncro(int id);
+    void finProceso(int id);
 private:
     int historico[][2];
     mutex mtx;
@@ -45,6 +47,7 @@ private:
     condition_variable dormir_estadistico,dormir_GA;
     condition_variable calcEstadistico;
     bool finCalculo;
+    bool sync[];
     
 };
 #endif

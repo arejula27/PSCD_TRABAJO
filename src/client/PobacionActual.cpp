@@ -82,3 +82,16 @@ void PobActual::esperaGA(){
     dormir_GA.notify_all();
     dormir_estadistico.wait(lck);
 }
+
+void PobActual::syncro(int id){
+    unique_lock <mutex> lck(mtx);
+    while (!sync[id-2])
+	{
+		calcEstadistico.wait(lck);
+	}
+}
+void PobActual::finProceso(int id){
+    unique_lock <mutex> lck(mtx);
+    sync[id-1] = true;
+    calcEstadistico.notify_all();
+}

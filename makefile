@@ -17,7 +17,7 @@ CC=g++
 SRC = src
 LIB = ${SRC}/lib
 
-SOCKET_DIR= ${LIB}Socket
+SOCKET_DIR= ${LIB}/Socket
 SOCKET=${SOCKET_DIR}/Socket
 
 LIB_CAM = ${LIB}/caminante
@@ -36,7 +36,7 @@ TEST = test
 POBTEST = ${TEST}/pobMain
 
 #----------------------------------------------------------------------------
-CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -O2 -std=c++11 -lsockets # Flags compilacion
+CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -I${LIB_CAM} -O2 -std=c++11 -lsockets # Flags compilacion
 LDFLAGS=-pthread # Flags linkado threads
 TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11  -lgtest  -lgtest_main -pthread # Flags compilacion
 
