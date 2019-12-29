@@ -107,5 +107,9 @@ private:
 
         // Devuelve un caminante dado un id
         Caminante getCaminante(int id);
+
+
+        //aumenta en num el numero de caminantes posibles en la población
+        void addCams(int num);
         
 };
