@@ -24,20 +24,20 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 	float porcentaje = personas.stats(personas,fit,mejorFit,media);
 	pa.finProceso(ID);
 }
-void controlEstadistico(Poblacion& personas,const int MAX_GENS,PobActual &pa){
+void controlEstadistico(Poblacion& personas,PobActual &pa){
 	ofstream f("salida.csv");
 	f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
 	thread estadisticas[MAX_GENS];
 	int i = 0;
 	float mejorFit,media;
 	while (i < MAX_GENS && !pa.finEjec(personas)){
-		estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1,mejorFit,media);
+		estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1,ref(pa),ref(mejorFit),ref(media));
 		f << i+1 << "," << mejorFit << "," << media << endl;
 		pa.esperaGA();
 		i++;
 	}
 }
-void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_GENS, Poblacion &personas, PobActual &pa){
+void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &personas, PobActual &pa){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[NUM_SERVERS];
@@ -50,8 +50,6 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_
 	}
 	int server_fd[NUM_SERVERS];
 	// Conectamos con el servidor. Probamos varias conexiones
-	
-	int server_fd[NUM_SERVERS];
 	int serversAceptados = 0;
 	for (int i = 0; i<NUM_SERVERS; i++){
 		const int MAX_ATTEMPS = 10;
@@ -127,8 +125,8 @@ int main(int argc, char const *argv[]){
 	#warning la ciudad a inicial se puede cambiar
 	Poblacion proletariado(NUM_PERSONAS,3,cities,fichero);
 
-	thread estadistico (&controlEstadistico,ref(proletariado),MAX_GENS,ref(pa));
-	thread GAcontrol (&controlGenetico,NUM_SERVERS,SERVER_PORT,MAX_GENS,ref(proletariado),ref(pa));
+	thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
+	thread GAcontrol (&controlGenetico,NUM_SERVERS,SERVER_PORT,ref(proletariado),ref(pa));
 
 	return 0;
 }
