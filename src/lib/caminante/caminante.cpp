@@ -92,7 +92,7 @@ void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
 }
 
 //Devuelve el fitness del caminante.
-int Caminante::MyFit()
+float Caminante::MyFit()
 {
     return fitness;
 }
@@ -184,17 +184,34 @@ Poblacion::~Poblacion()
 {
 }
 
-int Poblacion::getNumCam(){
+int Poblacion:: getNumCam(){
     return numCam;
 }
 
 //calculas el fit de un caminante y se lo guardas
-void Poblacion::calcFit()
-{
-    for(int i=0; i<numCam; i++)
-    {
-        caminantes[i].calcMiFit(dist, numCities);
+void Poblacion::calcFit(Caminante &caminate){
+    
+}
+//Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+//media de fitness de los caminates
+float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media){
+    int cont = 0;
+    for (int i = 0; i < numCam; i++){
+        subPob.calcFit(caminantes[i]); // Calcula el fit
+        if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
+            cont++;
+        }
+        //Calculo del mejor fit
+        if (caminantes[i].MyFit() >= mejorFit){
+            mejorFit = caminantes[i].MyFit();
+        }
+        //calculo de la media
+        media += caminantes[i].MyFit();
     }
+    media = media/numCam;
+    //Devuelve el porcentaje
+    return (cont*100)/numCam;
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
@@ -222,28 +239,6 @@ void Poblacion::dividir(int n, Poblacion pobs[])
         }
         indx += numSub;
     }
-}
-
-//obtiene el mejor fitnes de la poblacion
-float Poblacion::mejorFit()
-{
-    int max=0;
-    for(int i=0; i<numCam; i++){
-        if(max < caminantes[i].MyFit()){
-            max = caminantes[i].MyFit();
-        }
-    }
-    return max;
-}
-
-//obtiene la media de todos los fits de la poblacion
-float Poblacion::mediaFit()
-{
-    int sum = 0;
-    for(int i=0; i<numCam; i++){
-        sum += caminantes[i].MyFit();
-    }
-    return sum/numCam;
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
@@ -368,3 +363,7 @@ void Poblacion::getMatrixFrom(Poblacion pob){
     memcpy(dist,pob.dist,sizeof(dist));
 
 }
+
+Caminante Poblacion::getCaminante(int id) {
+    return caminantes[id];
+} 

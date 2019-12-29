@@ -9,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <fstream>
 #include "Socket.hpp"
 #include "PoblacionActual.hpp"
 #include "Monitorizacion.hpp"
@@ -16,24 +17,28 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
-void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa){
-	//Sacar estadisticas poner a true fin calculo si el porcentaje de fekas(los mal optimizados xd) 
-	//es pequeño
+void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
+	#warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
+	float fit;
+	float porcentaje = personas.stats(personas,fit,mejorFit,media);
 	//barrera e sincronizacion para que los procesos acaben en orden 1 2 3 4 5 ... n
 
 
 }
-void controlEstadistico(Poblacion& personas,const int NUM_GENS,PobActual &pa){
-	thread estadisticas[NUM_GENS];
+void controlEstadistico(Poblacion& personas,const int MAX_GENS,PobActual &pa){
+	ofstream f("salida.csv");
+	f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
+	thread estadisticas[MAX_GENS];
 	int i = 0;
-	while (!pa.finEjec()){
-		estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1);
-		pa.esperarGA();
+	float mejorFit,media;
+	while (i < MAX_GENS && !pa.finEjec(personas)){
+		estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1,mejorFit,media);
+		f << i+1 << "," << mejorFit << "," << media << endl;
+		pa.esperaGA();
 		i++;
 	}
-	/*Escribir los datos en un archivo .csv*/
 }
-void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_GENS, Poblacion& personas, PobActual &pa){
+void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_GENS, Poblacion &personas, PobActual &pa){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[NUM_SERVERS];
@@ -74,7 +79,7 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_
 		pobs[i].getMatrixFrom(personas);
 	}
 
-	for (int i = 0; i < MAX_GENS && !pa.finEjec(); i++){
+	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
 
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
@@ -93,7 +98,7 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, const int MAX_
 
 		}
 		personas.fusionar(serversAceptados,pobs);
-		pa.esperarEstadistico();
+		pa.esperaEstadistico();
 	}
 
 

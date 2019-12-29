@@ -11,7 +11,6 @@ using namespace std;
 
 class PobActual
 {
-    friend Caminante;
 public:
     //Construye el monitor
     PobActual(int n);
@@ -29,25 +28,22 @@ public:
     void descodificar(Poblacion pob,string mag, int flg);
     //Devuelve el numero de generacion hasta el momento
     int numGeneracion();
-     //Devuelve el mejor fitness de la poblacion
-    int mejorFit(Poblacion pob);
-    //Devuelve la media de fitness de la poblacion
-    int mediaFit(Poblacion pob);
     //Inserta los datos en la matriz del estadistico
     void agnadirDatos(int numGen, int mejorFit, int avgFit);
     //añadir funcion bool que indique cuando acabar
-    bool finEjec();
+    bool finEjec(Poblacion &personas);
     //haced sleep de GA y despierta estadistico 
-    void esperarEstadistico();
+    void esperaEstadistico();
     // esperar GA control hace signal de ga xq ya ha cogido la poblacion y 
     //wait de control estadistico
-    void esperarGA();
+    void esperaGA();
 private:
     int historico[][2];
     mutex mtx;
     int numGen; //Número de poblaciones generadas hasta el momento
-    //Condicion para que el estadistico pueda tomar los datos como validos
-    condition_variable dormir_estadistico,dormir_GA; //Es necesario?
+    //Variables condicion para sincronizar estadisitico y GA
+    condition_variable dormir_estadistico,dormir_GA;
+    condition_variable calcEstadistico;
     bool finCalculo;
     
 };

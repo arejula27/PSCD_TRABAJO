@@ -14,9 +14,20 @@ using namespace std;
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 
 //-------------------------------------------------------------
-void procesoCaminante(PoblacionAProcesar &pAp) {
-
-
+void procesoCaminante(PoblacionAProcesar &pAp, int id, int op) {
+	switch(op) {
+		case 0:
+			pAp.cruzar(id);
+			break;
+		case 1:
+			pAp.mutar(id);
+			break;
+		case 2:
+			pAp.seleccionar(id);
+			break;
+		default:
+			cout << "ERROR en operacion recibida" << endl;
+	}
 }
 
 //-------------------------------------------------------------
@@ -78,16 +89,16 @@ int main(int argc, char *argv[]) {
 			out = true; 
 		} else {
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			PoblacionAProcesar pAp(buffer); 	// Construir monitor con la sub-poblacion recibida
-
+				
 			Poblacion pob(buffer);			// Construir pobalcion
-			pob.descodificar(buffer,1);		// Descodificacion de la poblacion recibida
-			
-			int n = 0;				// Obtener numero de caminantes
-			// int n = pob.getNumCam();
+			int operacion = atoi(buffer[0]);	// Operacion a realizar
+			pob.descodificar(&buffer[2],1);		// Descodificacion de la poblacion recibida
+			PoblacionAProcesar(pob);	// Construir monitor con la sub-poblacion recibida
+
+			int n = pAp.getNumCam();				// Obtener numero de caminantes
 			thread proceso[n];	
 			for(int i=0; i<n; i++) {
-				proceso[i] = thread(&procesoCaminante,ref(pAp));
+				proceso[i] = thread(&procesoCaminante,ref(pAp),i,operacion);
 			}
 
 			for(int i=0; i<n; i++) {
@@ -97,9 +108,7 @@ int main(int argc, char *argv[]) {
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 
-			pob.codificar();	//generar cadena resultado, 
-
-			string nuevaSubPoblacion = "la respuesta que sea";
+			string nuevaSubPoblacion = pob.codificar();	//generar cadena resultado
 			
             // Send, enviar nueva sub-poblacion al cliente
 			int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);

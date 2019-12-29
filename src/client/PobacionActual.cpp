@@ -50,19 +50,35 @@ int PobActual::numGeneracion(){
     return numGen;
 }
 
-
-int PobActual::mejorFit(Poblacion pob){
-    unique_lock <mutex> lck(mtx);
-    pob.mejorFit();
-}
-
-int PobActual::mediaFit(Poblacion pob){
-    unique_lock <mutex> lck(mtx);
-    pob.mediaFit(); 
-}
-
 void PobActual::agnadirDatos(int numGen, int mejorFit, int avgFit){
     unique_lock <mutex> lck(mtx);
     historico[numGen][0]=mejorFit;
     historico[numGen][1]=avgFit;
+}
+//añadir funcion bool que indique cuando acabar
+bool PobActual::finEjec(Poblacion &personas){
+    unique_lock <mutex> lck(mtx);
+    #warning darle valor a fit para calcular el % IGUAL VAR GLOAL
+    float fit,mejorFit,media;
+    float porcentaje = personas.stats(personas,fit,mejorFit,media);
+    if (porcentaje <= 3.0){
+        finCalculo = true;
+    }else{
+        finCalculo = false;
+    }
+    return finCalculo;
+}
+//haced sleep de GA y despierta estadistico 
+void PobActual::esperaEstadistico(){
+    unique_lock <mutex> lck(mtx);
+    dormir_estadistico.notify_all();
+    dormir_GA.wait(lck);
+}
+
+// esperar GA control hace signal de ga xq ya ha cogido la poblacion y 
+//wait de control estadistico
+void PobActual::esperaGA(){
+    unique_lock <mutex> lck(mtx);
+    dormir_GA.notify_all();
+    dormir_estadistico.wait(lck);
 }

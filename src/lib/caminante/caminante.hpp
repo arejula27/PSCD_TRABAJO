@@ -13,8 +13,6 @@ class Caminante
     //friend void Poblacion::calcFit();
 
 private:
-    
-    
     int camino[CITY_MAX];
     float fitness;
 public:
@@ -37,7 +35,7 @@ public:
     void calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds);
 
     //Devuelve el fitness del caminante.
-    int MyFit();
+    float MyFit();
 
     //Función de mutar.
     void Mutar();
@@ -77,24 +75,18 @@ private:
 
         ~Poblacion();
 
-        //Devuelve el número de caminantes en la población
-        int getNumCam();
-
-        //calcula el fitness de todos los caminantes de la población y se los da.
-        void calcFit();
-
+        int Poblacion:: getNumCam();
+        //calcula el fit de un caminante y cambia su propio fit 
+        void calcFit(Caminante &caminante);
+        //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
+        //tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+        //media de fitness de los caminates
+        float stats(Poblacion &subPob, float fit, float &mejorFit, float &media);
         //divide la poblacion en n subpoblaciones
         void dividir(int n, Poblacion pobs[]);
 
         //fuisona la poblacion en n subpoblaciones
         void fusionar(int n, Poblacion pobs[]);
-
-        //obtiene el mejor fit de la poblacion
-        float mejorFit();
-
-        //obtiene el fites medio de la poblacion
-        float mediaFit();
-
         //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
         // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
         string codificarMatriz();
@@ -112,4 +104,8 @@ private:
 
         //toma la matriz de otra poblacion
         void getMatrixFrom(Poblacion pob);
+
+        // Devuelve un caminante dado un id
+        Caminante getCaminante(int id);
+        
 };
