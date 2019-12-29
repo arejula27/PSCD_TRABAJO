@@ -8,12 +8,13 @@
 #include "caminante.hpp"
 
 using namespace std;
+//Numero maximo de generaciones que crearemos
 const int MAX_GENS = 100;
 class PobActual
 {
 public:
     //Construye el monitor
-    PobActual(int n);
+    PobActual();
     //Destructor
     ~PobActual();
     //Crea poblaciones según el parámetro n (llama a uno de los 3 constructores)
@@ -40,14 +41,13 @@ public:
     void syncro(int id);
     void finProceso(int id);
 private:
-    int historico[][2];
+    int historico[MAX_GENS][2];
     mutex mtx;
     int numGen; //Número de poblaciones generadas hasta el momento
     //Variables condicion para sincronizar estadisitico y GA
     condition_variable dormir_estadistico,dormir_GA;
     condition_variable calcEstadistico;
-    bool finCalculo;
-    bool sync[];
+    bool sync[MAX_GENS];
     
 };
 #endif

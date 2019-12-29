@@ -2,10 +2,13 @@
 #include "PoblacionActual.hpp"
 
 //n = numero de personas
-PobActual:: PobActual(int n){
+PobActual:: PobActual(){
     numGen = 0;
-    historico[n][2];
-
+    historico[MAX_GENS][2];
+    for (int i = 0; i < MAX_GENS; i++)
+    {
+        sync[i] = false;
+    }
 }
 
 PobActual:: ~PobActual(){
@@ -62,11 +65,10 @@ bool PobActual::finEjec(Poblacion &personas){
     float fit,mejorFit,media;
     float porcentaje = personas.stats(personas,fit,mejorFit,media);
     if (porcentaje <= 3.0){
-        finCalculo = true;
+        return true;
     }else{
-        finCalculo = false;
+        return false;
     }
-    return finCalculo;
 }
 //haced sleep de GA y despierta estadistico 
 void PobActual::esperaEstadistico(){
@@ -85,10 +87,11 @@ void PobActual::esperaGA(){
 
 void PobActual::syncro(int id){
     unique_lock <mutex> lck(mtx);
-    while (!sync[id-2])
-	{
-		calcEstadistico.wait(lck);
-	}
+    if (id !=1){
+        while (!sync[id-2]){
+            calcEstadistico.wait(lck);
+        }
+    }
 }
 void PobActual::finProceso(int id){
     unique_lock <mutex> lck(mtx);

@@ -12,18 +12,17 @@
 #include <fstream>
 #include "Socket.hpp"
 #include "PoblacionActual.hpp"
-#include "Monitorizacion.hpp"
+//#include "Monitorizacion.hpp"
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
+	pa.syncro(ID);
 	#warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
 	float fit;
 	float porcentaje = personas.stats(personas,fit,mejorFit,media);
-	//barrera e sincronizacion para que los procesos acaben en orden 1 2 3 4 5 ... n
-
-
+	pa.finProceso(ID);
 }
 void controlEstadistico(Poblacion& personas,const int MAX_GENS,PobActual &pa){
 	ofstream f("salida.csv");
@@ -118,14 +117,15 @@ int main(int argc, char const *argv[]){
 	const int NUM_SERVERS = atoi(argv[1]);
 	//Numero de personas en nuestra poblacion
 	int NUM_PERSONAS = atoi(argv[2]);
-	//Numero maximo de generaciones a crear
-	int MAX_GENS = atoi(argv[3]);
-	PobActual pa(MAX_GENS);
-	
+	PobActual pa;
 	cout << "Que fichero quieres abrir ? ";
 	string fichero;
 	cin >> fichero;
-	Poblacion proletariado(NUM_PERSONAS,fichero);
+	cout << "Cuantas ciudades vamos a tener ? " << endl;
+	int cities;
+	cin >> cities;
+	#warning la ciudad a inicial se puede cambiar
+	Poblacion proletariado(NUM_PERSONAS,3,cities,fichero);
 
 	thread estadistico (&controlEstadistico,ref(proletariado),MAX_GENS,ref(pa));
 	thread GAcontrol (&controlGenetico,NUM_SERVERS,SERVER_PORT,MAX_GENS,ref(proletariado),ref(pa));
