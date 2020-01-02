@@ -50,8 +50,8 @@ string Caminante::codificar()
     {
         MiCamino += to_string(camino[i]) + ',';
     }
-    MiCamino += + ':' + to_string(fitness);
-    MiCamino += to_string(inicio) + ';';
+    MiCamino += to_string(inicio);
+    MiCamino += ':' + to_string(fitness) + ';';
     return MiCamino;
 }
 
