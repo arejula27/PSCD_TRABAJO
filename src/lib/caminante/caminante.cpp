@@ -383,3 +383,21 @@ void Poblacion::addCams(int num){
     assert(num+numCam > CAM_MAX);
     numCam+=num;
 }
+
+
+//muta el caminante de la pos num
+void Poblacion::mutar(int num){
+
+    caminates[num].mutar();
+
+
+}
+
+//cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
+//población, para que funcione la población no puede tener CAM_MAX caminantes
+void cruzar(int p1,int p2){
+    assert(1+numCam > CAM_MAX);
+    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2])
+    numCam+=1;
+
+}
