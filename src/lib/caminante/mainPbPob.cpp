@@ -11,6 +11,14 @@
 using namespace std;
 
 
+bool isCodyDecod(){
+    Caminante a,b;
+    a.ini(2, 8);
+    int aux=0;
+    string aS = a.codificar();
+    b.desCodificar(aS, aux);
+    return aS == b.codificar();
+}
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
 string  strerror(int error, string msg="")
 {
