@@ -102,15 +102,15 @@ bool isgetMatrixFrom(){
      }
      int coma=0;
      int c = stoi(&txt[0]);
-     coma = txt.find_first_of(",");
+      while(txt[++coma]!=',');
      int end =txt.find_first_of(":");
-     for(int i =0;i<=numCity;i++){
+     for(int i =0;i<numCity;i++){
          int num=stoi(&txt[++coma]);
          if(!cities[num]){
-             cities[num ]= true;
+             cities[num]= true;
          }
          else{
-             cout<<error(ERROR,"se repiten ciudades en los caminantes")<<endl;
+             cout<<error(ERROR,"se repiten ciudades en los caminantes")<< i<<endl;
              return false;
          }
          if(num == c){
@@ -159,6 +159,8 @@ bool isgetMatrixFrom(){
      }
      else{
          cout<<error(ERROR,"función incorrecta")<<endl;
+         cout<<"Caminante: "<<txt<<endl;
+
          return false;
      }
 
