@@ -5,7 +5,14 @@ using namespace std;
 
 
 
-
+bool isCodyDecod(){
+    Caminante a,b;
+    a.ini(2, 8);
+    int aux=0;
+    string aS = a.codificar();
+    b.desCodificar(aS, aux);
+    return aS == b.codificar();
+}
  
 
  bool isDigit(char c){
