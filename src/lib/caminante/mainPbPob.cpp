@@ -54,12 +54,11 @@ void sacarPantIsCyD(){
 
      int frs = txt.find_first_of(":");
      int lst = txt.find_first_of(";");
-     if(!atoi(&txt[frs])==-1){
+     if(!(atoi(&txt[frs])==-1)){
 
-     
-
+    
         for(int i= 1+frs;i<lst;i++)
-            if(!isDigit(txt[i])||!txt[i]=='.' ){
+            if(!isDigit(txt[i])||!(txt[i]=='.') ){
             return false;
             }
         
