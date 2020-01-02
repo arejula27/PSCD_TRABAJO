@@ -27,7 +27,8 @@ string  error(int error, string msg="")
     Caminante a,b;
     a.ini(2, 8);
     string aS = a.codificar();
-    b.desCodificar(aS, 0);
+    int aux=0;
+    b.desCodificar(aS, aux);
     return aS == b.codificar();
 }
 
@@ -62,7 +63,8 @@ void sacarPantIsPobCyD(){
 bool isgetMatrixFrom(){
     Poblacion a(50, 4, 12, "uk12.txt");
     string a1 = a.codificarMatriz();
-    a.descodificarMatriz(a1, 0);
+    int aux=0;
+    a.descodificarMatriz(a1, aux);
     string a2 = a.codificarMatriz();
     return a1 == a2;
 }
@@ -162,7 +164,6 @@ bool isgetMatrixFrom(){
  int main(){
     
      caminanteIni();
-     sacarPantIsCyD();
 
      return 0;
  }
