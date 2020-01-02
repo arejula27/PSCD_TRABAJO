@@ -13,7 +13,7 @@ using namespace std;
 
 
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
-string  strerror(int error, string msg)
+string  strerror(int error, string msg="")
 {
 	switch (error)
 	{
@@ -61,7 +61,13 @@ void sacarPantIsCyD(){
     return true;
  }
 
- bool cityCorrect(){
+ bool cityPosCorrect(string txt, int numCity){
+
+     bool cities[numCity];
+     for(int i=0;i<numCity;i++){
+         cities[i]=false;
+     }
+     
      return true;
 
  }
@@ -71,8 +77,8 @@ void sacarPantIsCyD(){
           strerror(ERROR, "fit no esta en la posición correcta");
           return false;
      }
-     else if(!fitPosCorrect(txt)){
-          strerror(ERROR, "fit no esta en la posición correcta");
+     else if(!cityPosCorrect(txt)){
+          strerror(ERROR, "camino  no esta es correcto");
 
      }
 
@@ -97,5 +103,6 @@ void sacarPantIsCyD(){
  
  int main(){
      sacarPantIsCyD();
+
      return 0;
  }
