@@ -12,7 +12,7 @@ using namespace std;
 
 
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
-string  strerror(int error, string msg)
+string  strerror(int error, string msg="")
 {
 	switch (error)
 	{
@@ -43,7 +43,13 @@ string  strerror(int error, string msg)
     return true;
  }
 
- bool cityCorrect(){
+ bool cityPosCorrect(string txt, int numCity){
+
+     bool cities[numCity];
+     for(int i=0;i<numCity;i++){
+         cities[i]=false;
+     }
+     
      return true;
 
  }
@@ -53,8 +59,8 @@ string  strerror(int error, string msg)
           strerror(ERROR, "fit no esta en la posición correcta");
           return false;
      }
-     else if(!fitPosCorrect(txt)){
-          strerror(ERROR, "fit no esta en la posición correcta");
+     else if(!cityPosCorrect(txt)){
+          strerror(ERROR, "camino  no esta es correcto");
 
      }
 
@@ -78,6 +84,6 @@ string  strerror(int error, string msg)
  
  
  int main(){
-     
+
      return 0;
  }
