@@ -172,6 +172,21 @@ bool isgetMatrixFrom(){
 
  }
  
+ bool contructorPobParam(){
+    cout<<"------------"<<endl;
+    cout<<"comprobando Poblacion(int numCam, int ciudIni, int numCiuds, string entrada):"<<endl;
+    int numCam =1;
+    int ciudadIni =0;
+    int numCiuds=12;
+    string entrada = "./../entradas/uk12.txt";
+    Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
+
+
+
+    return true;
+
+
+ }
  
  
  
@@ -180,5 +195,8 @@ bool isgetMatrixFrom(){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
+     contructorPobParam();
+     
+
      return 0;
  }

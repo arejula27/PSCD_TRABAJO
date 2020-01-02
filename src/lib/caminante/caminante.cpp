@@ -1,4 +1,7 @@
+#include <iostream>
 #include "caminante.hpp"
+
+using namespace std;
 
 //Constructor del caminante
 Caminante::Caminante()
@@ -136,7 +139,8 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     }
     ifstream f1;
     f1.open(entrada);
-    char h[1000000];
+    if(f1.is_open()){
+        char h[1000000];
     h[0] = '0';
     while(h[0] == '#'){
         f1.getline(h, 1000000, '\n');
@@ -163,6 +167,12 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
             }
         } 
     }
+
+    }
+    else{
+        cerr<<"Fichero no encontrado"<<endl;
+    }
+    
     f1.close();
 }
 
@@ -380,4 +390,22 @@ Caminante Poblacion::getCaminante(int id) {
 void Poblacion::addCams(int num){
     assert(num+numCam > CAM_MAX);
     numCam+=num;
+}
+
+
+//muta el caminante de la pos num
+void Poblacion::mutar(int num){
+
+    caminates[num].mutar();
+
+
+}
+
+//cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
+//población, para que funcione la población no puede tener CAM_MAX caminantes
+void cruzar(int p1,int p2){
+    assert(1+numCam > CAM_MAX);
+    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2])
+    numCam+=1;
+
 }
