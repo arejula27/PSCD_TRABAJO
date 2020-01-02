@@ -23,15 +23,19 @@ void Caminante::desCodificar(const string MiCamino, int &avance)
     int i = 0;
     while (MiCamino[avance] != ':')
     {
-        camino[i] = 0;
+      
+        //camino[i] = 0;
         camino[i] = stoi(&MiCamino[avance]);
-        while (MiCamino[avance] != ',' || MiCamino[avance] != ':')
-        {
+       
+        while (MiCamino[avance] != ',' && MiCamino[avance] != ':')
+        {   
             avance++;
         }
         avance++;
         i++;
+        
     }
+
     camino[i] = camino[0];
     avance++;
     stof(&MiCamino[avance]);
@@ -101,12 +105,12 @@ float Caminante::MyFit()
 }
 
 //Función de mutar.
-void Caminante::Mutar()
+void Caminante::mutar()
 {
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
-void Caminante::Cruzar(const Caminante &O1, const Caminante &O2)
+void Caminante::cruzar(const Caminante &O1, const Caminante &O2)
 {
 }
 
@@ -299,7 +303,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 
 //transforma los datos de la poblacion en un único string, por defecto toda
 //con UPGRADE_POB, unicamente el vector de caminantes
-//ALL_POB=>
+//ALL_POB=> "numcities:(matriz)numCam:[caminante]*"
 //UPGRADE_POB=> "numCam:[caminante]*"
 string Poblacion::codificar(int flg)
 {
@@ -337,12 +341,12 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCities = stoi(msg);
-        while (msg[inx++] != ':')
-            ;
+        while (msg[inx++] != ':');
+        
         descodificarMatriz(msg, inx);
+        
         numCam = stoi(&msg[inx]);
-        while (msg[inx++] != ':')
-            ;
+        while (msg[inx++] != ':');
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
@@ -388,16 +392,16 @@ void Poblacion::addCams(int num){
 //muta el caminante de la pos num
 void Poblacion::mutar(int num){
 
-    caminates[num].mutar();
+    caminantes[num].mutar();
 
 
 }
 
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
-void cruzar(int p1,int p2){
+void Poblacion::cruzar(int p1,int p2){
     assert(1+numCam > CAM_MAX);
-    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2])
+    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2]);
     numCam+=1;
 
 }

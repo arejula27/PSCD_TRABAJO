@@ -38,10 +38,10 @@ public:
     float MyFit();
 
     //Función de mutar.
-    void Mutar();
+    void mutar();
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
-    void Cruzar(const Caminante &O1, const Caminante &O2);
+    void cruzar(const Caminante &O1, const Caminante &O2);
 };
 
 
@@ -52,72 +52,67 @@ class Poblacion
     friend Caminante;
   
 private:
+    int numCities;
+    int dist[CITY_MAX][CITY_MAX];
+    int numCam;
+    Caminante caminantes[CAM_MAX];
+    
 
-        int dist[CITY_MAX][CITY_MAX];
-        int numCam;
-        Caminante caminantes[CAM_MAX];
-        string cities[CITY_MAX];
-        int numCities;
+public:
+    //constructo predeterminado
+    Poblacion();
+    //constructo para inicializar una poblacion a partir de un archivo de texto
+    //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion
+    //con maximo CAM_MAX
+    Poblacion(int numCam, int ciudIni, int numCiuds, string entrada = "entrada.txt");
 
-        
+    //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
+    Poblacion(string data);
 
-    public:
-        //constructo predeterminado
-        Poblacion();
-        //constructo para inicializar una poblacion a partir de un archivo de texto
-        //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion 
-        //con maximo CAM_MAX
-        Poblacion(int numCam,int ciudIni, int numCiuds, string entrada = "entrada.txt");
+    ~Poblacion();
 
-        
-        //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
-        Poblacion(string data);
+    int getNumCam();
+    //calcula el fit de un caminante y cambia su propio fit
+    void calcFit(Caminante &caminante);
+    //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
+    //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
+    //media de fitness de los caminates
+    float stats(Poblacion &subPob, float fit, float &mejorFit, float &media);
+    //divide la poblacion en n subpoblaciones
+    void dividir(int n, Poblacion pobs[]);
 
-        ~Poblacion();
+    //fuisona la poblacion en n subpoblaciones
+    void fusionar(int n, Poblacion pobs[]);
+    //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
+    // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+    string codificarMatriz();
 
-        int getNumCam();
-        //calcula el fit de un caminante y cambia su propio fit 
-        void calcFit(Caminante &caminante);
-        //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
-        //tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
-        //media de fitness de los caminates
-        float stats(Poblacion &subPob, float fit, float &mejorFit, float &media);
-        //divide la poblacion en n subpoblaciones
-        void dividir(int n, Poblacion pobs[]);
+    //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
+    // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+    //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
+    void descodificarMatriz(const string MiMatriz, int &avance);
 
-        //fuisona la poblacion en n subpoblaciones
-        void fusionar(int n, Poblacion pobs[]);
-        //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
-        // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
-        string codificarMatriz();
+    //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
+    //UPGRADE_POB para codificar ÚNICAMENTE los caminates
+    string codificar(int flg = ALL_POB);
 
-        //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
-        // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
-        //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
-        void descodificarMatriz(const string MiMatriz, int &avance);
+    void descodificar(string mag, int flg = ALL_POB);
 
-        //envia la poblacion, usar ALL_POB para codificar la poblacion con todos sus datos o
-        //UPGRADE_POB para codificar ÚNICAMENTE los caminates 
-        string codificar(int flg = ALL_POB);
+    //toma la matriz de otra poblacion
+    void getMatrixFrom(Poblacion pob);
 
-        void descodificar(string mag, int flg = ALL_POB);
+    // Devuelve un caminante dado un id
+    Caminante getCaminante(int id);
 
-        //toma la matriz de otra poblacion
-        void getMatrixFrom(Poblacion pob);
+    //aumenta en num el numero de caminantes posibles en la población
+    void addCams(int num);
 
-        // Devuelve un caminante dado un id
-        Caminante getCaminante(int id);
+    //muta el caminante de la pos num
+    void mutar(int num);
 
-
-        //aumenta en num el numero de caminantes posibles en la población
-        void addCams(int num);
-
-        //muta el caminante de la pos num
-        void mutar(int num);
-
-        //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
-        //población, para que funcione la población no puede tener CAM_MAX caminantes
-        void cruzar(int p1,int p2);
+    //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
+    //población, para que funcione la población no puede tener CAM_MAX caminantes
+    void cruzar(int p1, int p2);
 
         
 };

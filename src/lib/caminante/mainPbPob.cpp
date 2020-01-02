@@ -70,6 +70,11 @@ bool isgetMatrixFrom(){
     return a1 == a2;
 }
 
+
+
+/******************************************
+ * Ahora comprobaremos caminante.ini()
+ * *********************************************/
  bool isDigit(char c,string flags =""){
      bool res = true;
      if (c<'0') res =false;
@@ -169,7 +174,30 @@ bool isgetMatrixFrom(){
      
 
  }
- 
+
+/******************************************
+ * Ahora comprobaremos el cisntructor de la población
+ * *********************************************/
+bool comprobarMatr(string txt,int numCity,int first){
+
+    return true;
+}
+
+bool comprobarCaminantes(string txt,int numCam,int numCit){
+
+    int idx=0;
+    while(txt[idx++]!=')');
+
+    for (int i = 0; i < numCam; i++)
+    {
+        if(caminanteCorrecto(&txt[idx],numCit));
+        while(txt[idx++]!=';');
+    }
+    
+
+    return true;
+
+} 
  bool contructorPobParam(){
     cout<<"------------"<<endl;
     cout<<"comprobando Poblacion(int numCam, int ciudIni, int numCiuds, string entrada):"<<endl;
@@ -178,6 +206,18 @@ bool isgetMatrixFrom(){
     int numCiuds=12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
+    string txt = pob.codificar();
+
+    if(!comprobarMatr(txt,numCiuds,ciudadIni)){
+
+        cout<<error(ERROR,"Matriz de población incorrecta")<<endl;
+        cout<<"Población: "<<txt<<endl;
+
+    }
+    if(!comprobarCaminantes(txt,numCam)){
+
+    }
+    
 
 
 
@@ -191,6 +231,7 @@ bool isgetMatrixFrom(){
  int main(){
     
      caminanteIni();
+     sacarPantIsCamCyD();
      contructorPobParam();
      
 
