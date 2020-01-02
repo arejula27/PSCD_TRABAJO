@@ -36,28 +36,30 @@ void sacarPantIsCamCyD(){
     cout<<"------------"<<endl;
     cout<<"Prueba codifificar y decodificar Caminante:"<<endl;
     if(isCamCodyDecod()){
-        cout<<E_NONE;
+        cout<<error(E_NONE)<<endl;
     }
     else{
-        cout<<ERROR<<"Fallo en codificar y descodificar Caminante"<<endl;
+        cout<<error(ERROR,"Fallo en codificar y descodificar Caminante")<<endl;
     }
 }
 
 bool isPobCodyDecod(){
     Poblacion a(50, 4, 12, "uk12.txt");
     string aS = a.codificar(ALL_POB);
-    Poblacion b(aS);
+    //Poblacion b(aS);
     string bS = b.codificar(ALL_POB);
+    cout<<bS<<endl;
     return aS == bS;
 }
 
 void sacarPantIsPobCyD(){
+    cout<<"------------"<<endl;
     cout<<"Prueba codifificar y decodificar Poblacion:"<<endl;
     if(isPobCodyDecod()){
-        cout<<E_NONE;
+        cout<<error(E_NONE)<<endl;
     }
     else{
-        cout<<ERROR<<"Fallo en codificar y descodificar Poblacion"<<endl;
+        cout<<error(ERROR,"Fallo en codificar y descodificar Poblacion")<<endl;
     }
 }
 
@@ -232,6 +234,7 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
     
      caminanteIni();
      sacarPantIsCamCyD();
+     sacarPantIsPobCyD();
      contructorPobParam();
      
 

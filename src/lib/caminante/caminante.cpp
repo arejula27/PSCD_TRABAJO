@@ -14,24 +14,30 @@ Caminante::~Caminante()
 {
 }
 
+
+ bool isDigit(char c){
+     bool res = true;
+     if (c<'0') res =false;
+     if (c> '9') res = false;
+     return res;
+ }
+
+
 //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance)
 {
-    avance = 0;
+    avance--;
     int i = 0;
     while (MiCamino[avance] != ':')
     {
-      
-        //camino[i] = 0;
+        avance++;
         camino[i] = stoi(&MiCamino[avance]);
-       
-        while (MiCamino[avance] != ',' && MiCamino[avance] != ':')
-        {   
+        while (isDigit(MiCamino[avance]))
+        {
             avance++;
         }
-        avance++;
         i++;
         
     }
