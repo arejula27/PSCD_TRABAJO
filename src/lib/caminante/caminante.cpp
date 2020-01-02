@@ -46,9 +46,10 @@ string Caminante::codificar()
     int inicio = camino[0];
     string MiCamino = to_string(inicio) + ',';
     int i = 0;
-    while (camino[++i] != inicio)
+    while (camino[i] != inicio)
     {
         MiCamino += to_string(camino[i]) + ',';
+        i++;
     }
     MiCamino += to_string(inicio);
     MiCamino += ':' + to_string(fitness) + ';';
