@@ -46,6 +46,7 @@ void sacarPantIsCyD(){
      bool res = true;
      if (c<'0') res =false;
      if (c> '9') res = false;
+     if(!res) cout<<"deberia ser digio pero es: "<<int(c)<< " "<< c<<endl;
      return res;
  }
 
@@ -53,9 +54,16 @@ void sacarPantIsCyD(){
 
      int frs = txt.find_first_of(":");
      int lst = txt.find_first_of(";");
+     if(!atoi(&txt[frs])==-1){
 
-    for(int i= frs;i<lst;i++)
-        if(!isDigit(txt[i]))return false;
+     
+
+        for(int i= 1+frs;i<lst;i++)
+            if(!isDigit(txt[i])||!txt[i]=='.' ){
+            return false;
+            }
+        
+        }
 
     return true;
 }
@@ -76,12 +84,12 @@ void sacarPantIsCyD(){
              cities[num ]= true;
          }
          else{
-             error(ERROR,"se repiten ciudades en los caminantes");
+             cout<<error(ERROR,"se repiten ciudades en los caminantes")<<endl;
              return false;
          }
          if(num == c){
             if(coma != end){
-                 error(ERROR,"numero de ciudades incorrecto");
+                 cout<<error(ERROR,"numero de ciudades incorrecto")<<endl;
                  return false;
             }
          }
@@ -95,11 +103,13 @@ void sacarPantIsCyD(){
  bool caminanteCorrecto(string txt,int numCity){
 
      if(!fitPosCorrect(txt)){
-          error(ERROR, "fit no esta en la posición correcta");
+          
+          cout<<error(ERROR, "fit no esta en la posición correcta")<<endl;
           return false;
      }
      else if(!cityPosCorrect(txt,numCity)){
-          error(ERROR, "camino  no esta es correcto");
+          cout<<error(ERROR, "camino  no esta es correcto")<<endl;
+          return false;
 
      }
 
@@ -109,7 +119,7 @@ void sacarPantIsCyD(){
  
  bool caminanteIni(){
      cout<<"------------"<<endl;
-     cout<<"comprobando caminante.ini(): ";
+     cout<<"comprobando caminante.ini():"<<endl;
      int frs=0;
      int numCt= 12;
      string txt;
