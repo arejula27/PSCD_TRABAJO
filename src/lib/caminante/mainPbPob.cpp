@@ -69,11 +69,11 @@ bool isgetMatrixFrom(){
     return a1 == a2;
 }
 
- bool isDigit(char c){
+ bool isDigit(char c,string flags =""){
      bool res = true;
      if (c<'0') res =false;
      if (c> '9') res = false;
-     if(!res) cout<<"deberia ser digio pero es: "<<int(c)<< " "<< c<<endl;
+     if(!res&&flags=="") cout<<"deberia ser digio pero es: "<<int(c)<< " "<< c<<endl;
      return res;
  }
 
@@ -81,7 +81,7 @@ bool isgetMatrixFrom(){
 
      int frs = txt.find_first_of(":");
      int lst = txt.find_first_of(";");
-     if(!(atoi(&txt[frs])==-1)){
+     if(!(stoi(&txt[++frs])==-1)){
 
     
         for(int i= 1+frs;i<lst;i++)
@@ -114,6 +114,7 @@ bool isgetMatrixFrom(){
              return false;
          }
          if(num == c){
+            while(isDigit(txt[++coma],"h"))
             if(coma != end){
                  cout<<error(ERROR,"numero de ciudades incorrecto")<<endl;
                  return false;
@@ -134,7 +135,6 @@ bool isgetMatrixFrom(){
           return false;
      }
      else if(!cityPosCorrect(txt,numCity)){
-          cout<<error(ERROR, "camino  no esta es correcto")<<endl;
           return false;
 
      }
