@@ -23,23 +23,50 @@ string  error(int error, string msg="")
 		return ANSI_COLOR_RED "error: " ANSI_COLOR_RESET +msg;
 }
 
- bool isCodyDecod(){
+ bool isCamCodyDecod(){
     Caminante a,b;
     a.ini(2, 8);
-    int aux=0;
     string aS = a.codificar();
+    int aux=0;
     b.desCodificar(aS, aux);
     return aS == b.codificar();
 }
 
-void sacarPantIsCyD(){
-    cout<<"Prueba codifificar y decodificar:"<<endl;
-    if(isCodyDecod()){
+void sacarPantIsCamCyD(){
+    cout<<"Prueba codifificar y decodificar Caminante:"<<endl;
+    if(isCamCodyDecod()){
         cout<<E_NONE;
     }
     else{
-        cout<<ERROR<<"Fallo en codificar y descodificar"<<endl;
+        cout<<ERROR<<"Fallo en codificar y descodificar Caminante"<<endl;
     }
+}
+
+bool isPobCodyDecod(){
+    Poblacion a(50, 4, 12, "uk12.txt");
+    string aS = a.codificar(ALL_POB);
+    Poblacion b(aS);
+    string bS = b.codificar(ALL_POB);
+    return aS == bS;
+}
+
+void sacarPantIsPobCyD(){
+    cout<<"Prueba codifificar y decodificar Poblacion:"<<endl;
+    if(isPobCodyDecod()){
+        cout<<E_NONE;
+    }
+    else{
+        cout<<ERROR<<"Fallo en codificar y descodificar Poblacion"<<endl;
+    }
+}
+
+bool isgetMatrixFrom(){
+    Poblacion a(50, 4, 12, "uk12.txt");
+    string a1 = a.codificarMatriz();
+    int aux=0;
+    a.descodificarMatriz(a1, aux);
+    string a2 = a.codificarMatriz();
+    return a1 == a2;
 }
 
  bool isDigit(char c){
@@ -144,8 +171,8 @@ void sacarPantIsCyD(){
  
  
  int main(){
+    
      caminanteIni();
-     sacarPantIsCyD();
 
      return 0;
  }
