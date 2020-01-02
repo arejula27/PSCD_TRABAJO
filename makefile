@@ -38,7 +38,7 @@ POBTEST = ${LIB_CAM}/mainPbPob
 #----------------------------------------------------------------------------
 CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -I${LIB_CAM} -O2 -std=c++11 -lsockets # Flags compilacion
 LDFLAGS=-pthread # Flags linkado threads
-TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11  -lgtest  -lgtest_main -pthread # Flags compilacion
+TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11   # Flags compilacion
 
 
 all: cliente

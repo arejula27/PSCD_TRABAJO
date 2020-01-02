@@ -33,6 +33,7 @@ string  error(int error, string msg="")
 }
 
 void sacarPantIsCamCyD(){
+    cout<<"------------"<<endl;
     cout<<"Prueba codifificar y decodificar Caminante:"<<endl;
     if(isCamCodyDecod()){
         cout<<E_NONE;
