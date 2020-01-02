@@ -1,7 +1,8 @@
 #include <iostream>
+#include <string>
 #include "caminante.hpp"
 
-#define E_NONE 0;
+#define E_NONE 0
 #define ERROR 1
 
 #define ANSI_COLOR_RESET "\x1b[0m" /**< Desactiva color del terminal */
@@ -13,15 +14,13 @@ using namespace std;
 
 
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
-string  strerror(int error, string msg="")
+string  error(int error, string msg="")
 {
-	switch (error)
-	{
-	case E_NONE:
+	
+	if(error ==E_NONE)
 		return ANSI_COLOR_GREEN "todo correcto" ANSI_COLOR_RESET;
-	default:
+	else
 		return ANSI_COLOR_RED "error: " ANSI_COLOR_RESET +msg;
-	}
 }
 
  bool isCamCodyDecod(){
@@ -84,7 +83,7 @@ bool isgetMatrixFrom(){
         if(!isDigit(txt[i]))return false;
 
     return true;
- }
+}
 
  bool cityPosCorrect(string txt, int numCity){
 
@@ -92,18 +91,40 @@ bool isgetMatrixFrom(){
      for(int i=0;i<numCity;i++){
          cities[i]=false;
      }
-     
-     return true;
+     int coma=0;
+     int c = stoi(&txt[0]);
+     coma = txt.find_first_of(",");
+     int end =txt.find_first_of(":");
+     for(int i =0;i<=numCity;i++){
+         int num=stoi(&txt[++coma]);
+         if(!cities[num]){
+             cities[num ]= true;
+         }
+         else{
+             error(ERROR,"se repiten ciudades en los caminantes");
+             return false;
+         }
+         if(num == c){
+            if(coma != end){
+                 error(ERROR,"numero de ciudades incorrecto");
+                 return false;
+            }
+         }
+         while(txt[++coma]!=',');
+         
+
+     }
+    return true;
 
  }
- bool caminanteCorrecto(string txt){
+ bool caminanteCorrecto(string txt,int numCity){
 
      if(!fitPosCorrect(txt)){
-          strerror(ERROR, "fit no esta en la posición correcta");
+          error(ERROR, "fit no esta en la posición correcta");
           return false;
      }
-     else if(!cityPosCorrect(txt)){
-          strerror(ERROR, "camino  no esta es correcto");
+     else if(!cityPosCorrect(txt,numCity)){
+          error(ERROR, "camino  no esta es correcto");
 
      }
 
@@ -112,13 +133,25 @@ bool isgetMatrixFrom(){
  }
  
  bool caminanteIni(){
+     cout<<"------------"<<endl;
+     cout<<"comprobando caminante.ini(): ";
      int frs=0;
      int numCt= 12;
      string txt;
      Caminante cam;
      cam.ini(frs,numCt);
      txt = cam.codificar();
-     return true;
+     if(caminanteCorrecto(txt,numCt)){
+        cout<< error(E_NONE)<<endl;
+         return true;
+
+     }
+     else{
+         cout<<error(ERROR,"función incorrecta")<<endl;
+         return false;
+     }
+
+     
      
 
  }
@@ -128,5 +161,8 @@ bool isgetMatrixFrom(){
  
  int main(){
     
+     caminanteIni();
+     sacarPantIsCyD();
+
      return 0;
  }
