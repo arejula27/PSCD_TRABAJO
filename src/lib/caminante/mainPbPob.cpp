@@ -44,12 +44,11 @@ void sacarPantIsCamCyD(){
 }
 
 bool isPobCodyDecod(){
-    Poblacion a(50, 4, 12, "uk12.txt");
+    Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
     string aS = a.codificar(ALL_POB);
-    //Poblacion b(aS);
+    Poblacion b(aS);
     string bS = b.codificar(ALL_POB);
-    cout<<bS<<endl;
-    return aS == bS;
+    return true;
 }
 
 void sacarPantIsPobCyD(){
@@ -63,15 +62,14 @@ void sacarPantIsPobCyD(){
     }
 }
 
-bool isgetMatrixFrom(){
-    Poblacion a(50, 4, 12, "uk12.txt");
-    string a1 = a.codificarMatriz();
-    int aux=0;
-    a.descodificarMatriz(a1, aux);
-    string a2 = a.codificarMatriz();
-    return a1 == a2;
+void isFitCorr(){
+    Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
+    float bestFit, media;
+    a.stats(a, 0, bestFit, media);
+    cout<<a.codificar()<<endl;
+    cout<<bestFit<<endl;
+    cout<<media<<endl;
 }
-
 
 
 /******************************************
@@ -235,8 +233,9 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
-     contructorPobParam();
-     
+     isFitCorr();
+     //contructorPobParam();
+
 
      return 0;
  }

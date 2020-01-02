@@ -1,6 +1,8 @@
 #include <iostream>
 #include "caminante.hpp"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
 using namespace std;
 
 //Constructor del caminante
@@ -72,7 +74,7 @@ string Caminante::codificar()
 //Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
 void Caminante::ini(int inicio, int max)
 {
-    srand(time(0));
+    srand(time(NULL));
     int aux;
     bool recorridos[max];
     for (int i = 0; i < max; i++)
@@ -101,7 +103,7 @@ void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
     {
         recorrido += dist[i][i+1];
     }
-    fitness = 1/recorrido;
+    fitness = 1.000/recorrido;
 }
 
 //Devuelve el fitness del caminante.
@@ -129,12 +131,13 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2)
  * ********************************************/
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
-Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
+Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
     //inicializar numCam
     //rellenar la matriz
     //inicializar numCities
     numCities = numCiuds;
+    numCam = numCamis;
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
@@ -142,39 +145,39 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     ifstream f1;
     f1.open(entrada);
     if(f1.is_open()){
-        char h[1000000];
-    h[0] = '0';
-    while(h[0] == '#'){
-        f1.getline(h, 1000000, '\n');
-    }
-    int i=0;
-    int contFil = 0;
-    int contCol = 0;
-    int num;
-   while(f1.getline(h, 1000000, '\n')){      
-        i=0;
-        while(h[i]!='\0'){
-            while(h[i]==' '){
-                i++;
+        char h[10000];
+        do{
+            f1.getline(h, 10000);
+        }while(h[0] == '#');
+        int i=0;
+        int contFil = 0;
+        int contCol = 0;
+        int num;
+        int fila =0;
+        do{  
+            i=0;
+            while(h[i]!='\0'){
+                while(!isDigit(h[i])){
+                    i++;
+                }
+                num = atoi(&h[i]);
+                while(isDigit(h[i])){
+                    i++;
+                }
+                dist[contFil][contCol] = num;
+                contCol++;
+                if(contCol == numCiuds){
+                    contCol = 0;
+                    contFil++;
+                }
             }
-            num = atoi(&h[i]);
-            while(h[i]!= ' ' && h[i]!='\0'){
-                i++;
-            }
-            dist[contFil][contCol] = num;
-            contCol++;
-            if(contCol == numCiuds){
-                contCol = 0;
-                contFil++;
-            }
-        } 
-    }
+            
+        }while(f1.getline(h, 10000));
 
     }
     else{
         cerr<<"Fichero no encontrado"<<endl;
     }
-    
     f1.close();
 }
 
@@ -182,9 +185,7 @@ Poblacion::Poblacion(string data)
 {
 
     int inx = 0;
-    
-
-    numCities = stoi(data);
+    numCities = stoi(&data[inx]);
     while (data[inx++] != ':');
     descodificarMatriz(data, inx);
     numCam = stoi(&data[inx]);
@@ -210,8 +211,9 @@ int Poblacion:: getNumCam(){
 
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate){
-    
+    caminate.calcMiFit(dist, numCities);
 }
+
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
 //media de fitness de los caminates
@@ -270,9 +272,9 @@ string Poblacion::codificarMatriz()
     {
         for (int j = 0; j < numCities - 1; j++)
         {
-            MiMat += dist[i][j] + ',';
+            MiMat += to_string(dist[i][j]) + ',';
         }
-        MiMat += dist[i][numCities - 1] + ';';
+        MiMat += to_string(dist[i][numCities - 1]) + ';';
     }
     MiMat += ")";
     return MiMat;
@@ -291,12 +293,15 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     {
         while (MiMatriz[avance] != ';')
         {
-            aux = stoi(&MiMatriz[avance]);
-            while (MiMatriz[avance] != ',' && MiMatriz[avance] != ';')
+            while (!isDigit(MiMatriz[avance]))
             {
                 avance++;
             }
-            avance++;
+            aux = stoi(&MiMatriz[avance]);
+            while (isDigit(MiMatriz[avance]))
+            {
+                avance++;
+            }
             dist[fil][col] = aux;
             col++;
             aux = 0;

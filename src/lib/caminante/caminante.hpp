@@ -1,5 +1,8 @@
 #include <string>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
 using namespace std;
 const int  CITY_MAX =500;
 const int CAM_MAX = 100 ;
@@ -64,7 +67,7 @@ public:
     //constructo para inicializar una poblacion a partir de un archivo de texto
     //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion
     //con maximo CAM_MAX
-    Poblacion(int numCam, int ciudIni, int numCiuds, string entrada = "entrada.txt");
+    Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada = "entrada.txt");
 
     //Tras recibir una poblacion de un cliente/servidor, usar este constructor para inicilizar
     Poblacion(string data);
