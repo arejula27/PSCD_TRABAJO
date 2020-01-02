@@ -192,7 +192,7 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
 
     for (int i = 0; i < numCam; i++)
     {
-        if(caminanteCorrecto(&txt[idx],numCit));
+        caminanteCorrecto(&txt[idx],numCit);
         while(txt[idx++]!=';');
     }
     
@@ -216,7 +216,7 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
         cout<<"Población: "<<txt<<endl;
 
     }
-    if(!comprobarCaminantes(txt,numCam)){
+    if(!comprobarCaminantes(txt,numCam,numCiuds)){
 
     }
     
