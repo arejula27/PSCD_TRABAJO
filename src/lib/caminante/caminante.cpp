@@ -1,4 +1,7 @@
+#include <iostream>
 #include "caminante.hpp"
+
+using namespace std;
 
 //Constructor del caminante
 Caminante::Caminante()
@@ -128,7 +131,8 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     }
     ifstream f1;
     f1.open(entrada);
-    char h[1000000];
+    if(f1.is_open()){
+        char h[1000000];
     h[0] = '0';
     while(h[0] == '#'){
         f1.getline(h, 1000000, '\n');
@@ -155,6 +159,12 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
             }
         } 
     }
+
+    }
+    else{
+        cerr<<"Fichero no encontrado"<<endl;
+    }
+    
     f1.close();
 }
 
