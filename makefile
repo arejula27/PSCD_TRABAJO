@@ -33,7 +33,7 @@ POBA=${LIB_CLI}/PoblacionActual
 BUILD = ./build
 
 TEST = test
-POBTEST = ${TEST}/pobMain
+POBTEST = ${LIB_CAM}/mainPbPob
 
 #----------------------------------------------------------------------------
 CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -I${LIB_CAM} -O2 -std=c++11 -lsockets # Flags compilacion
