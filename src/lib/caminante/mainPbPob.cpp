@@ -12,14 +12,7 @@
 using namespace std;
 
 
-bool isCodyDecod(){
-    Caminante a,b;
-    a.ini(2, 8);
-    int aux=0;
-    string aS = a.codificar();
-    b.desCodificar(aS, aux);
-    return aS == b.codificar();
-}
+
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
 string  error(int error, string msg="")
 {
@@ -30,8 +23,24 @@ string  error(int error, string msg="")
 		return ANSI_COLOR_RED "error: " ANSI_COLOR_RESET +msg;
 }
 
+ bool isCodyDecod(){
+    Caminante a,b;
+    a.ini(2, 8);
+    int aux=0;
+    string aS = a.codificar();
+    b.desCodificar(aS, aux);
+    return aS == b.codificar();
+}
 
- 
+void sacarPantIsCyD(){
+    cout<<"Prueba codifificar y decodificar:"<<endl;
+    if(isCodyDecod()){
+        cout<<E_NONE;
+    }
+    else{
+        cout<<ERROR<<"Fallo en codificar y descodificar"<<endl;
+    }
+}
 
  bool isDigit(char c){
      bool res = true;
@@ -127,5 +136,7 @@ string  error(int error, string msg="")
  
  int main(){
      caminanteIni();
+     sacarPantIsCyD();
+
      return 0;
  }
