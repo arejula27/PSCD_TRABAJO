@@ -11,14 +11,7 @@
 using namespace std;
 
 
-bool isCodyDecod(){
-    Caminante a,b;
-    a.ini(2, 8);
-    int aux=0;
-    string aS = a.codificar();
-    b.desCodificar(aS, aux);
-    return aS == b.codificar();
-}
+
 //si error == E_NONE devuelve correcto sino imprimira como error el msg
 string  strerror(int error, string msg)
 {
@@ -31,7 +24,24 @@ string  strerror(int error, string msg)
 	}
 }
 
- 
+ bool isCodyDecod(){
+    Caminante a,b;
+    a.ini(2, 8);
+    int aux=0;
+    string aS = a.codificar();
+    b.desCodificar(aS, aux);
+    return aS == b.codificar();
+}
+
+void sacarPantIsCyD(){
+    cout<<"Prueba codifificar y decodificar:"<<endl;
+    if(isCodyDecod()){
+        cout<<E_NONE;
+    }
+    else{
+        cout<<ERROR<<"Fallo en codificar y descodificar"<<endl;
+    }
+}
 
  bool isDigit(char c){
      bool res = true;
@@ -86,6 +96,6 @@ string  strerror(int error, string msg)
  
  
  int main(){
-     
+     sacarPantIsCyD();
      return 0;
  }
