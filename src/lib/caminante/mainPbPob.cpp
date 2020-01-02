@@ -2,6 +2,7 @@
 #include "caminante.hpp"
 
 #define E_NONE 0;
+#define ERROR 1
 
 #define ANSI_COLOR_RESET "\x1b[0m" /**< Desactiva color del terminal */
 #define ANSI_COLOR_RED "\x1b[31m"  /**< Pone terminal a rojo */
@@ -18,6 +19,7 @@ bool isCodyDecod(){
     b.desCodificar(aS, aux);
     return aS == b.codificar();
 }
+//si error == E_NONE devuelve correcto sino imprimira como error el msg
 string  strerror(int error, string msg)
 {
 	switch (error)
@@ -56,9 +58,14 @@ string  strerror(int error, string msg)
  bool caminanteCorrecto(string txt){
 
      if(!fitPosCorrect(txt)){
-          
+          strerror(ERROR, "fit no esta en la posición correcta");
+          return false;
+     }
+     else if(!fitPosCorrect(txt)){
+          strerror(ERROR, "fit no esta en la posición correcta");
 
      }
+
 
     return true;
  }
@@ -79,5 +86,6 @@ string  strerror(int error, string msg)
  
  
  int main(){
+     
      return 0;
  }
