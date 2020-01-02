@@ -1,10 +1,25 @@
 #include <iostream>
 #include "caminante.hpp"
 
+#define E_NONE 0;
+
+#define ANSI_COLOR_RESET "\x1b[0m" /**< Desactiva color del terminal */
+#define ANSI_COLOR_RED "\x1b[31m"  /**< Pone terminal a rojo */
+#define ANSI_COLOR_GREEN "\x1b[32m" /**< Pone terminal a verde */
+
 using namespace std;
 
 
-
+string  strerror(int error, string msg)
+{
+	switch (error)
+	{
+	case E_NONE:
+		return ANSI_COLOR_GREEN "todo correcto" ANSI_COLOR_RESET;
+	default:
+		return ANSI_COLOR_RED "error: " ANSI_COLOR_RESET +msg;
+	}
+}
 
  
 
