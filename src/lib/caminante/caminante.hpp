@@ -136,4 +136,4 @@ public:
     void seleccionar();
 };
 
-#endif
+#endif //!CAMINANTE_Y_POBLACION
