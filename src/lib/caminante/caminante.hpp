@@ -1,7 +1,14 @@
+
+#ifndef CAMINANTE_Y_POBLACION
+#define CAMINANTE_Y_POBLACION
+
+
+
 #include <string>
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include <time.h> 
 using namespace std;
 
@@ -120,3 +127,5 @@ public:
 
     void seleccionar();
 };
+
+#endif

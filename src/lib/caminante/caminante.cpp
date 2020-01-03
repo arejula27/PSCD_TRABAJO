@@ -1,8 +1,4 @@
-#include <iostream>
 #include "caminante.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h> 
 using namespace std;
 
 //Constructor del caminante
