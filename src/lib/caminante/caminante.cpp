@@ -135,6 +135,7 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     //rellenar la matriz
     //inicializar numCities
     numCities = numCiuds;
+    this->numCam= numCam;
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
@@ -169,13 +170,13 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
             }
         } 
     }
-
+    f1.close();
     }
     else{
         cerr<<"Fichero no encontrado"<<endl;
     }
     
-    f1.close();
+    
 }
 
 Poblacion::Poblacion(string data)

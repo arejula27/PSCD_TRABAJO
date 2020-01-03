@@ -46,7 +46,7 @@ void sacarPantIsCamCyD(){
 bool isPobCodyDecod(){
     Poblacion a(50, 4, 12, "uk12.txt");
     string aS = a.codificar(ALL_POB);
-    //Poblacion b(aS);
+    Poblacion b(aS);
     string bS = b.codificar(ALL_POB);
     cout<<bS<<endl;
     return aS == bS;
@@ -180,7 +180,48 @@ bool isgetMatrixFrom(){
 /******************************************
  * Ahora comprobaremos el cisntructor de la población
  * *********************************************/
+
+
+
 bool comprobarMatr(string txt,int numCity,int first){
+
+    int idx=0;
+    if(numCity!=stoi(txt)){
+        cout<<error(ERROR,"Numero de ciudades erroeneo")<<endl;
+    }
+    while(txt[idx++]!=':');
+    ifstream f1;
+    string entrada = "./../entradas/uk12.txt";
+    f1.open(entrada);
+    if (f1.is_open())
+    {
+        char c[200];
+    
+        //quitarse los comentarios
+        do{
+            f1.getline(h, 200, '\n');
+        }while (c[0] == '#');
+
+    
+       
+        int num;
+        int miNum;
+
+        
+            
+        while (f1.getline(c, 200, ' '))
+        {
+            miNum = stoi(&txt[idx]);
+            while ((txt[idx] != ';') || (txt[idx++] != ','));
+
+            
+        }
+        f1.close();
+    }
+    else
+    {
+        cerr << "Fichero no encontrado" << endl;
+    }
 
     return true;
 }
@@ -192,7 +233,9 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
 
     for (int i = 0; i < numCam; i++)
     {
-        caminanteCorrecto(&txt[idx],numCit);
+        if(!caminanteCorrecto(&txt[idx],numCit)){
+            cout<<"cam: "<<idx<<endl;
+        }
         while(txt[idx++]!=';');
     }
     
