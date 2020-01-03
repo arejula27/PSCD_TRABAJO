@@ -12,9 +12,11 @@
 
 
 
-#include <string>
+
+#include <string.h>
 #include <fstream>
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <iostream>
 #include <time.h> 
