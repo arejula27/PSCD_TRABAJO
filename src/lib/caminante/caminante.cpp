@@ -216,6 +216,7 @@ Poblacion::Poblacion(string data)
 
     int inx = 0;
     numCities = stoi(&data[inx]);
+    //delete dist;
     while (data[inx++] != ':');
     dist = new int *[numCities];
     for (int i = 0; i < numCities; i++)
@@ -413,10 +414,19 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCities = stoi(msg);
+       
+        //delete dist;
+        
         while (msg[inx++] != ':');
-        
+        dist = new int *[numCities];
+        for (int i = 0; i < numCities; i++)
+        {
+            dist[i] = new int[i];
+            sizeMatrix = sizeof(int) * (i);
+        }
+
         descodificarMatriz(msg, inx);
-        
+      
         numCam = stoi(&msg[inx]);
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
