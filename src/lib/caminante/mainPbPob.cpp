@@ -104,7 +104,7 @@ void sacarPantIsDivYFus(){
      bool res = true;
      if (c<'0') res =false;
      if (c> '9') res = false;
-     if(!res&&flags=="") cout<<"deberia ser digito pero es: "<<int(c)<< " "<< c<<endl;
+     //if(!res&&flags=="") cout<<"deberia ser digito pero es: "<<int(c)<< " "<< c<<endl;
      return res;
  }
 
@@ -206,54 +206,89 @@ void sacarPantIsDivYFus(){
 
 
 
-bool comprobarMatr(string txt,int numCity,int first, int& idx){
-
+bool comprobarMatr(string txt,int numCity,int first, int& idx)
+{
     idx = 0;
-    if(numCity!=stoi(txt)){
+    if(numCity!=stoi(&txt[idx])){
         cout<<error(ERROR,"Numero de ciudades erroeneo")<<endl;
     }
-    while(txt[idx++]!=':');
+    while(txt[idx]!=':') idx++;
+    idx++;
     ifstream f1;
     string entrada = "./../entradas/uk12.txt";
+    bool iguales = false;
+    int aux=0;
     f1.open(entrada);
     if (f1.is_open())
     {
-        char c[200];
+        char c[500];
     
         //quitarse los comentarios
         do{
-           f1.getline(c, 200, '\n');
+           f1.getline(c, 500, '\n');
         }while (c[0] == '#');
 
     
        
         int num;
         int miNum;
-
-        
+        int ind;
+        iguales = true;
+        bool cambioFila = false;
+        int contMat = 0;
+        int contFil = 1;
+        int contCol = 0;
+        do
+        {   
+            ind = 0;
+            while(c[ind]!= '\0' && iguales){
+                if (!cambioFila && contCol == 0) {cambioFila = true;}
+                if(!cambioFila){
+                    if(contCol == -1) contCol = 0;
+                    while (!isDigit(txt[idx])) idx++;
+                    miNum = stoi(&txt[idx]);
+                    while (isDigit(txt[idx])) idx++;
+                    if(txt[idx] == ',') contCol++;
+                    if(txt[idx] == ';') {
+                        contFil++; 
+                        contCol=0;
+                    } 
+                }
+                if(!cambioFila){
+                    while (!isDigit(c[ind])) ind++;
+                    num = stoi(&c[ind]);
+                    contMat++;
+                    while (isDigit(c[ind])) ind++;
+                    if(miNum != num) iguales = false;
+                    else aux++;
+                }else{
+                    while (!isDigit(c[ind])) ind++;
+                    num = atoi(&c[idx]);
+                    contMat++;
+                    while (isDigit(c[ind])) ind++;
+                }
+                if(contMat == numCity){ 
+                    contCol = -1; 
+                    contMat = 0;
+                    cambioFila = false;
+                }
+                
+                
+            }
             
-        while (f1.getline(c, 200, ' '))
-        {
-            miNum = stoi(&txt[idx]);
-            while ((txt[idx] != ';') || (txt[idx++] != ','));
-
-            
-        }
+        }while (f1.getline(c, 500, '\n') && iguales);
         f1.close();
     }
     else
     {
         cerr << "Fichero no encontrado" << endl;
     }
-
-    return true;
+    idx+=2;
+    return iguales;
 }
 
-bool comprobarCaminantes(string txt,int numCam,int numCit){
-
-    int idx=0;
-    while(txt[idx++]!=')');
-
+bool comprobarCaminantes(string txt,int numCam,int numCit, int idx)
+{
     for (int i = 0; i < numCam; i++)
     {
         if(!caminanteCorrecto(&txt[idx],numCit)){
@@ -261,39 +296,37 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
         }
         while(txt[idx++]!=';');
     }
-    
-
+    idx+=2;
     return true;
 
 } 
  bool contructorPobParam(){
     cout<<"------------"<<endl;
     cout<<"comprobando Poblacion(int numCam, int ciudIni, int numCiuds, string entrada):"<<endl;
-    int idx;
+    int idx = 0;
     int numCam =1;
     int ciudadIni =0;
     int numCiuds=12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
     string txt = pob.codificar();
-
    
 
         try
         {
-            comprobarMatr(txt, numCiuds, ciudadIni);
+            comprobarMatr(txt, numCiuds, ciudadIni, idx);
         }
         catch(const std::exception& e)
         {
             std::cerr << e.what() << '\n';
             cout << error(ERROR, "Matriz de población incorrecta") << endl;
         }
-        
+        cout<<&txt[idx]<<endl;
 
         
 
     
-    if(!comprobarCaminantes(txt,numCam,numCiuds)){
+    if(!comprobarCaminantes(txt,numCam,numCiuds,idx)){
 
     }
     
@@ -309,11 +342,11 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
  
  int main(){
     
-     caminanteIni();
-     sacarPantIsCamCyD();
-     sacarPantIsPobCyD();
-     //contructorPobParam();
-     sacarPantIsDivYFus();
+     //caminanteIni();
+     //sacarPantIsCamCyD();
+     //sacarPantIsPobCyD();
+     contructorPobParam();
+     //sacarPantIsDivYFus();
 
          return 0;
  }
