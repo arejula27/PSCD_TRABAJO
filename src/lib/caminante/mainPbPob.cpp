@@ -311,8 +311,8 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
-     contructorPobParam();
- 
+     //contructorPobParam();
+     sacarPantIsDivYFus();
 
-     return 0;
+         return 0;
  }

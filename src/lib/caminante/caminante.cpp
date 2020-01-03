@@ -283,8 +283,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     for (int i = 0; i < n; i++)
     {
         pobs[i].numCities = numCities;
-
-        memcpy(pobs[i].dist, dist, sizeMatrix);
+        getMatrixFrom(*this);
         int numSub = (numCam / n);
         if (sobr > 0)
         {
@@ -446,7 +445,7 @@ void Poblacion::descodificar(string msg, int flg)
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
-    
+   
     numCities = pob.numCities;
     delete dist;
     dist = new int *[numCities];
@@ -456,6 +455,7 @@ void Poblacion::getMatrixFrom(Poblacion pob){
         memcpy(dist[i],pob.dist[i],sizeof(dist[1]));
          sizeMatrix = sizeof(int) * (i);
     }
+    
 }
 
 Caminante Poblacion::getCaminante(int id) {
