@@ -35,7 +35,7 @@ public:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
     string codificar();
 
-    void calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds);
+    void calcMiFit(int **dist, int numCiuds);
 
     //Devuelve el fitness del caminante.
     float MyFit();

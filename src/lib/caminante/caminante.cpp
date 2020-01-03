@@ -95,12 +95,17 @@ void Caminante::ini(int inicio, int max)
     camino[max] = inicio;
 }
 
-void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
+int getValorMatriz(int **mtr,int i,int j){
+    //solo podemos utilizar la mitad superior de la matriz
+    return (i>j)?mtr[i][j]:mtr[j][i];
+}
+
+void Caminante::calcMiFit(int **dist, int numCiuds)
 {
     int recorrido = 0;
     for(int i = 0; i<numCiuds; i++)
     {
-        recorrido += dist[camino[i]][camino[i+1]];
+        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
     }
     fitness = 1.00000/recorrido;
 }
@@ -300,11 +305,14 @@ string Poblacion::codificarMatriz()
     string MiMat = "(";
     for (int i = 0; i < numCities; i++)
     {
-        for (int j = 0; j < numCities - 1; j++)
+        for (int j = 0; (i > j) ; j++)
         {
-            MiMat += to_string(dist[i][j]) + ',';
+            
+                MiMat += to_string(dist[i][j]) + ((i-1!=j)?',':';');
+            
+            
         }
-        MiMat += to_string(dist[i][numCities - 1]) + ';';
+      
     }
     MiMat += ")";
     return MiMat;
