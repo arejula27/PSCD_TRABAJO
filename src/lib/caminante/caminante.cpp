@@ -446,9 +446,16 @@ void Poblacion::descodificar(string msg, int flg)
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
-
-    memcpy(dist,pob.dist,sizeMatrix);
-
+    
+    numCities = pob.numCities;
+    delete dist;
+    dist = new int *[numCities];
+    for (int i = 0; i < numCities; i++)
+    {
+        dist[i] = new int[i];
+        memcpy(dist[i],pob.dist[i],sizeof(dist[1]));
+         sizeMatrix = sizeof(int) * (i);
+    }
 }
 
 Caminante Poblacion::getCaminante(int id) {
