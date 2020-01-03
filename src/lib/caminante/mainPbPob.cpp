@@ -368,7 +368,7 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
     string txt = pob.codificar();
-    bool res =true;
+    bool res =false;
 
    
 
