@@ -8,7 +8,7 @@ using namespace std;
 //Constructor del caminante
 Caminante::Caminante()
 {
-    camino[0] = -1;
+    camino = nullptr;
     fitness = -1;
 }
 
@@ -28,14 +28,17 @@ Caminante::~Caminante()
 //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
-void Caminante::desCodificar(const string MiCamino, int &avance)
+void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
     avance--;
+    delete camino;
+    camino = new int[max + 1];
     int i = 0;
     while (MiCamino[avance] != ':')
     {
         avance++;
         camino[i] = stoi(&MiCamino[avance]);
+
         while (isDigit(MiCamino[avance]))
         {
             avance++;
@@ -68,6 +71,7 @@ string Caminante::codificar()
     }
     MiCamino += to_string(inicio);
     MiCamino += ':' + to_string(fitness) + ';';
+    
     return MiCamino;
 }
 
@@ -75,6 +79,7 @@ string Caminante::codificar()
 void Caminante::ini(int inicio, int max)
 {
     int aux;
+    camino = new int[max+1];
     bool recorridos[max];
     for (int i = 0; i < max; i++)
     {
@@ -223,7 +228,7 @@ Poblacion::Poblacion(string data)
     for (int i = 0; i < numCam; i++)
     {
         int avz = 0;
-        caminantes[i].desCodificar(&data[inx], avz);
+        caminantes[i].desCodificar(&data[inx], avz,numCities);
         inx += avz;
     }
     
@@ -415,7 +420,7 @@ void Poblacion::descodificar(string msg, int flg)
         for (int i = 0; i < numCam; i++)
         {
             int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz);
+            caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
         }
     }
@@ -430,7 +435,7 @@ void Poblacion::descodificar(string msg, int flg)
         for (int i = 0; i < numCam; i++)
         {
             int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz);
+            caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
         }
     }

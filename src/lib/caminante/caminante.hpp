@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h> 
 using namespace std;
-const int  CITY_MAX =512;
+
 const int CAM_MAX = 300;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
@@ -16,7 +16,7 @@ class Caminante
     //friend void Poblacion::calcFit();
 
 private:
-    int camino[CITY_MAX];
+    int *camino;
     float fitness;
 public:
 
@@ -29,7 +29,7 @@ public:
     //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
     //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
-    void desCodificar(const string MiCamino, int &avance);
+    void desCodificar(const string MiCamino, int &avance, int max);
 
     //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"

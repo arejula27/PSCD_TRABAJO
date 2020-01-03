@@ -28,7 +28,7 @@ string  error(int error, string msg="")
     a.ini(2, 8);
     string aS = a.codificar();
     int aux=0;
-    b.desCodificar(aS, aux);
+    b.desCodificar(aS, aux,8);
     return aS == b.codificar();
 }
 
