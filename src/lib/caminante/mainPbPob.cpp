@@ -28,7 +28,7 @@ string  error(int error, string msg="")
     a.ini(2, 8);
     string aS = a.codificar();
     int aux=0;
-    b.desCodificar(aS, aux,8);
+    b.desCodificar(aS, aux, 8);
     return aS == b.codificar();
 }
 
@@ -52,7 +52,7 @@ bool isPobCodyDecod(){
     Poblacion b(aS);
    
     string bS = b.codificar(ALL_POB);
-    return true;
+    return aS == bS;
 }
 
 void sacarPantIsPobCyD(){
@@ -206,9 +206,9 @@ void sacarPantIsDivYFus(){
 
 
 
-bool comprobarMatr(string txt,int numCity,int first){
+bool comprobarMatr(string txt,int numCity,int first, int& idx){
 
-    int idx=0;
+    idx = 0;
     if(numCity!=stoi(txt)){
         cout<<error(ERROR,"Numero de ciudades erroeneo")<<endl;
     }
@@ -269,13 +269,14 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
  bool contructorPobParam(){
     cout<<"------------"<<endl;
     cout<<"comprobando Poblacion(int numCam, int ciudIni, int numCiuds, string entrada):"<<endl;
+    int idx;
     int numCam =1;
     int ciudadIni =0;
     int numCiuds=12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
     string txt = pob.codificar();
-
+    cout<<txt<<endl;
     if(!comprobarMatr(txt,numCiuds,ciudadIni)){
 
         cout<<error(ERROR,"Matriz de población incorrecta")<<endl;
@@ -301,6 +302,8 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
+     //isFitCorr();
+     //sacarPantIsDivYFus();
      contructorPobParam();
  
 
