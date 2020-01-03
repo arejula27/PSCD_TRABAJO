@@ -48,8 +48,8 @@ all: cliente
 #SOCKETSFLAGS=-lsocket -lnsl
 #-----------------------------------------------------------
 #CLIENTE
-cliente: ${CLI}.o ${MON}.o ${POBA}.o ${CAM}.o
-	${CC} -c ${CPPFLAGS} ${CLI}.o ${MON}.o ${POBA}.o -o ${CLI}
+cliente: ${CLI}.o  ${POBA}.o ${CAM}.o
+	${CC} -c ${CPPFLAGS} ${CLI}.o  ${POBA}.o -o ${CLI}
 
 ${CLI}.o: ${CLI}.cpp 
 	${CC} -c ${CPPFLAGS} ${CLI}.cpp  -o ${CLI}.o
