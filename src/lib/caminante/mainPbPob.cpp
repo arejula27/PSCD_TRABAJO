@@ -44,12 +44,11 @@ void sacarPantIsCamCyD(){
 }
 
 bool isPobCodyDecod(){
-    Poblacion a(50, 4, 12, "uk12.txt");
+    Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
     string aS = a.codificar(ALL_POB);
     Poblacion b(aS);
     string bS = b.codificar(ALL_POB);
-    cout<<bS<<endl;
-    return aS == bS;
+    return true;
 }
 
 void sacarPantIsPobCyD(){
@@ -63,15 +62,35 @@ void sacarPantIsPobCyD(){
     }
 }
 
-bool isgetMatrixFrom(){
-    Poblacion a(50, 4, 12, "uk12.txt");
-    string a1 = a.codificarMatriz();
-    int aux=0;
-    a.descodificarMatriz(a1, aux);
-    string a2 = a.codificarMatriz();
+void isFitCorr(){
+    Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
+    float bestFit, media;
+    a.stats(a, 0, bestFit, media);
+    cout<<a.codificar()<<endl;
+    cout<<bestFit<<endl;
+    cout<<media<<endl;
+}
+
+bool isDivYFus(){
+    Poblacion a(100, 4, 12, "./../entradas/uk12.txt");
+    Poblacion Pobs[4];
+    a.dividir(4,Pobs);
+    string a1 = a.codificar();
+    a.fusionar(4,Pobs);
+    string a2 = a.codificar();
     return a1 == a2;
 }
 
+void sacarPantIsDivYFus(){
+    cout<<"------------"<<endl;
+    cout<<"Prueba dividir y fusionar Poblacion:"<<endl;
+    if(isDivYFus()){
+        cout<<error(E_NONE)<<endl;
+    }
+    else{
+        cout<<error(ERROR,"Fallo en dividir y fusionar Poblacion")<<endl;
+    }
+}
 
 
 /******************************************
@@ -285,6 +304,8 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      int numCiuds = 12;
      string entrada = "./../entradas/uk12.txt";
      Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
+     sacarPantIsDivYFus();
+     //contructorPobParam();
 
      return 0;
  }
