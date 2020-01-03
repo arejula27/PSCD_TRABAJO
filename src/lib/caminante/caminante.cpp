@@ -74,7 +74,6 @@ string Caminante::codificar()
 //Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
 void Caminante::ini(int inicio, int max)
 {
-    srand(time(NULL));
     int aux;
     bool recorridos[max];
     for (int i = 0; i < max; i++)
@@ -101,9 +100,9 @@ void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
     int recorrido = 0;
     for(int i = 0; i<numCiuds; i++)
     {
-        recorrido += dist[i][i+1];
+        recorrido += dist[camino[i]][camino[i+1]];
     }
-    fitness = 1.000/recorrido;
+    fitness = 1.00000/recorrido;
 }
 
 //Devuelve el fitness del caminante.
@@ -130,6 +129,12 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2)
  * FUNCIONES POBLACIÓN
  * ********************************************/
 
+
+Poblacion::Poblacion(){
+    numCities = 0;
+    numCam = 0;
+}
+
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
@@ -138,6 +143,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     //inicializar numCities
     numCities = numCiuds;
     numCam = numCamis;
+    srand(time(NULL));
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
@@ -247,7 +253,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
         pobs[i].numCities = numCities;
 
         memcpy(pobs[i].dist, dist, sizeof(dist));
-        int numSub = (numCam / n) - 1;
+        int numSub = (numCam / n);
         if (sobr > 0)
         {
             numSub++;
@@ -260,6 +266,19 @@ void Poblacion::dividir(int n, Poblacion pobs[])
             pobs[i].caminantes[j] = caminantes[j + indx];
         }
         indx += numSub;
+    }
+}
+
+
+void Poblacion::fusionar(int n, Poblacion pobs[]){
+    int idx = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < pobs[i].getNumCam(); j++)
+        {
+            caminantes[idx] = pobs[i].caminantes[j];
+            idx++;
+        }
     }
 }
 

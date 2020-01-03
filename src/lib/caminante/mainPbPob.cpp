@@ -71,6 +71,27 @@ void isFitCorr(){
     cout<<media<<endl;
 }
 
+bool isDivYFus(){
+    Poblacion a(100, 4, 12, "./../entradas/uk12.txt");
+    Poblacion Pobs[4];
+    a.dividir(4,Pobs);
+    string a1 = a.codificar();
+    a.fusionar(4,Pobs);
+    string a2 = a.codificar();
+    return a1 == a2;
+}
+
+void sacarPantIsDivYFus(){
+    cout<<"------------"<<endl;
+    cout<<"Prueba dividir y fusionar Poblacion:"<<endl;
+    if(isDivYFus()){
+        cout<<error(E_NONE)<<endl;
+    }
+    else{
+        cout<<error(ERROR,"Fallo en dividir y fusionar Poblacion")<<endl;
+    }
+}
+
 
 /******************************************
  * Ahora comprobaremos caminante.ini()
@@ -233,9 +254,8 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
-     isFitCorr();
+     sacarPantIsDivYFus();
      //contructorPobParam();
-
 
      return 0;
  }

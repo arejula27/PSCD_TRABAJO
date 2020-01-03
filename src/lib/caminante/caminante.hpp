@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <time.h> 
 using namespace std;
-const int  CITY_MAX =500;
-const int CAM_MAX = 100 ;
+const int  CITY_MAX =512;
+const int CAM_MAX = 300;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
