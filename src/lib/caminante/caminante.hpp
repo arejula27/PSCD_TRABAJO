@@ -52,8 +52,9 @@ class Poblacion
     friend Caminante;
   
 private:
+    int sizeMatrix; 
     int numCities;
-    int dist[CITY_MAX][CITY_MAX];
+    int **dist;
     int numCam;
     Caminante caminantes[CAM_MAX];
     
@@ -113,6 +114,7 @@ public:
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
+    
 
         
 };

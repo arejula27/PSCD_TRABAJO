@@ -134,12 +134,21 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
     //inicializar numCam
     //rellenar la matriz
     //inicializar numCities
+    dist= new int*[numCiuds];
+    for(int i =0;i<numCiuds;i++){
+        dist[i]= new int[i+1];
+        sizeMatrix = sizeof(int)*(i+1);
+    }
+    dist[0][1]=2;
+    dist[3][9]=4;
+    cout <<dist[0][1]<<" "<<dist[3][9]<<endl;
     numCities = numCiuds;
     this->numCam= numCam;
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
     }
+    
     ifstream f1;
     f1.open(entrada);
     if(f1.is_open()){
@@ -162,7 +171,12 @@ Poblacion::Poblacion(int numCam, int ciudIni, int numCiuds, string entrada)
             while(h[i]!= ' ' && h[i]!='\0'){
                 i++;
             }
-            dist[contFil][contCol] = num;
+
+            //solo guardamos en la matriz si corresponde con la parte superiror
+            if(contFil>contCol){
+                dist[contFil][contCol] = num;
+            }
+               
             contCol++;
             if(contCol == numCiuds){
                 contCol = 0;
@@ -245,7 +259,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     {
         pobs[i].numCities = numCities;
 
-        memcpy(pobs[i].dist, dist, sizeof(dist));
+        memcpy(pobs[i].dist, dist, sizeMatrix);
         int numSub = (numCam / n) - 1;
         if (sobr > 0)
         {
@@ -381,7 +395,7 @@ void Poblacion::descodificar(string msg, int flg)
 
 void Poblacion::getMatrixFrom(Poblacion pob){
 
-    memcpy(dist,pob.dist,sizeof(dist));
+    memcpy(dist,pob.dist,sizeMatrix);
 
 }
 

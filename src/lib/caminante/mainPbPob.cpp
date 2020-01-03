@@ -199,7 +199,7 @@ bool comprobarMatr(string txt,int numCity,int first){
     
         //quitarse los comentarios
         do{
-            f1.getline(h, 200, '\n');
+           f1.getline(c, 200, '\n');
         }while (c[0] == '#');
 
     
@@ -275,11 +275,16 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
  
  int main(){
     
-     caminanteIni();
+     /*caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
-     contructorPobParam();
-     
+     contructorPobParam();*/
+
+     int numCam = 1;
+     int ciudadIni = 0;
+     int numCiuds = 12;
+     string entrada = "./../entradas/uk12.txt";
+     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
 
      return 0;
  }
