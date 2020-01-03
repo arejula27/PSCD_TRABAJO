@@ -171,6 +171,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{
             f1.getline(h, 10000);
         }while(h[0] == '#');
+
         int i=0;
         int contFil = 0;
         int contCol = 0;
@@ -179,10 +180,13 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{  
             i=0;
             while(h[i]!='\0'){
+                //nos saltamos hasta llegar a un numero
                 while(!isDigit(h[i])){
                     i++;
                 }
+                //tomamos el numero
                 num = atoi(&h[i]);
+                //nos saltamos el numero
                 while(isDigit(h[i])){
                     i++;
                 }
@@ -442,9 +446,16 @@ void Poblacion::descodificar(string msg, int flg)
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
-
-    memcpy(dist,pob.dist,sizeMatrix);
-
+    
+    numCities = pob.numCities;
+    delete dist;
+    dist = new int *[numCities];
+    for (int i = 0; i < numCities; i++)
+    {
+        dist[i] = new int[i];
+        memcpy(dist[i],pob.dist[i],sizeof(dist[1]));
+         sizeMatrix = sizeof(int) * (i);
+    }
 }
 
 Caminante Poblacion::getCaminante(int id) {
