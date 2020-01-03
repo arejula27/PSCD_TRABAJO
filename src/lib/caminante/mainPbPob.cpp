@@ -65,7 +65,18 @@ bool isPobCodyDecod(){
 void sacarPantIsPobCyD(){
     cout<<"------------"<<endl;
     cout<<"Prueba codifificar y decodificar Poblacion:"<<endl;
-    if(isPobCodyDecod()){
+    bool res = false;
+    try
+    {
+        res = isPobCodyDecod();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+
+    if(res){
         cout<<error(E_NONE)<<endl;
     }
     else{
@@ -92,7 +103,18 @@ void sacarPantIsPCS()
 {
     cout << "------------" << endl;
     cout << "Prueba codifificar y constructor Poblacion con string:" << endl;
-    if (isPobConstStr())
+
+    bool res= false;
+    try
+    {
+        res = isPobConstStr();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+    if (res)
     {
         cout << error(E_NONE) << endl;
     }
@@ -351,7 +373,7 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
 
         try
         {
-            comprobarMatr(txt, numCiuds, ciudadIni, idx);
+            res = comprobarMatr(txt, numCiuds, ciudadIni, idx);
         }
         catch(const std::exception& e)
         {
@@ -361,13 +383,19 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
 
         try
         {
-            res = comprobarCaminantes(pob, numCam, numCiuds)
+            res = comprobarCaminantes(pob, numCam, numCiuds);
         }
         catch (const std::exception &e)
         {
             std::cerr << e.what() << '\n';
             cout << error(ERROR, "Matriz de población incorrecta") << endl;
         }
+
+    if (res){
+        cout<<error(E_NONE)<<endl;
+    }else{
+        cout << error(ERROR,"constructor con varios parametros erróneo") << endl;
+    }
     return res;
 
 
