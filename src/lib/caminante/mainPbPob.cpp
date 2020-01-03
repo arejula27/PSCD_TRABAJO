@@ -45,8 +45,12 @@ void sacarPantIsCamCyD(){
 
 bool isPobCodyDecod(){
     Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
+    
     string aS = a.codificar(ALL_POB);
+    
+    
     Poblacion b(aS);
+   
     string bS = b.codificar(ALL_POB);
     return true;
 }
@@ -294,18 +298,11 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
  
  int main(){
     
-     /*caminanteIni();
+     caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
-     contructorPobParam();*/
-
-     int numCam = 1;
-     int ciudadIni = 0;
-     int numCiuds = 12;
-     string entrada = "./../entradas/uk12.txt";
-     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-     sacarPantIsDivYFus();
-     //contructorPobParam();
+     contructorPobParam();
+ 
 
      return 0;
  }

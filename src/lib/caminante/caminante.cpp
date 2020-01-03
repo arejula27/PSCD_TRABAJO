@@ -152,7 +152,6 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         sizeMatrix = sizeof(int)*(i);
     }
     numCities = numCiuds;
-    this->numCam= numCam;
     numCam = numCamis;
     srand(time(NULL));
     for (int i = 0; i < numCam; i++)
@@ -209,7 +208,15 @@ Poblacion::Poblacion(string data)
     int inx = 0;
     numCities = stoi(&data[inx]);
     while (data[inx++] != ':');
+    dist = new int *[numCities];
+    for (int i = 0; i < numCities; i++)
+    {
+        dist[i] = new int[i];
+        sizeMatrix = sizeof(int) * (i);
+    }
+
     descodificarMatriz(data, inx);
+    
     numCam = stoi(&data[inx]);
     while (data[inx++] != ':');
     //descodificar todos los viajeros
@@ -315,6 +322,7 @@ string Poblacion::codificarMatriz()
       
     }
     MiMat += ")";
+  
     return MiMat;
 }
 
@@ -323,14 +331,18 @@ string Poblacion::codificarMatriz()
 //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
 void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 {
-    int fil = 0;
-    int col = 0;
+    int fil = 1;
+    
     int aux = 0;
+  
     avance++;
     while (MiMatriz[avance] != ')')
     {
+        //cout << "beep" << endl;
+        int col = 0;
         while (MiMatriz[avance] != ';')
         {
+            
             while (!isDigit(MiMatriz[avance]))
             {
                 avance++;
@@ -340,7 +352,10 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
             {
                 avance++;
             }
+            
             dist[fil][col] = aux;
+
+            //cout << "boop" << endl;
             col++;
             aux = 0;
         }
