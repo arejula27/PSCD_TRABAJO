@@ -171,6 +171,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{
             f1.getline(h, 10000);
         }while(h[0] == '#');
+
         int i=0;
         int contFil = 0;
         int contCol = 0;
@@ -179,10 +180,13 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{  
             i=0;
             while(h[i]!='\0'){
+                //nos saltamos hasta llegar a un numero
                 while(!isDigit(h[i])){
                     i++;
                 }
+                //tomamos el numero
                 num = atoi(&h[i]);
+                //nos saltamos el numero
                 while(isDigit(h[i])){
                     i++;
                 }

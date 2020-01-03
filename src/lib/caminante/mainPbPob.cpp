@@ -104,7 +104,7 @@ void sacarPantIsDivYFus(){
      bool res = true;
      if (c<'0') res =false;
      if (c> '9') res = false;
-     if(!res&&flags=="") cout<<"deberia ser digio pero es: "<<int(c)<< " "<< c<<endl;
+     if(!res&&flags=="") cout<<"deberia ser digito pero es: "<<int(c)<< " "<< c<<endl;
      return res;
  }
 
@@ -276,12 +276,22 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
     string txt = pob.codificar();
 
-    if(!comprobarMatr(txt,numCiuds,ciudadIni)){
+   
 
-        cout<<error(ERROR,"Matriz de población incorrecta")<<endl;
-        cout<<"Población: "<<txt<<endl;
+        try
+        {
+            comprobarMatr(txt, numCiuds, ciudadIni);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            cout << error(ERROR, "Matriz de población incorrecta") << endl;
+        }
+        
 
-    }
+        
+
+    
     if(!comprobarCaminantes(txt,numCam,numCiuds)){
 
     }
