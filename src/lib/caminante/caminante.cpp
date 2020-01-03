@@ -243,7 +243,7 @@ Poblacion::~Poblacion()
 {
 }
 
-int Poblacion:: getNumCam(){
+int Poblacion::getNumCam(){
     return numCam;
 }
 

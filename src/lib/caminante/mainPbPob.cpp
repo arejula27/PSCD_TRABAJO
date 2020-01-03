@@ -68,6 +68,7 @@ void sacarPantIsPobCyD(){
     bool res = false;
     try
     {
+
         res = isPobCodyDecod();
     }
     catch(const std::exception& e)
@@ -407,8 +408,9 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
     
      caminanteIni();
      sacarPantIsCamCyD();
-     sacarPantIsPobCyD();
      sacarPantIsPCS();
+     sacarPantIsPobCyD();
+     
      contructorPobParam();
      sacarPantIsDivYFus();
 
