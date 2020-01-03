@@ -1,3 +1,12 @@
+//*****************************************************************
+// File:   caminante.cpp
+// Author: Iñigo Arejula & Sergio Cartiel
+// Date:   Diciembre 2019/Enero 2020
+// Coms:   Implementación de las clases caminante y población
+//*****************************************************************
+
+
+
 #include "caminante.hpp"
 using namespace std;
 

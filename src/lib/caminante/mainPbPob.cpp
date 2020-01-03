@@ -1,5 +1,10 @@
-#include <iostream>
-#include <string>
+//*****************************************************************
+// File:   mainPbPob.cpp
+// Author: Iñigo Arejula & Sergio Cartiel
+// Date:   Diciembre 2019/Enero 2020
+// Coms:   Prueba funciones de las clases caminante y población
+//*****************************************************************
+
 #include "caminante.hpp"
 
 #define E_NONE 0
