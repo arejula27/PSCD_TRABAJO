@@ -24,7 +24,7 @@ void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para 
     unique_lock<mutex> lck(mtx);
     Caminante cam = poblacion.getCaminante(id);
     Caminante cam2 = poblacion.getCaminante(id2);
-    cam.Cruzar(cam,cam2);
+    cam.cruzar(cam,cam2);
 
 }
 
@@ -33,7 +33,7 @@ void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para 
 void PoblacionAProcesar::mutar(int id) {
     unique_lock<mutex> lck(mtx);
     Caminante cam = poblacion.getCaminante(id);
-    cam.Mutar();
+    cam.mutar();
 }
 
 //----------------------------------------------------------

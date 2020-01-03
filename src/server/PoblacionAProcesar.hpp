@@ -28,8 +28,8 @@ public:
 	//para operar sobre ellos 
 	PoblacionAProcesar(Poblacion poblacion_);
 	void seleccionar(int id);
-	void cruzar(int id);
-	void mutar(int id, int id2);
+	void cruzar(int id, int id2);
+	void mutar(int id);
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 };
