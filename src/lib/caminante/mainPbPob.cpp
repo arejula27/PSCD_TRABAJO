@@ -22,8 +22,11 @@ string  error(int error, string msg="")
 	else
 		return ANSI_COLOR_RED "error: " ANSI_COLOR_RESET +msg;
 }
+/**************************************************
+ * ************************************************/
 
- bool isCamCodyDecod(){
+bool isCamCodyDecod()
+{
     Caminante a,b;
     a.ini(2, 8);
     string aS = a.codificar();
@@ -31,6 +34,7 @@ string  error(int error, string msg="")
     b.desCodificar(aS, aux, 8);
     return aS == b.codificar();
 }
+
 
 void sacarPantIsCamCyD(){
     cout<<"------------"<<endl;
@@ -42,6 +46,8 @@ void sacarPantIsCamCyD(){
         cout<<error(ERROR,"Fallo en codificar y descodificar Caminante")<<endl;
     }
 }
+/**************************************************
+ * ************************************************/
 
 bool isPobCodyDecod(){
     Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
@@ -49,7 +55,8 @@ bool isPobCodyDecod(){
     string aS = a.codificar(ALL_POB);
     
     
-    Poblacion b(aS);
+    Poblacion b;
+    b.descodificar(aS);
    
     string bS = b.codificar(ALL_POB);
     return aS == bS;
@@ -63,6 +70,35 @@ void sacarPantIsPobCyD(){
     }
     else{
         cout<<error(ERROR,"Fallo en codificar y descodificar Poblacion")<<endl;
+    }
+}
+
+
+/**************************************************
+ * ************************************************/
+bool isPobConstStr()
+{
+    Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
+
+    string aS = a.codificar(ALL_POB);
+
+    Poblacion b(aS);
+
+    string bS = b.codificar(ALL_POB);
+    return aS == bS;
+}
+
+void sacarPantIsPCS()
+{
+    cout << "------------" << endl;
+    cout << "Prueba codifificar y constructor Poblacion con string:" << endl;
+    if (isPobConstStr())
+    {
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "Fallo en codificar y descodificar Poblacion") << endl;
     }
 }
 
@@ -201,7 +237,7 @@ void sacarPantIsDivYFus(){
  }
 
 /******************************************
- * Ahora comprobaremos el cisntructor de la población
+ * Ahora comprobaremos el cosntructor de la población
  * *********************************************/
 
 
@@ -249,24 +285,19 @@ bool comprobarMatr(string txt,int numCity,int first, int& idx){
     return true;
 }
 
-bool comprobarCaminantes(string txt,int numCam,int numCit){
+bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
 
     int idx=0;
-    while(txt[idx++]!=')');
-
-    for (int i = 0; i < numCam; i++)
-    {
-        if(!caminanteCorrecto(&txt[idx],numCit)){
-            cout<<"cam: "<<idx<<endl;
-        }
-        while(txt[idx++]!=';');
+   for (int i = 0; i < numCam; i++)
+   {
+      if( !caminanteCorrecto( pob.getCaminante(i).codificar(),numCit )) return false;
     }
-    
-
+   
     return true;
 
 } 
  bool contructorPobParam(){
+
     cout<<"------------"<<endl;
     cout<<"comprobando Poblacion(int numCam, int ciudIni, int numCiuds, string entrada):"<<endl;
     int idx;
@@ -276,31 +307,30 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam,ciudadIni,numCiuds,entrada);
     string txt = pob.codificar();
+    bool res =true;
 
    
 
         try
         {
-            comprobarMatr(txt, numCiuds, ciudadIni);
+            res = comprobarMatr(txt, numCiuds, ciudadIni);
         }
         catch(const std::exception& e)
         {
             std::cerr << e.what() << '\n';
             cout << error(ERROR, "Matriz de población incorrecta") << endl;
         }
-        
 
-        
-
-    
-    if(!comprobarCaminantes(txt,numCam,numCiuds)){
-
-    }
-    
-
-
-
-    return true;
+        try
+        {
+            res = comprobarCaminantes(pob, numCam, numCiuds)
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+            cout << error(ERROR, "Matriz de población incorrecta") << endl;
+        }
+    return res;
 
 
  }
@@ -312,6 +342,7 @@ bool comprobarCaminantes(string txt,int numCam,int numCit){
      caminanteIni();
      sacarPantIsCamCyD();
      sacarPantIsPobCyD();
+     sacarPantIsPCS();
      //contructorPobParam();
      sacarPantIsDivYFus();
 
