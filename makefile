@@ -27,6 +27,7 @@ CAM =${LIB_CAM}/caminante
 LIB_CLI =${SRC}/client
 CLI = ${LIB_CLI}/Cliente
 
+MON =${LIB_CLI}/Monitorizacion
 POBA=${LIB_CLI}/PoblacionActual
 
 BUILD = ./build
@@ -52,6 +53,13 @@ cliente: ${CLI}.o  ${POBA}.o ${CAM}.o
 
 ${CLI}.o: ${CLI}.cpp 
 	${CC} -c ${CPPFLAGS} ${CLI}.cpp  -o ${CLI}.o
+
+#-----------------------------------------------------------
+# Monitorización
+# Compilacion monitor de Monitorizacón
+${MON}.o: ${MON}.cpp 
+	${CC} -c ${CPPFLAGS} ${MON}.cpp  -o ${MON}.o
+
 #-----------------------------------------------------------
 # PoblacionActual
 # Compilacion monitor de PoblacionActual
