@@ -365,6 +365,7 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
     return true;
 
 } 
+
  bool contructorPobParam(){
 
     cout<<"------------"<<endl;
@@ -409,9 +410,77 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
 
 
  }
- 
- 
- 
+
+ /******************************************
+ * Ahora la función mutar
+ * *********************************************/
+bool trymutar(){
+    int idx =0;
+    int numCam = 100;
+    int ciudadIni = 0;
+    int numCiuds = 12;
+    string entrada = "./../entradas/uk12.txt";
+    Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
+    for(int i =0; i<numCam;i++){
+        pob.mutar(i);
+    }
+    string txt = pob.codificar();
+    bool res = false;
+
+    try
+    {
+        res = comprobarMatr(txt, numCiuds, ciudadIni, idx);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Matriz de población incorrecta") << endl;
+    }
+
+    try
+    {
+        res = comprobarCaminantes(pob, numCam, numCiuds);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Caminantes") << endl;
+    }
+
+    if (!res)
+    {
+      
+    
+        cout << error(ERROR, "Población errónea") << endl;
+    }
+    return res;
+}
+
+
+void sacarPantMutar(){
+
+    cout << "------------" << endl;
+    cout << "comprobando mutar: " << endl;
+    bool res= false;
+    try
+    {
+        res = trymutar();
+    }
+    catch(const std::exception& e)
+    {
+        
+        std::cerr << e.what() << '\n';
+    }
+    if(res){
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "función mutar incorrecta")<<endl;
+    }
+    
+    
+}
  int main(){
     
      caminanteIni();
@@ -421,6 +490,7 @@ bool comprobarCaminantes(Poblacion pob,int numCam,int numCit){
      sacarPantIsPCS();
      contructorPobParam();
      sacarPantIsDivYFus();
+     sacarPantMutar();
 
          return 0;
  }

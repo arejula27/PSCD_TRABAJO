@@ -79,7 +79,7 @@ ${CAM}.o: ${CAM}.hpp ${CAM}.cpp
 	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
 #-----------------------------------------------------------
 pobtest: ${POBTEST}.cpp ${CAM}.o 
-	mkdir ${BUILD}
+
 	${CC}  ${POBTEST}.cpp ${CAM}.o ${TESTPOBFLG}  -o ${BUILD}/pobTest
 
 #-----------------------------------------------------------	
