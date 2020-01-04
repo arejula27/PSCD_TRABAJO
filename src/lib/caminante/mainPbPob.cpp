@@ -481,16 +481,161 @@ void sacarPantMutar(){
     
     
 }
- int main(){
-    
-     caminanteIni();
-     sacarPantIsCamCyD();
-     
-     sacarPantIsPobCyD();
-     sacarPantIsPCS();
-     contructorPobParam();
-     sacarPantIsDivYFus();
-     sacarPantMutar();
 
-         return 0;
+/******************************************
+ * Ahora la función cruzar
+ * *********************************************/
+bool trycruzar()
+{
+    int idx = 0;
+    int numCam = 100;
+    int ciudadIni = 0;
+    int numCiuds = 12;
+    string entrada = "./../entradas/uk12.txt";
+    Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
+    for (int i = 0; i < numCam; i++)
+    {
+        pob.mutar(i);
+    }
+    string txt = pob.codificar();
+    bool res = false;
+
+    try
+    {
+        res = comprobarMatr(txt, numCiuds, ciudadIni, idx);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Matriz de población incorrecta") << endl;
+    }
+
+    try
+    {
+        res = comprobarCaminantes(pob, numCam, numCiuds);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Caminantes") << endl;
+    }
+
+    if (!res)
+    {
+
+        cout << error(ERROR, "Población errónea") << endl;
+    }
+    return res;
+}
+
+void sacarPantCruzar()
+{
+
+    cout << "------------" << endl;
+    cout << "comprobando cruzar: " << endl;
+    bool res = false;
+    try
+    {
+        res = trycruzar();
+    }
+    catch (const std::exception &e)
+    {
+
+        std::cerr << e.what() << '\n';
+    }
+    if (res)
+    {
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "función cruzar incorrecta") << endl;
+    }
+}
+
+/******************************************
+ * Ahora la función selecion
+ * *********************************************/
+bool tryselec()
+{
+    int idx = 0;
+    int numCam = 100;
+    int ciudadIni = 0;
+    int numCiuds = 12;
+    string entrada = "./../entradas/uk12.txt";
+    Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
+    for (int i = 0; i < numCam; i++)
+    {
+        pob.mutar(i);
+    }
+    string txt = pob.codificar();
+    bool res = false;
+
+    try
+    {
+        res = comprobarMatr(txt, numCiuds, ciudadIni, idx);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Matriz de población incorrecta") << endl;
+    }
+
+    try
+    {
+        res = comprobarCaminantes(pob, numCam, numCiuds);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        cout << error(ERROR, "Caminantes") << endl;
+    }
+
+    if (!res)
+    {
+
+        cout << error(ERROR, "Población errónea") << endl;
+    }
+    return res;
+}
+
+void sacarPantSelección()
+{
+
+    cout << "------------" << endl;
+    cout << "comprobando selección: " << endl;
+    bool res = false;
+    try
+    {
+        res = tryselec();
+    }
+    catch (const std::exception &e)
+    {
+
+        std::cerr << e.what() << '\n';
+    }
+    if (res)
+    {
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "función seleccion incorrecta") << endl;
+    }
+}
+
+int main()
+{
+
+    caminanteIni();
+    sacarPantIsCamCyD();
+    sacarPantIsPobCyD();
+    sacarPantIsPCS();
+    contructorPobParam();
+    sacarPantIsDivYFus();
+    sacarPantMutar();
+    sacarPantCruzar();
+    sacarPantSelección();
+
+    return 0;
  }
