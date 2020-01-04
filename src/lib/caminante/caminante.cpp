@@ -66,7 +66,9 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 string Caminante::codificar()
 {
+  
     int inicio = camino[0];
+  
     string MiCamino = to_string(inicio) + ',';
     int i = 1;
     while (camino[i] != inicio)
@@ -132,8 +134,9 @@ void Caminante::mutar()
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
-void Caminante::cruzar(const Caminante &O1, const Caminante &O2)
+void Caminante::cruzar(const Caminante &c1, const Caminante &c2)
 {
+    camino = c1.camino;
 }
 
 

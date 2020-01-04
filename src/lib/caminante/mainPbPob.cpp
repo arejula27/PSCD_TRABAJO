@@ -624,6 +624,119 @@ void sacarPantSelección()
     }
 }
 
+
+/******************************************
+ * Ahora la función mutar (caminante)
+ * *********************************************/
+
+bool camMut(){
+
+    int frs = 0;
+    int numCt = 12;
+    string txt;
+    Caminante cam;
+    cam.ini(frs, numCt);
+    
+    bool res = false;
+
+    try
+    {
+        cam.mutar();
+        txt = cam.codificar();
+        res = caminanteCorrecto(txt, numCt);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+  
+    return res;
+    
+}
+
+
+void sacarPantCamMut()
+{
+    cout << "------------" << endl;
+    cout << "Prueba mutar Caminante:" << endl;
+    bool res = false;
+    try
+    {
+        res =camMut();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+    if (res)
+    {
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "Fallo en mutar Caminante") << endl;
+    }
+}
+
+/******************************************
+ * Ahora la función cruzar (caminante)
+ * *********************************************/
+
+bool camCruz()
+{
+
+    int frs = 0;
+    int numCt = 12;
+    string txt;
+    Caminante cam1,cam2,cam3;
+    cam1.ini(frs, numCt);
+    cam2.ini(frs, numCt);
+    
+    bool res = false;
+
+    try
+    {
+      
+        cam3.cruzar(cam1, cam2);
+        
+        txt = cam3.codificar();
+        
+
+        res = caminanteCorrecto(txt, numCt);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    return res;
+}
+
+void sacarPantCamCruz()
+{
+    cout << "------------" << endl;
+    cout << "Prueba cruzar Caminante:" << endl;
+    bool res = false;
+    try
+    {
+        res = camCruz();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    if (res)
+    {
+        cout << error(E_NONE) << endl;
+    }
+    else
+    {
+        cout << error(ERROR, "Fallo en cruzar Caminante") << endl;
+    }
+}
 int main()
 {
 
@@ -633,6 +746,8 @@ int main()
     sacarPantIsPCS();
     contructorPobParam();
     sacarPantIsDivYFus();
+    sacarPantCamMut();
+    sacarPantCamCruz();
     sacarPantMutar();
     sacarPantCruzar();
     sacarPantSelección();
