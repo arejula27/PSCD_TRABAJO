@@ -36,6 +36,15 @@ void controlEstadistico(Poblacion& personas,PobActual &pa){
 		pa.esperaGA();
 		i++;
 	}
+	int max = 0;
+	if (pa.finEjec(personas)){
+		max = i;
+	}else{
+		max = MAX_GENS;
+	}
+	for (int i = 0; i < max; i++){
+		estadisticas[i].join();
+	}
 }
 void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &personas, PobActual &pa){
 	// Creación del socket con el que se llevará a cabo
@@ -97,7 +106,12 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 		personas.fusionar(serversAceptados,pobs);
 		pa.esperaEstadistico();
 	}
-
+	//mando mensaje de finalizacion
+	for (int i = 0; i < serversAceptados; i++){
+		#warning cambiar msg de finalizacion
+		string fin = "todos tochos";
+		socketServ[i].Send(server_fd[i],fin);
+	}
 
     // Cerramos el socket
 	for (int i = 0; i < serversAceptados; i++){
@@ -127,6 +141,8 @@ int main(int argc, char const *argv[]){
 
 	thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
 	thread GAcontrol (&controlGenetico,NUM_SERVERS,SERVER_PORT,ref(proletariado),ref(pa));
+	estadistico.join();
+	GAcontrol.join();
 
 	return 0;
 }
