@@ -80,6 +80,10 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 			serversAceptados++;
 		}
 	}
+	if(serversAceptados==0){
+		cerr<<"No se ha logrado conectar con ningún server"<<endl;
+		exit(0);
+	}
 	cout << serversAceptados << endl;
 	Poblacion pobs[serversAceptados];
 	cout << "llega2" << endl;
