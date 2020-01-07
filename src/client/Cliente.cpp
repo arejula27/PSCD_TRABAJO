@@ -51,7 +51,7 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 	// la comunicación con el servidor.
 	Socket socketServ[NUM_SERVERS];
 	for (int i = 0; i<NUM_SERVERS; i++){
-		cout << "Direciion ip de servidor " << i+1 << ":";
+		cout << "Direcion ip de servidor " << i+1 << ":";
 		//flush si sabemos xd
 		string serverAddr;
 		cin >> serverAddr;

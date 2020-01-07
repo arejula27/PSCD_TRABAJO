@@ -8,6 +8,7 @@
 #---------------------------------------------------------
 CC=g++
 
+CLIENTE=Cliente
 SERVER=Servidor
 MONITOR=PoblacionAProcesar
 
@@ -27,10 +28,19 @@ all: ${SERVER}
 #Descomentar la siguiente línea para compilar en hendrix
 #SOCKETSFLAGS=-lsocket -lnsl
 
+#CLIENTE
+#Compilacion
+${CLIENTE}.o: ${CLIENTE}.cpp 
+	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
+
+#Linkado
+${	CLIENTE}: ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o
+	${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o -o ${CLIENTE} ${SOCKETSFLAGS}
+
 # SERVIDOR
 # Compilacion
 ${SERVER}.o: ${SERVER}.cpp 
-	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
+	${CC} -c ${CPPFLAGS} ${SERVER}.cpp 
 
 # Linkado
 ${SERVER}: ${SOCKET}.o ${SERVER}.o ${MONITOR}.o ${CAM}.o
