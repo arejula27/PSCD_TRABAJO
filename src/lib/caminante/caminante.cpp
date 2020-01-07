@@ -1,14 +1,19 @@
-#include <iostream>
+//*****************************************************************
+// File:   caminante.cpp
+// Author: Iñigo Arejula & Sergio Cartiel
+// Date:   Diciembre 2019/Enero 2020
+// Coms:   Implementación de las clases caminante y población
+//*****************************************************************
+
+
+
 #include "caminante.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h> 
 using namespace std;
 
 //Constructor del caminante
 Caminante::Caminante()
 {
-    camino[0] = -1;
+    camino = nullptr;
     fitness = -1;
 }
 
@@ -28,14 +33,17 @@ Caminante::~Caminante()
 //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
-void Caminante::desCodificar(const string MiCamino, int &avance)
+void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
     avance--;
+    delete camino;
+    camino = new int[max + 1];
     int i = 0;
     while (MiCamino[avance] != ':')
     {
         avance++;
         camino[i] = stoi(&MiCamino[avance]);
+
         while (isDigit(MiCamino[avance]))
         {
             avance++;
@@ -58,7 +66,9 @@ void Caminante::desCodificar(const string MiCamino, int &avance)
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 string Caminante::codificar()
 {
+  
     int inicio = camino[0];
+  
     string MiCamino = to_string(inicio) + ',';
     int i = 1;
     while (camino[i] != inicio)
@@ -68,14 +78,15 @@ string Caminante::codificar()
     }
     MiCamino += to_string(inicio);
     MiCamino += ':' + to_string(fitness) + ';';
+    
     return MiCamino;
 }
 
 //Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
 void Caminante::ini(int inicio, int max)
 {
-    srand(time(NULL));
     int aux;
+    camino = new int[max+1];
     bool recorridos[max];
     for (int i = 0; i < max; i++)
     {
@@ -96,14 +107,19 @@ void Caminante::ini(int inicio, int max)
     camino[max] = inicio;
 }
 
-void Caminante::calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds)
+int getValorMatriz(int **mtr,int i,int j){
+    //solo podemos utilizar la mitad superior de la matriz
+    return (i>j)?mtr[i][j]:mtr[j][i];
+}
+
+void Caminante::calcMiFit(int **dist, int numCiuds)
 {
     int recorrido = 0;
     for(int i = 0; i<numCiuds; i++)
     {
-        recorrido += dist[i][i+1];
+        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
     }
-    fitness = 1.000/recorrido;
+    fitness = 1.00000/recorrido;
 }
 
 //Devuelve el fitness del caminante.
@@ -118,6 +134,7 @@ void Caminante::mutar()
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
+<<<<<<< HEAD
 void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numCities)
 {
     //Modo 1
@@ -151,6 +168,11 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numC
 
     hijo.camino[numCities]=hijo.camino[0];
     */
+=======
+void Caminante::cruzar(const Caminante &c1, const Caminante &c2)
+{
+    camino = c1.camino;
+>>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
 }
 
 
@@ -161,18 +183,31 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numC
  * FUNCIONES POBLACIÓN
  * ********************************************/
 
+
+Poblacion::Poblacion(){
+    numCities = 0;
+    numCam = 0;
+}
+
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
     //inicializar numCam
     //rellenar la matriz
     //inicializar numCities
+    dist= new int*[numCiuds];
+    for(int i =0;i<numCiuds;i++){
+        dist[i]= new int[i];
+        sizeMatrix = sizeof(int)*(i);
+    }
     numCities = numCiuds;
     numCam = numCamis;
+    srand(time(NULL));
     for (int i = 0; i < numCam; i++)
     {
         caminantes[i].ini(ciudIni, numCiuds);
     }
+    
     ifstream f1;
     f1.open(entrada);
     if(f1.is_open()){
@@ -180,6 +215,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{
             f1.getline(h, 10000);
         }while(h[0] == '#');
+
         int i=0;
         int contFil = 0;
         int contCol = 0;
@@ -188,14 +224,21 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         do{  
             i=0;
             while(h[i]!='\0'){
+                //nos saltamos hasta llegar a un numero
                 while(!isDigit(h[i])){
                     i++;
                 }
+                //tomamos el numero
                 num = atoi(&h[i]);
+                //nos saltamos el numero
                 while(isDigit(h[i])){
                     i++;
                 }
-                dist[contFil][contCol] = num;
+                //solo guardamos si corresponde con la mitad superior
+                if (contFil>contCol){
+                    dist[contFil][contCol] = num;
+                }
+                    
                 contCol++;
                 if(contCol == numCiuds){
                     contCol = 0;
@@ -217,15 +260,24 @@ Poblacion::Poblacion(string data)
 
     int inx = 0;
     numCities = stoi(&data[inx]);
+    //delete dist;
     while (data[inx++] != ':');
+    dist = new int *[numCities];
+    for (int i = 0; i < numCities; i++)
+    {
+        dist[i] = new int[i];
+        sizeMatrix = sizeof(int) * (i);
+    }
+
     descodificarMatriz(data, inx);
+    
     numCam = stoi(&data[inx]);
     while (data[inx++] != ':');
     //descodificar todos los viajeros
     for (int i = 0; i < numCam; i++)
     {
         int avz = 0;
-        caminantes[i].desCodificar(&data[inx], avz);
+        caminantes[i].desCodificar(&data[inx], avz,numCities);
         inx += avz;
     }
     
@@ -236,7 +288,7 @@ Poblacion::~Poblacion()
 {
 }
 
-int Poblacion:: getNumCam(){
+int Poblacion::getNumCam(){
     return numCam;
 }
 
@@ -276,9 +328,8 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     for (int i = 0; i < n; i++)
     {
         pobs[i].numCities = numCities;
-
-        memcpy(pobs[i].dist, dist, sizeof(dist));
-        int numSub = (numCam / n) - 1;
+        getMatrixFrom(*this);
+        int numSub = (numCam / n);
         if (sobr > 0)
         {
             numSub++;
@@ -294,6 +345,19 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     }
 }
 
+
+void Poblacion::fusionar(int n, Poblacion pobs[]){
+    int idx = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < pobs[i].getNumCam(); j++)
+        {
+            caminantes[idx] = pobs[i].caminantes[j];
+            idx++;
+        }
+    }
+}
+
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
 // "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;) "
 string Poblacion::codificarMatriz()
@@ -301,13 +365,17 @@ string Poblacion::codificarMatriz()
     string MiMat = "(";
     for (int i = 0; i < numCities; i++)
     {
-        for (int j = 0; j < numCities - 1; j++)
+        for (int j = 0; (i > j) ; j++)
         {
-            MiMat += to_string(dist[i][j]) + ',';
+            
+                MiMat += to_string(dist[i][j]) + ((i-1!=j)?',':';');
+            
+            
         }
-        MiMat += to_string(dist[i][numCities - 1]) + ';';
+      
     }
     MiMat += ")";
+  
     return MiMat;
 }
 
@@ -316,14 +384,18 @@ string Poblacion::codificarMatriz()
 //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
 void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 {
-    int fil = 0;
-    int col = 0;
+    int fil = 1;
+    
     int aux = 0;
+  
     avance++;
     while (MiMatriz[avance] != ')')
     {
+        //cout << "beep" << endl;
+        int col = 0;
         while (MiMatriz[avance] != ';')
         {
+            
             while (!isDigit(MiMatriz[avance]))
             {
                 avance++;
@@ -333,7 +405,10 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
             {
                 avance++;
             }
+            
             dist[fil][col] = aux;
+
+            //cout << "boop" << endl;
             col++;
             aux = 0;
         }
@@ -383,17 +458,26 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCities = stoi(msg);
+       
+        //delete dist;
+        
         while (msg[inx++] != ':');
-        
+        dist = new int *[numCities];
+        for (int i = 0; i < numCities; i++)
+        {
+            dist[i] = new int[i];
+            sizeMatrix = sizeof(int) * (i);
+        }
+
         descodificarMatriz(msg, inx);
-        
+      
         numCam = stoi(&msg[inx]);
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
             int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz);
+            caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
         }
     }
@@ -408,25 +492,36 @@ void Poblacion::descodificar(string msg, int flg)
         for (int i = 0; i < numCam; i++)
         {
             int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz);
+            caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
         }
     }
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
-
-    memcpy(dist,pob.dist,sizeof(dist));
-
+   
+    numCities = pob.numCities;
+    delete dist;
+    dist = new int *[numCities];
+    for (int i = 0; i < numCities; i++)
+    {
+        dist[i] = new int[i];
+        memcpy(dist[i],pob.dist[i],sizeof(dist[1]));
+         sizeMatrix = sizeof(int) * (i);
+    }
+    
 }
 
 Caminante Poblacion::getCaminante(int id) {
+  
+    assert(id>=0);
+    assert(id<numCam);
     return caminantes[id];
 }
 
 //aumenta en num el numero de caminantes posibles en la población
 void Poblacion::addCams(int num){
-    assert(num+numCam > CAM_MAX);
+    assert(num+numCam <= CAM_MAX);
     numCam+=num;
 }
 
@@ -442,8 +537,17 @@ void Poblacion::mutar(int num){
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
+<<<<<<< HEAD
     assert(1+numCam > CAM_MAX);
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
+=======
+    assert(1+numCam <= CAM_MAX);
+    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2]);
+>>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
     numCam+=1;
 
+}
+
+void Poblacion::seleccionar(){
+    
 }

@@ -27,9 +27,19 @@ public:
 	//  Inicialización del monitor, se le pasa el vector de caminantes para
 	//para operar sobre ellos 
 	PoblacionAProcesar(Poblacion poblacion_);
+<<<<<<< HEAD
 	void seleccionar(int id);
 	void cruzar(int id, int id2);
 	void mutar(int id);
+=======
+
+	void seleccionar();
+
+	void cruzar(int id, int id2);
+
+	void mutar(int id);
+
+>>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 };

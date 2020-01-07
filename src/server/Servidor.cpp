@@ -12,21 +12,32 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+//const int ALL_POB = 1;
+//const int UPGRADE_POB = 0;
 
 //-------------------------------------------------------------
-void procesoCaminante(PoblacionAProcesar &pAp, int id, int op) {
+void procesoCaminante(PoblacionAProcesar &pAp, int id, int op, Socket socket, int client_fd) {
 	switch(op) {
-		case 0:
-			pAp.cruzar(id);
+		case 0:		// Cruzar
+			pAp.cruzar(id,id+1);
 			break;
-		case 1:
+		case 1:		// Mutar
 			pAp.mutar(id);
 			break;
-		case 2:
-			pAp.seleccionar(id);
+		case 2:		// Seleccionar
+			pAp.seleccionar();
 			break;
-		default:
+		default: 	// Operacion incorrecta
 			cout << "ERROR en operacion recibida" << endl;
+			// Send, enviar mensaje de error de operacion
+			string errorMsg = "ERROR-OP";
+			int send_bytes = socket.Send(client_fd,errorMsg);
+			if(send_bytes == -1) {
+				string mensError(strerror(errno));
+    			cerr << "Error al enviar datos: " + mensError + "\n";
+				socket.Close(client_fd);
+				exit(1);
+			}
 	}
 }
 
@@ -71,12 +82,12 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	// Buffer para recibir el mensaje
 	string buffer;  // Alamacena el mensaje
-
 	bool out = false; // Inicialmente no salir del bucle
+	bool primera_vez = true;
+	
 	while (!out) {
-		// Recibimos el mensaje del cliente
+		// Recibimos la peticion del cliente
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
@@ -88,17 +99,22 @@ int main(int argc, char *argv[]) {
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
-			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-				
 			Poblacion pob(buffer);			// Construir pobalcion
-			int operacion = atoi(buffer[0]);	// Operacion a realizar
-			pob.descodificar(&buffer[2],1);		// Descodificacion de la poblacion recibida
-			PoblacionAProcesar(pob);	// Construir monitor con la sub-poblacion recibida
+			if(primera_vez) {	//primera vez
+				primera_vez = false;
+				pob.descodificar(&buffer[2],ALL_POB);
+			}
+			else {	//actualizar
+				pob.descodificar(&buffer[2],UPGRADE_POB);
+			}
+			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
+			int operacion = atoi(&buffer[0]);	// Operacion a realizar
+			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 
-			int n = pAp.getNumCam();				// Obtener numero de caminantes
+			int n = pob.getNumCam();				// Obtener numero de caminantes
 			thread proceso[n];	
 			for(int i=0; i<n; i++) {
-				proceso[i] = thread(&procesoCaminante,ref(pAp),i,operacion);
+				proceso[i] = thread(&procesoCaminante,ref(pAp),i,operacion,socket,client_fd);
 			}
 
 			for(int i=0; i<n; i++) {

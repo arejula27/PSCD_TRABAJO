@@ -4,7 +4,7 @@
 //n = numero de personas
 PobActual:: PobActual(){
     numGen = 0;
-    historico[MAX_GENS][2];
+    //historico[MAX_GENS][2];
     for (int i = 0; i < MAX_GENS; i++)
     {
         sync[i] = false;

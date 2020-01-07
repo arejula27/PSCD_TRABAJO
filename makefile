@@ -27,7 +27,6 @@ CAM =${LIB_CAM}/caminante
 LIB_CLI =${SRC}/client
 CLI = ${LIB_CLI}/Cliente
 
-MON =${LIB_CLI}/Monitorizacion
 POBA=${LIB_CLI}/PoblacionActual
 
 BUILD = ./build
@@ -37,7 +36,7 @@ POBTEST = ${LIB_CAM}/mainPbPob
 
 #----------------------------------------------------------------------------
 CPPFLAGS=-I. -I${SOCKET_DIR} -I${LIB} -I${LIB_CAM} -O2 -std=c++11 -lsockets # Flags compilacion
-LDFLAGS=-pthread # Flags linkado threads
+LDFLAGS=-pthread -I${SOCKET_DIR} -I${LIB} -I${LIB_CAM} # Flags linkado threads
 TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11   # Flags compilacion
 
 
@@ -48,24 +47,17 @@ all: cliente
 #SOCKETSFLAGS=-lsocket -lnsl
 #-----------------------------------------------------------
 #CLIENTE
-cliente: ${CLI}.o ${MON}.o ${POBA}.o ${CAM}.o
-	${CC} -c ${CPPFLAGS} ${CLI}.o ${MON}.o ${POBA}.o -o ${CLI}
+cliente: ${CLI}.o  ${POBA}.o ${CAM}.o
+	${CC}  ${LDFLAGS} ${CLI}.o  ${CAM}.o ${POBA}.o -o ${CLI}
 
 ${CLI}.o: ${CLI}.cpp 
 	${CC} -c ${CPPFLAGS} ${CLI}.cpp  -o ${CLI}.o
-
-#-----------------------------------------------------------
-# Monitorización
-# Compilacion monitor de Monitorizacón
-${MON}.o: ${MON}.cpp 
-	${CC} -c ${CPPFLAGS} ${MON}.cpp  -o ${MON}.o
 
 #-----------------------------------------------------------
 # PoblacionActual
 # Compilacion monitor de PoblacionActual
 ${POBA}.o: ${POBA}.cpp 
 	${CC} -c ${CPPFLAGS} ${POBA}.cpp  -o ${POBA}.o
-
 #-----------------------------------------------------------
 # SOCKETS
 # Compilacion libreria de Sockets
@@ -78,7 +70,8 @@ ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
 ${CAM}.o: ${CAM}.hpp ${CAM}.cpp
 	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
 #-----------------------------------------------------------
-pobtest: ${POBTEST}.cpp ${CAM}.o
+pobtest: ${POBTEST}.cpp ${CAM}.o 
+
 	${CC}  ${POBTEST}.cpp ${CAM}.o ${TESTPOBFLG}  -o ${BUILD}/pobTest
 
 #-----------------------------------------------------------	

@@ -1,11 +1,28 @@
-#include <string>
+//*****************************************************************
+// File:   caminante.hpp
+// Author: Iñigo Arejula & Sergio Cartiel
+// Date:   Diciembre 2019/Enero 2020
+// Coms:   Especificación de las clases caminante y población
+//*****************************************************************
+
+
+
+#ifndef CAMINANTE_Y_POBLACION
+#define CAMINANTE_Y_POBLACION
+
+
+
+
+#include <string.h>
 #include <fstream>
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
+#include <iostream>
 #include <time.h> 
 using namespace std;
-const int  CITY_MAX =500;
-const int CAM_MAX = 100 ;
+
+const int CAM_MAX = 300;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
@@ -16,7 +33,7 @@ class Caminante
     //friend void Poblacion::calcFit();
 
 private:
-    int camino[CITY_MAX];
+    int *camino;
     float fitness;
 public:
 
@@ -29,13 +46,13 @@ public:
     //Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
     //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
-    void desCodificar(const string MiCamino, int &avance);
+    void desCodificar(const string MiCamino, int &avance, int max);
 
     //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
     // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
     string codificar();
 
-    void calcMiFit(int dist[CITY_MAX][CITY_MAX], int numCiuds);
+    void calcMiFit(int **dist, int numCiuds);
 
     //Devuelve el fitness del caminante.
     float MyFit();
@@ -44,7 +61,11 @@ public:
     void mutar();
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
+<<<<<<< HEAD
     void cruzar(const Caminante &O1, const Caminante &O2, const int &numCities);
+=======
+    void cruzar(const Caminante &c1, const Caminante &c2);
+>>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
 };
 
 
@@ -55,8 +76,9 @@ class Poblacion
     friend Caminante;
   
 private:
+    int sizeMatrix; 
     int numCities;
-    int dist[CITY_MAX][CITY_MAX];
+    int **dist;
     int numCam;
     Caminante caminantes[CAM_MAX];
     
@@ -117,5 +139,7 @@ public:
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
-        
+    void seleccionar();
 };
+
+#endif //!CAMINANTE_Y_POBLACION
