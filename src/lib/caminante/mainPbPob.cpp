@@ -701,7 +701,7 @@ bool camCruz()
     try
     {
       
-        cam3.cruzar(cam1, cam2);
+        cam3.cruzar(cam1, cam2, numCt);
         
         txt = cam3.codificar();
         
