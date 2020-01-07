@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// Listen
-    int max_connections = 1;
+    int max_connections = 10;
 	int error_code = socket.Listen(max_connections);
 	if (error_code == -1) {
 		string mensError(strerror(errno));
@@ -82,6 +82,8 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
+	cout << "Conexion establecida con el cliente: " << client_fd << endl;
+
 	string buffer;  // Alamacena el mensaje
 	bool out = false; // Inicialmente no salir del bucle
 	bool primera_vez = true;
@@ -95,6 +97,8 @@ int main(int argc, char *argv[]) {
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
+		cout << "Recibido: " << endl;
+		cout << buffer << endl;
 		
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 

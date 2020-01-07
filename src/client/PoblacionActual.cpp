@@ -1,4 +1,3 @@
-#include "caminante.hpp"
 #include "PoblacionActual.hpp"
 
 //n = numero de personas
