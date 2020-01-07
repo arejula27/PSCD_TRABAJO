@@ -350,6 +350,7 @@ bool comprobarMatr(string txt,int numCity,int first, int& idx)
     else
     {
         cerr << "Fichero no encontrado" << endl;
+        
     }
     idx+=2;
     return iguales;

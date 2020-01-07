@@ -216,6 +216,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     }
     else{
         cerr<<"Fichero no encontrado"<<endl;
+        exit(0);
     }
     f1.close();
 }
