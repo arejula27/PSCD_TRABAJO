@@ -1,7 +1,7 @@
 #*****************************************************************
 # File:   Makefile
-# Author: Miguel Gomez Lahera
-# Date:   December 2018
+# Author: Héctor Garcia
+# Date:   December 2019
 # Coms:  Es necesario descomentar la línea 28 para poder compilar en hendrix
 #*****************************************************************
 
