@@ -61,7 +61,7 @@ public:
     void mutar();
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
-    void cruzar(const Caminante &O1, const Caminante &O2, const int &numCities);
+    void cruzar(const Caminante &c1, const Caminante &c2);
 };
 
 

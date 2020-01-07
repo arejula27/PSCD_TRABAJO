@@ -80,20 +80,26 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 			serversAceptados++;
 		}
 	}
+	cout << serversAceptados << endl;
 	Poblacion pobs[serversAceptados];
+	cout << "llega2" << endl;
 	for (int i = 0; i < serversAceptados; i++){
 		pobs[i].getMatrixFrom(personas);
 	}
-
+	cout << "llega3" << endl;
+	int vueltas =1;
 	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
-
+		cout <<"vueltas: "<< vueltas << endl;
 		personas.dividir(serversAceptados,pobs);
+		cout << "llega5" << endl;
 		for (int j = 0; j < 3; j++){
 			// 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
 			for(int k = 0; k < serversAceptados; k++){
 				string msg = to_string(j) + "," + pobs[i].codificar((0==i)?ALL_POB:UPGRADE_POB);
+				cout << "Enviando: " << endl;
+				cout << msg << endl;
 				socketServ[i].Send(server_fd[i],msg);
 			}
 			for(int k = 0; k < serversAceptados; k++){
@@ -105,6 +111,7 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 		}
 		personas.fusionar(serversAceptados,pobs);
 		pa.esperaEstadistico();
+		i++;
 	}
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){

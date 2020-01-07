@@ -134,7 +134,7 @@ void Caminante::mutar()
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
-void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numCities)
+void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCities)
 {
     //Modo 1
     Caminante hijo;
@@ -181,6 +181,7 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numC
 Poblacion::Poblacion(){
     numCities = 0;
     numCam = 0;
+    dist=nullptr;
 }
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
@@ -245,6 +246,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     }
     else{
         cerr<<"Fichero no encontrado"<<endl;
+        exit(0);
     }
     f1.close();
 }
@@ -316,13 +318,15 @@ float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media)
 //divide la poblacion en n subpoblaciones y las devuelve en array
 void Poblacion::dividir(int n, Poblacion pobs[])
 {
+    cout<<"hola"<<endl;
+if(n>1){
     int sobr = numCam % n;
     int indx = 0;
-
     for (int i = 0; i < n; i++)
     {
-        pobs[i].numCities = numCities;
+        
         getMatrixFrom(*this);
+       
         int numSub = (numCam / n);
         if (sobr > 0)
         {
@@ -338,6 +342,22 @@ void Poblacion::dividir(int n, Poblacion pobs[])
         indx += numSub;
     }
 }
+    else{
+
+        getMatrixFrom(*this);
+        cout<<"caracola"<<endl;
+        pobs[0].numCam = this->numCam;
+        for (int j = 0; j < pobs[0].numCam; j++)
+        {
+            cout<<j<<endl; 
+            pobs[0].caminantes[j] = caminantes[j];
+        }
+        cout << "caracola2" << endl;
+    }
+
+
+}    
+
 
 
 void Poblacion::fusionar(int n, Poblacion pobs[]){
@@ -453,7 +473,7 @@ void Poblacion::descodificar(string msg, int flg)
 
         numCities = stoi(msg);
        
-        //delete dist;
+        delete dist;
         
         while (msg[inx++] != ':');
         dist = new int *[numCities];
@@ -495,13 +515,18 @@ void Poblacion::descodificar(string msg, int flg)
 void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
+    cout<<"1"<<endl;
     delete dist;
+    cout<<"2"<<endl;
     dist = new int *[numCities];
     for (int i = 0; i < numCities; i++)
     {
+        cout<<i+3<<endl;
         dist[i] = new int[i];
-        memcpy(dist[i],pob.dist[i],sizeof(dist[1]));
-         sizeMatrix = sizeof(int) * (i);
+        cout << "ates"<< endl;
+        if(i>0)memcpy(dist[i],pob.dist[i],sizeof(dist[i]));
+        cout << "depues" << endl;
+        sizeMatrix = sizeof(int) * (i);
     }
     
 }

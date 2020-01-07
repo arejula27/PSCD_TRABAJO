@@ -1,6 +1,6 @@
 #*****************************************************************
 # File:   Makefile
-# Author: Héctor Garcia
+# Author: Hector Garcia
 # Date:   December 2019
 # Coms:  Es necesario descomentar la línea 28 para poder compilar en hendrix
 #*****************************************************************
@@ -9,10 +9,9 @@
 CC=g++
 
 CLIENTE=Cliente
-SERVER=Servidor
-MONITOR=PoblacionAProcesar
+MONITOR=PoblacionActual
 
-SOCKET_DIR=../lib/Socket
+SOCKET_DIR=Socket
 SOCKET=${SOCKET_DIR}/Socket
 
 CAM_DIR=../lib/caminante
@@ -22,29 +21,20 @@ CPPFLAGS=-I. -I${SOCKET_DIR} -O2 -std=c++11 -lsockets # Flags compilacion
 LDFLAGS=-pthread # Flags linkado threads
 
 
-all: ${SERVER}
+all: ${CLIENTE}
 #----------------------------------------------------------------------------
 #Para gestionar opciones de compilación según la máquina: hendrix tiene sus manías
 #Descomentar la siguiente línea para compilar en hendrix
 #SOCKETSFLAGS=-lsocket -lnsl
 
-#CLIENTE
-#Compilacion
-${CLIENTE}.o: ${CLIENTE}.cpp 
-	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
-
-#Linkado
-${	CLIENTE}: ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o
-	${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o -o ${CLIENTE} ${SOCKETSFLAGS}
-
 # SERVIDOR
 # Compilacion
-${SERVER}.o: ${SERVER}.cpp 
-	${CC} -c ${CPPFLAGS} ${SERVER}.cpp 
+${CLIENTE}.o: ${CLIENTE}.cpp 
+	${CC} -c ${CPPFLAGS} ${CLIENTE}.cpp
 
 # Linkado
-${SERVER}: ${SOCKET}.o ${SERVER}.o ${MONITOR}.o ${CAM}.o
-	${CC} ${LDFLAGS} ${SOCKET}.o ${SERVER}.o ${MONITOR}.o ${CAM}.o -o ${SERVER} ${SOCKETSFLAGS}
+${CLIENTE}: ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o
+	${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o -o ${CLIENTE} ${SOCKETSFLAGS}
 #-----------------------------------------------------------
 # SOCKETS
 # Compilacion libreria de Sockets
@@ -54,7 +44,7 @@ ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
 # LIMPIEZA
 clean:
 	$(RM) ${SOCKET}.o
-	$(RM) ${SERVER}.o
+	$(RM) ${CLIENTE}.o
 	$(RM) ${MONITOR}.o
 	$(RM) ${CAM}.o
-	$(RM) ${SERVER}
+	$(RM) ${CLIENTE}
