@@ -12,7 +12,7 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
-//const int ALL_POB = 1;
+const int ALL_POB = 1;
 //const int UPGRADE_POB = 0;
 
 //-------------------------------------------------------------
@@ -84,10 +84,10 @@ int main(int argc, char *argv[]) {
 
 	cout << "Conexion establecida con el cliente: " << client_fd << endl;
 
-	string buffer;  // Alamacena el mensaje
+	string buffer;  // Almacena el mensaje
 	bool out = false; // Inicialmente no salir del bucle
 	bool primera_vez = true;
-	
+	Poblacion pob;
 	while (!out) {
 		// Recibimos la peticion del cliente
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
@@ -96,16 +96,17 @@ int main(int argc, char *argv[]) {
     		cerr << "Error al recibir datos: " + mensError + "\n";
 			socket.Close(client_fd);
 		}
-		cout << "Recibida peticion del cliente " << endl;
+		cout << "Recibido mensaje " << endl;
 		
 		if (buffer == MENS_FIN) {
 			cout<<"Ultimo mensaje"<<endl;// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
-			Poblacion pob(buffer);			// Construir pobalcion
 			if(primera_vez) {	//primera vez
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
+				cout<<"He decodificado el mensaje"<<endl;
+
 			}
 			else {	//actualizar
 				pob.descodificar(&buffer[2],UPGRADE_POB);
