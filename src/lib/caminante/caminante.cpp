@@ -134,7 +134,6 @@ void Caminante::mutar()
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
-<<<<<<< HEAD
 void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numCities)
 {
     //Modo 1
@@ -168,11 +167,6 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int &numC
 
     hijo.camino[numCities]=hijo.camino[0];
     */
-=======
-void Caminante::cruzar(const Caminante &c1, const Caminante &c2)
-{
-    camino = c1.camino;
->>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
 }
 
 
@@ -537,13 +531,8 @@ void Poblacion::mutar(int num){
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
-<<<<<<< HEAD
     assert(1+numCam > CAM_MAX);
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
-=======
-    assert(1+numCam <= CAM_MAX);
-    caminantes[numCam].cruzar(caminantes[p1],caminantes[p2]);
->>>>>>> 2730dc1c650405389869ed8c0a99f98748f97600
     numCam+=1;
 
 }

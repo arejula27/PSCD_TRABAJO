@@ -8,6 +8,7 @@
 #---------------------------------------------------------
 CC=g++
 
+CLIENTE=Cliente
 SERVER=Servidor
 MONITOR=PoblacionAProcesar
 SOCKET_DIR=Socket
@@ -33,10 +34,19 @@ ${CAM}.o: ${CAM}.hpp ${CAM}.cpp
 ${MONITOR}.o: ${MONITOR}.hpp ${MONITOR}.cpp
 	${CC} -c ${CPPFLAGS} ${MONITOR}.cpp ${CAM}.o -o ${MONITOR}.o
 
+#CLIENTE
+#Compilacion
+${CLIENTE}.o: ${CLIENTE}.cpp 
+	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
+
+#Linkado
+${	CLIENTE}: ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o
+	${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENTE}.o ${MONITOR}.o ${CAM}.o -o ${CLIENTE} ${SOCKETSFLAGS}
+
 # SERVIDOR
 # Compilacion
 ${SERVER}.o: ${SERVER}.cpp 
-	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
+	${CC} -c ${CPPFLAGS} ${SERVER}.cpp 
 
 # Linkado
 ${SERVER}: ${SOCKET}.o ${SERVER}.o ${MONITOR}.o ${CAM}.o
