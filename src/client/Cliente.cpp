@@ -135,16 +135,18 @@ void controlGenetico(const int NUM_SERVERS,const int SERVER_PORT, Poblacion &per
 int main(int argc, char const *argv[]){
 
 	const string MENS_FIN("END OF SERVICE");
-    int SERVER_PORT = 2000;
+    int SERVER_PORT;
 	//El numero de servidores que tenemos que lanzar
 	const int NUM_SERVERS = atoi(argv[1]);
 	//Numero de personas en nuestra poblacion
 	int NUM_PERSONAS = atoi(argv[2]);
-	PobActual pa;
+	
+	cout<< "Que puerto vas a usar? ";
+	cin >> SERVER_PORT;
 	cout << "Que fichero quieres abrir ? ";
 	string fichero;
 	cin >> fichero;
-	cout << "Cuantas ciudades vamos a tener ? " << endl;
+	cout << "Cuantas ciudades vamos a tener ? " ;
 	int cities;
 	cin >> cities;
 	#warning la ciudad a inicial se puede cambiar
