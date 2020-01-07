@@ -5,7 +5,7 @@
 #include <string>
 #include <mutex>
 #include <condition_variable>
-#include "../lib/caminante/caminante.hpp"
+#include "caminante.hpp"
 
 using namespace std;
 //Numero maximo de generaciones que crearemos

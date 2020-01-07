@@ -144,10 +144,11 @@ void isFitCorr(){
 
 bool isDivYFus(){
     Poblacion a(100, 4, 12, "./../entradas/uk12.txt");
-    Poblacion Pobs[4];
-    a.dividir(4,Pobs);
+    Poblacion Pobs[1];
+    a.dividir(1,Pobs);
+  
     string a1 = a.codificar();
-    a.fusionar(4,Pobs);
+    a.fusionar(1,Pobs);
     string a2 = a.codificar();
     return a1 == a2;
 }
@@ -599,7 +600,7 @@ bool tryselec()
     return res;
 }
 
-void sacarPantSelección()
+void sacarPantSeleccion()
 {
 
     cout << "------------" << endl;
@@ -750,7 +751,7 @@ int main()
     sacarPantCamCruz();
     sacarPantMutar();
     sacarPantCruzar();
-    sacarPantSelección();
+    sacarPantSeleccion();
 
     return 0;
  }

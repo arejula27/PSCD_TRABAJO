@@ -11,7 +11,7 @@ CC=g++
 SERVER=Servidor
 MONITOR=PoblacionAProcesar
 
-SOCKET_DIR=Socket
+SOCKET_DIR=../lib/Socket
 SOCKET=${SOCKET_DIR}/Socket
 
 CAM_DIR=../lib/caminante
