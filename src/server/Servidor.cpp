@@ -12,7 +12,7 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
-const int ALL_POB = 1;
+//const int ALL_POB = 1;
 //const int UPGRADE_POB = 0;
 
 //-------------------------------------------------------------
