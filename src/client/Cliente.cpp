@@ -140,9 +140,10 @@ int main(int argc, char const *argv[]){
 	const int NUM_SERVERS = atoi(argv[1]);
 	//Numero de personas en nuestra poblacion
 	int NUM_PERSONAS = atoi(argv[2]);
-	
+
+	PobActual pa;
 	cout<< "Que puerto vas a usar? ";
-	cin >> SERVER_PORT;
+	cin>>SERVER_PORT;
 	cout << "Que fichero quieres abrir ? ";
 	string fichero;
 	cin >> fichero;
