@@ -97,8 +97,7 @@ int main(int argc, char *argv[]) {
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
-		cout << "Recibido: " << endl;
-		cout << buffer << endl;
+		cout << "Recibido " << endl;
 		
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
