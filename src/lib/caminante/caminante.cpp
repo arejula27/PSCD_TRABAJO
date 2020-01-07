@@ -292,7 +292,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
 
     for (int i = 0; i < n; i++)
     {
-        pobs[i].numCities = numCities;
+        
         getMatrixFrom(*this);
         int numSub = (numCam / n);
         if (sobr > 0)
