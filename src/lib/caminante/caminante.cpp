@@ -151,6 +151,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2)
 Poblacion::Poblacion(){
     numCities = 0;
     numCam = 0;
+    dist=nullptr;
 }
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
@@ -423,7 +424,7 @@ void Poblacion::descodificar(string msg, int flg)
 
         numCities = stoi(msg);
        
-        //delete dist;
+        delete dist;
         
         while (msg[inx++] != ':');
         dist = new int *[numCities];
