@@ -95,12 +95,11 @@ int main(int argc, char *argv[]) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
 			socket.Close(client_fd);
-			socket.Close(socket_fd);
 		}
-		cout << "Recibido: " << endl;
-		cout << buffer << endl;
+		cout << "Recibida peticion del cliente " << endl;
 		
-		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
+		if (buffer == MENS_FIN) {
+			cout<<"Ultimo mensaje"<<endl;// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
 			Poblacion pob(buffer);			// Construir pobalcion
