@@ -16,30 +16,18 @@ const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 //const int UPGRADE_POB = 0;
 
 //-------------------------------------------------------------
-void procesoCaminante(PoblacionAProcesar &pAp, int id, int op, Socket socket, int client_fd) {
-	switch(op) {
-		case 0:		// Cruzar
-			pAp.cruzar(id,id+1);
-			break;
-		case 1:		// Mutar
-			pAp.mutar(id);
-			break;
-		case 2:		// Seleccionar
-			pAp.seleccionar();
-			break;
-		default: 	// Operacion incorrecta
-			cout << "ERROR en operacion recibida" << endl;
-			// Send, enviar mensaje de error de operacion
-			string errorMsg = "ERROR-OP";
-			int send_bytes = socket.Send(client_fd,errorMsg);
-			if(send_bytes == -1) {
-				string mensError(strerror(errno));
-    			cerr << "Error al enviar datos: " + mensError + "\n";
-				socket.Close(client_fd);
-				exit(1);
-			}
-	}
+void procesoCruzar(PoblacionAProcesar &pAp, int id) {
+	pAp.cruzar(id,id+1);
 }
+
+void procesoMutar(PoblacionAProcesar &pAp, int id) {
+	pAp.mutar(id);
+}
+
+void procesoSeleccionar(PoblacionAProcesar &pAp) {
+	pAp.seleccionar();
+}
+
 
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
@@ -102,27 +90,58 @@ int main(int argc, char *argv[]) {
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
-			
 			if(primera_vez) {	//primera vez
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
 			}
-			else {	//actualizar
+			else {				//actualizar
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = atoi(&buffer[0]);	// Operacion a realizar
+			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
-
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			thread proceso[n];	
-			for(int i=0; i<n; i++) {
-				proceso[i] = thread(&procesoCaminante,ref(pAp),i,operacion,socket,client_fd);
+			cout << "Numero de caminantes recibidos: " << n << endl;
+			thread proceso[n];
+			
+			switch(operacion) {
+				case 0:		// Cruzar
+					for(int i=0; i<n-1; i++) {
+						cout << "Se va a cruzar " << i << " y " << i+1 << endl;
+						proceso[i] = thread(&procesoCruzar,ref(pAp),i);
+					}
+					for(int i=0; i<n-1; i++) {
+						proceso[i].join();
+					}
+					break;
+				case 1:		// Mutar
+					for(int i=0; i<n; i++) {
+						cout << "Se va a mutar " << i << endl;
+						proceso[i] = thread(&procesoMutar,ref(pAp),i);
+					}
+					for(int i=0; i<n; i++) {
+						proceso[i].join();
+					}
+					break;
+				case 2:		// Seleccionar
+					cout << "Comienza proeso de seleccion" << endl;
+					procesoSeleccionar(ref(pAp));
+					break;
+				default:	// Operacion incorrecta
+					cout << "ERROR en operacion recibida" << endl;
+					// Enviar mensaje de error de operacion
+					string errorMsg = "ERROR-OP";
+					int send_bytes = socket.Send(client_fd,errorMsg);
+					if(send_bytes == -1) {
+						string mensError(strerror(errno));
+						cerr << "Error al enviar datos: " + mensError + "\n";
+						socket.Close(client_fd);
+						exit(1);
+					}
+
 			}
 
-			for(int i=0; i<n; i++) {
-				proceso[i].join();
-			}
+			
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
