@@ -318,58 +318,53 @@ float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media)
 //divide la poblacion en n subpoblaciones y las devuelve en array
 void Poblacion::dividir(int n, Poblacion pobs[])
 {
-    cout<<"hola"<<endl;
-if(n>1){
-    int sobr = numCam % n;
-    int indx = 0;
-    for (int i = 0; i < n; i++)
-    {
+    if(n>1){
+        int sobr = numCam % n;
+        int indx = 0;
+        for (int i = 0; i < n; i++)
+        {
+            
+            getMatrixFrom(*this);
         
-        getMatrixFrom(*this);
-       
-        int numSub = (numCam / n);
-        if (sobr > 0)
-        {
-            numSub++;
-            sobr--;
+            int numSub = (numCam / n);
+            if (sobr > 0)
+            {
+                numSub++;
+                sobr--;
+            }
+            pobs[i].numCam = numSub;
+            //¿optimizar el bucle con memcopy?
+            for (int j = 0; j < numSub; j++)
+            {
+                pobs[i].caminantes[j] = caminantes[j + indx];
+            }
+            indx += numSub;
         }
-        pobs[i].numCam = numSub;
-        //¿optimizar el bucle con memcopy?
-        for (int j = 0; j < numSub; j++)
-        {
-            pobs[i].caminantes[j] = caminantes[j + indx];
-        }
-        indx += numSub;
     }
-}
-    else{
+        else{
 
-        getMatrixFrom(*this);
-        cout<<"caracola"<<endl;
-        pobs[0].numCam = this->numCam;
-        for (int j = 0; j < pobs[0].numCam; j++)
-        {
-            cout<<j<<endl; 
-            pobs[0].caminantes[j] = caminantes[j];
-        }
-        cout << "caracola2" << endl;
-    }
-
+            getMatrixFrom(*this);
+            pobs[0].numCam = this->numCam;
+            for (int j = 0; j < pobs[0].numCam; j++)
+            {
+                pobs[0].caminantes[j] = caminantes[j];
+            }
+        }         
 
 }    
 
 
 
-void Poblacion::fusionar(int n, Poblacion pobs[]){
-    int idx = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < pobs[i].getNumCam(); j++)
+    void Poblacion::fusionar(int n, Poblacion pobs[]){
+        int idx = 0;
+        for (int i = 0; i < n; i++)
         {
-            caminantes[idx] = pobs[i].caminantes[j];
-            idx++;
+            for (int j = 0; j < pobs[i].getNumCam(); j++)
+            {
+                caminantes[idx] = pobs[i].caminantes[j];
+                idx++;
+            }
         }
-    }
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
@@ -405,7 +400,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     avance++;
     while (MiMatriz[avance] != ')')
     {
-        //cout << "beep" << endl;
+       
         int col = 0;
         while (MiMatriz[avance] != ';')
         {
@@ -422,7 +417,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
             
             dist[fil][col] = aux;
 
-            //cout << "boop" << endl;
+            
             col++;
             aux = 0;
         }
@@ -515,17 +510,17 @@ void Poblacion::descodificar(string msg, int flg)
 void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
-    cout<<"1"<<endl;
+    
     delete dist;
-    cout<<"2"<<endl;
+   
     dist = new int *[numCities];
     for (int i = 0; i < numCities; i++)
     {
-        cout<<i+3<<endl;
+        
         dist[i] = new int[i];
-        cout << "ates"<< endl;
+        
         if(i>0)memcpy(dist[i],pob.dist[i],sizeof(dist[i]));
-        cout << "depues" << endl;
+        
         sizeMatrix = sizeof(int) * (i);
     }
     
