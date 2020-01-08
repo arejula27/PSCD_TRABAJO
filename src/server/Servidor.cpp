@@ -12,12 +12,17 @@
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
-//const int ALL_POB = 1;
-//const int UPGRADE_POB = 0;
+const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
 
 //-------------------------------------------------------------
-void procesoCruzar(PoblacionAProcesar &pAp, int id) {
-	pAp.cruzar(id,id+1);
+void procesoCruzar(PoblacionAProcesar &pAp, int id, int n) {
+	if(id == n-1) {	// si es el ultimo
+		pAp.cruzar(0,id);	// se cruzara con el primero
+	}
+	else {
+		pAp.cruzar(id,id+1);
+	}
+	
 }
 
 void procesoMutar(PoblacionAProcesar &pAp, int id) {
@@ -101,26 +106,59 @@ int main(int argc, char *argv[]) {
 			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
+			int div_n = n/NUM_PROCESOS_MAX;
+			int resto = n%NUM_PROCESOS_MAX;
 			cout << "Numero de caminantes recibidos: " << n << endl;
+			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
 			thread proceso[n];
-			
+			int id = 0;
 			switch(operacion) {
 				case 0:		// Cruzar
-					for(int i=0; i<n-1; i++) {
-						cout << "Se va a cruzar " << i << " y " << i+1 << endl;
-						proceso[i] = thread(&procesoCruzar,ref(pAp),i);
+					// Cruzar de 5 en 5
+					for(int j=0; j<div_n; j++) {
+						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+							cout << "Se va a cruzar " << id << " y " << id+1 << endl;
+							proceso[id] = thread(&procesoCruzar,ref(pAp),id,n);
+							id++;
+						}
+						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+							proceso[id].join();
+							id++;
+						}
 					}
-					for(int i=0; i<n-1; i++) {
-						proceso[i].join();
+					// Cruzar los restantes
+					for(int i=0; i<resto; i++) {
+						cout << "Se va a cruzar " << id << " y " << id+1 << endl;
+						proceso[id] = thread(&procesoCruzar,ref(pAp),id,n);
+						id++;
+					}
+					for(int i=0; i<resto; i++) {
+						proceso[id].join();
+						id++;
 					}
 					break;
 				case 1:		// Mutar
-					for(int i=0; i<n; i++) {
-						cout << "Se va a mutar " << i << endl;
-						proceso[i] = thread(&procesoMutar,ref(pAp),i);
+					// Mutar de 5 en 5
+					for(int j=0; j<div_n; j++) {
+						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+							cout << "Se va a mutar " << id << endl;
+							proceso[id] = thread(&procesoMutar,ref(pAp),id);
+							id++;
+						}
+						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+							proceso[id].join();
+							id++;
+						}
 					}
-					for(int i=0; i<n; i++) {
-						proceso[i].join();
+					// Mutar los restantes
+					for(int i=0; i<resto; i++) {
+						cout << "Se va a mutar " << id << endl;
+						proceso[id] = thread(&procesoMutar,ref(pAp),id);
+						id++;
+					}
+					for(int i=0; i<resto; i++) {
+						proceso[id].join();
+						id++;
 					}
 					break;
 				case 2:		// Seleccionar
