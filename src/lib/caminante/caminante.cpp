@@ -148,7 +148,7 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCi
     for (int i=corte; i<numCities; i++){
         hijo.camino[i] = O2.camino[i];
     }
-
+ 
     hijo.camino[numCities]=hijo.camino[0];
 
     /***Modo 2 (habria que implementar una variable para elegir el modo)
@@ -182,12 +182,17 @@ Poblacion::Poblacion(){
     numCities = 0;
     numCam = 0;
     dist=nullptr;
+    caminantes=nullptr;
+    maxCami=0;
 }
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
     //inicializar numCam
+    int extra=numCamis*20/100;
+    maxCami=extra+2*numCamis;
+    caminantes=new Caminante[maxCami];
     //rellenar la matriz
     //inicializar numCities
     dist= new int*[numCiuds];
@@ -268,6 +273,10 @@ Poblacion::Poblacion(string data)
     descodificarMatriz(data, inx);
     
     numCam = stoi(&data[inx]);
+
+    int extra = numCam * 20 / 100;
+    maxCami = extra + 2 * numCam;
+    caminantes = new Caminante[maxCami];
     while (data[inx++] != ':');
     //descodificar todos los viajeros
     for (int i = 0; i < numCam; i++)
@@ -318,7 +327,7 @@ float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media)
 //divide la poblacion en n subpoblaciones y las devuelve en array
 void Poblacion::dividir(int n, Poblacion pobs[])
 {
-    cout<<"hola"<<endl;
+
 if(n>1){
     int sobr = numCam % n;
     int indx = 0;
@@ -540,7 +549,7 @@ Caminante Poblacion::getCaminante(int id) {
 
 //aumenta en num el numero de caminantes posibles en la población
 void Poblacion::addCams(int num){
-    assert(num+numCam <= CAM_MAX);
+    assert(num+numCam <= maxCami);
     numCam+=num;
 }
 
@@ -556,7 +565,7 @@ void Poblacion::mutar(int num){
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
-    assert(1+numCam > CAM_MAX);
+    assert(1+numCam > maxCami);
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
 

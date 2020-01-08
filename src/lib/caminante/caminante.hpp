@@ -22,7 +22,7 @@
 #include <time.h> 
 using namespace std;
 
-const int CAM_MAX = 300;
+
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
@@ -72,11 +72,12 @@ class Poblacion
     friend Caminante;
   
 private:
+    int maxCami;
     int sizeMatrix; 
     int numCities;
     int **dist;
     int numCam;
-    Caminante caminantes[CAM_MAX];
+    Caminante *caminantes;
     
 
 public:
