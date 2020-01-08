@@ -327,15 +327,13 @@ float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media)
 //divide la poblacion en n subpoblaciones y las devuelve en array
 void Poblacion::dividir(int n, Poblacion pobs[])
 {
-
-if(n>1){
     int sobr = numCam % n;
     int indx = 0;
+
     for (int i = 0; i < n; i++)
     {
-        
+
         getMatrixFrom(*this);
-       
         int numSub = (numCam / n);
         if (sobr > 0)
         {
@@ -351,55 +349,18 @@ if(n>1){
         indx += numSub;
     }
 }
-    else{
 
-        getMatrixFrom(*this);
-        cout<<"caracola"<<endl;
-        pobs[0].numCam = this->numCam;
-        for (int j = 0; j < pobs[0].numCam; j++)
+void Poblacion::fusionar(int n, Poblacion pobs[])
+{
+    int idx = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < pobs[i].getNumCam(); j++)
         {
-            
-            getMatrixFrom(*this);
-        
-            int numSub = (numCam / n);
-            if (sobr > 0)
-            {
-                numSub++;
-                sobr--;
-            }
-            pobs[i].numCam = numSub;
-            //¿optimizar el bucle con memcopy?
-            for (int j = 0; j < numSub; j++)
-            {
-                pobs[i].caminantes[j] = caminantes[j + indx];
-            }
-            indx += numSub;
+            caminantes[idx] = pobs[i].caminantes[j];
+            idx++;
         }
     }
-        else{
-
-            getMatrixFrom(*this);
-            pobs[0].numCam = this->numCam;
-            for (int j = 0; j < pobs[0].numCam; j++)
-            {
-                pobs[0].caminantes[j] = caminantes[j];
-            }
-        }         
-
-}    
-
-
-
-    void Poblacion::fusionar(int n, Poblacion pobs[]){
-        int idx = 0;
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < pobs[i].getNumCam(); j++)
-            {
-                caminantes[idx] = pobs[i].caminantes[j];
-                idx++;
-            }
-        }
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
