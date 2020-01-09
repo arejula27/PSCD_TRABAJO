@@ -85,17 +85,8 @@ ${CLI}.o: ${CLI}.cpp
 # Compilacion monitor de PoblacionActual
 ${POBA}.o: ${POBA}.cpp 
 	${CC} -c ${CPPFLAGS} ${POBA}.cpp  -o ${POBA}.o
-#-----------------------------------------------------------
-# SOCKETS
-# Compilacion libreria de Sockets
-${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
-	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
-#-----------------------------------------------------------	
 
-# Caminate
-# Compilacion libreria de Caminante
-${CAM}.o: ${CAM}.hpp ${CAM}.cpp
-	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
+
 #-----------------------------------------------------------
 pobtest: ${POBTEST}.cpp ${CAM}.o 
 
