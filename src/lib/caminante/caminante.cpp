@@ -602,13 +602,14 @@ void Poblacion::mutar(int num){
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
  
-    cout<<"entro "<< p1<<endl;
+    cout<<"entro "<< p1 << " y " << p2 << endl;
     assert(1 + numCam < maxCami);
    
 
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-    cout << "salgo " << p1 << endl;
+    cout << "CAMINANTES: " << numCam << endl;
+    cout << "salgo " << p1 << " y " << p2 << endl;
 }
 
 void Poblacion::seleccionar(){

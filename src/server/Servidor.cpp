@@ -8,19 +8,44 @@
 #include <thread>
 #include <cstring>
 #include "PoblacionAProcesar.hpp"
+#include <math.h>
+#include <unistd.h>
 
 using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
+const double PORCENTAJE_EXTRA = 0.1;	//numero de caminantes de más que vamos a crear
 
 //-------------------------------------------------------------
-void procesoCruzar(PoblacionAProcesar &pAp, int id, int n) {
-	if(id == n-1) {	// si es el ultimo
-		pAp.cruzar(id,0);	// se cruzara con el primero
+void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
+	if(j != 4) {
+		for(int i=comienzo;i<comienzo+div_n;i++){
+			//int aleatorio = 0 + (rand() % static_cast<int>(1000000- 0 + 1));
+			//usleep(aleatorio);
+			if(i == div_n) {
+				pAp.cruzar(i,comienzo);
+			}
+			else {
+				pAp.cruzar(i,i+1);
+			}		
+		}
 	}
-	else {
-		pAp.cruzar(id,id+1);
+	else {	// proceso extra
+		for(int i=0; i<extra; i++) {
+			bool puede = false;
+			while(!puede) {
+				int aleatorio = 0 + (rand() % static_cast<int>(n - 0 + 1));
+				
+				int aleatorio2 = 0 + (rand() % static_cast<int>(n - 0 + 1));
+				cout << "Aleatorios: " << aleatorio << " y " << aleatorio2 << endl;
+				if(aleatorio != aleatorio2) {
+					puede = true;
+					pAp.cruzar(aleatorio,aleatorio2);
+				} 
+			}
+			
+		}
 	}
 	
 }
@@ -36,6 +61,7 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
+	srand(time(NULL));
 	char MENS_FIN[]="END OF SERVICE";
 	
     if(argc != 2) {	// Comprobar que se introduce el puerto de escucha
@@ -106,36 +132,34 @@ int main(int argc, char *argv[]) {
 			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int div_n = n/NUM_PROCESOS_MAX;
+			int extra = trunc(n*PORCENTAJE_EXTRA);
+			int div_n = n/(NUM_PROCESOS_MAX-1);
 			int resto = n%NUM_PROCESOS_MAX;
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
-			thread proceso[n];
+			cout << "Numero de caminantes extra: " << extra << endl;
+			thread proceso[NUM_PROCESOS_MAX];
 			int id = 0;
+			int comienzo=0;
 			switch(operacion) {
 				case 0:		// Cruzar
-					// Cruzar de 5 en 5
-					for(int j=0; j<NUM_PROCESOS_MAX; j++) {
-						for(int i=0; i<div_n; i++) {
-							cout << "Se va a cruzar " << id << " y " << id+1 << endl;
-							proceso[id] = thread(&procesoCruzar,ref(pAp),id,n);
-							id++;
+					// Cruzar con 5 hilos
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						if(i==3) {
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+resto,n,i,extra);
 						}
-						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-							proceso[id].join();
-							id++;
+						else if(i==4) {	// hilo para cruzar los extra
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
 						}
+						else {
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
+						}
+						comienzo += div_n;
 					}
-					// Cruzar los restantes
-					for(int i=0; i<resto; i++) {
-						cout << "Se va a cruzar " << id << " y " << id+1 << endl;
-						proceso[id] = thread(&procesoCruzar,ref(pAp),id,n);
-						id++;
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						proceso[i].join();
 					}
-					for(int i=0; i<resto; i++) {
-						proceso[id].join();
-						id++;
-					}
+					cout << "Cruces terminados" << endl;
 					break;
 				case 1:		// Mutar
 					// Mutar de 5 en 5
@@ -180,11 +204,16 @@ int main(int argc, char *argv[]) {
 			}
 
 			
+			
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 
+			cout << "Caminantes ahora: " << pob.getNumCam() << endl;
+
 			string nuevaSubPoblacion = pob.codificar();	//generar cadena resultado
+
+			cout << nuevaSubPoblacion << endl;
 			
             // Send, enviar nueva sub-poblacion al cliente
 			int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
@@ -195,6 +224,8 @@ int main(int argc, char *argv[]) {
 				socket.Close(socket_fd);
 				exit(1);
 			}
+
+			cout << "Mensaje enviado al cliente" << endl;
 		}
 	}
 

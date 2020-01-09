@@ -4,7 +4,7 @@
 //*****************************************************************
 
 #ifndef POBLACIONAPROCESAR_H
-#define POBLACIONAPROCEAR_H
+#define POBLACIONAPROCESAR_H
 
 #include <iostream>
 #include <mutex>

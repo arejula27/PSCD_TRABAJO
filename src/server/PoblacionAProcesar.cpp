@@ -8,7 +8,7 @@
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	this->poblacion = poblacion_;
-};
+}
 
 
 //----------------------------------------------------------
@@ -22,7 +22,6 @@ void PoblacionAProcesar::seleccionar() {
 // funcion cruzar
 void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para llamar a cruzar
     unique_lock<mutex> lck(mtx);
-    cout<<"entro en monitor"<<endl;
     poblacion.cruzar(id,id2);
 
 }
