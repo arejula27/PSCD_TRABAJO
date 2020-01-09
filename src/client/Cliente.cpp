@@ -132,10 +132,17 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	}
 	cout <<"Servidores aceptados:"<< serversAceptados << endl;
 	Poblacion pobs[serversAceptados];
+	/*
 	for (int i = 0; i < serversAceptados; i++){
 		pobs[i].getMatrixFrom(personas);
 	}
-	bool first = true;
+	*/
+	string mtx = personas.codificarMatriz();
+	for(int i=0;i<serversAceptados;i++){
+		string msgMtx= "3,"+mtx;
+		socketServ[i].Send(server_fd[i],msg);
+	}
+
 	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< i << endl;
 		personas.dividir(serversAceptados,pobs);
@@ -144,11 +151,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			// 1 mutar
 			// 2 seleccionar
 			for(int k = 0; k < serversAceptados; k++){
-				string msg = to_string(j) + "," + pobs[i].codificar((first)?ALL_POB:UPGRADE_POB);
-				if(first)first= false; 
-				
+				string msg = to_string(j) + "," +pobs[i].codificar(UPGRADE_POB);
 				socketServ[i].Send(server_fd[i],msg);
-				cout << "Mensaje enviado a servidor, "<<k<<" operación "<<j<<" ,con generación: "<<i<< endl;
+				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
+				//cout<<msg<<endl;
 			}
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
@@ -197,9 +203,9 @@ int main(int argc, char const *argv[]){
  
 	Poblacion proletariado(numPersonas,3,cities,fichero);
 
-	thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
+	//thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
 	thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
-	estadistico.join();
+	//estadistico.join();
 	GAcontrol.join();
 
 	return 0;

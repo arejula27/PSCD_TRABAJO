@@ -35,7 +35,6 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-   
     avance--;
     delete [] camino;
     camino = new int[max + 1];
@@ -61,9 +60,6 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         avance++;
     }
     avance++;
-
-
-  
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
@@ -542,7 +538,6 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
-     
         delete[] caminantes;
   
         assert(numCam<=maxCami);
@@ -552,7 +547,6 @@ void Poblacion::descodificar(string msg, int flg)
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            
             int avz = 0;
             caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
