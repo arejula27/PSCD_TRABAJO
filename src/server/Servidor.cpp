@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres
 const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;	//numero de caminantes de más que vamos a crear
 
@@ -38,7 +38,6 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
 				int aleatorio = 0 + (rand() % static_cast<int>(n - 0 + 1));
 				
 				int aleatorio2 = 0 + (rand() % static_cast<int>(n - 0 + 1));
-				cout << "Aleatorios: " << aleatorio << " y " << aleatorio2 << endl;
 				if(aleatorio != aleatorio2) {
 					puede = true;
 					pAp.cruzar(aleatorio,aleatorio2);
@@ -120,7 +119,6 @@ int main(int argc, char *argv[]) {
 			socket.Close(socket_fd);
 		}
 		cout << "Recibido " << endl;
-		
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
@@ -148,16 +146,14 @@ int main(int argc, char *argv[]) {
 				case 0:		// Cruzar
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						if(i==3) {
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+resto,n,i,extra);
+						if(resto>0) {
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);
+							comienzo += div_n+1;
 						}
-						else if(i==4) {	// hilo para cruzar los extra
+						else{	// hilo para cruzar los extra
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
+							comienzo += div_n;
 						}
-						else {
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
-						}
-						comienzo += div_n;
 					}
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
@@ -203,8 +199,6 @@ int main(int argc, char *argv[]) {
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 
-			cout << "Caminantes ahora: " << pob.getNumCam() << endl;
-
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
 			
@@ -218,7 +212,6 @@ int main(int argc, char *argv[]) {
 				socket.Close(socket_fd);
 				exit(1);
 			}
-
 			cout << "Mensaje enviado al cliente" << endl;
 		}
 	}
