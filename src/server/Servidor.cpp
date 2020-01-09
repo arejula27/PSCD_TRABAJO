@@ -50,8 +50,11 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
 	
 }
 
-void procesoMutar(PoblacionAProcesar &pAp, int id) {
-	pAp.mutar(id);
+void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n) {
+	for(int i=comienzo; i<comienzo+div_n; i++) {
+		pAp.mutar(i);
+	}
+	
 }
 
 void procesoSeleccionar(PoblacionAProcesar &pAp) {
@@ -162,27 +165,18 @@ int main(int argc, char *argv[]) {
 					cout << "Cruces terminados" << endl;
 					break;
 				case 1:		// Mutar
-					// Mutar de 5 en 5
-					for(int j=0; j<div_n; j++) {
-						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-							cout << "Se va a mutar " << id << endl;
-							proceso[id] = thread(&procesoMutar,ref(pAp),id);
-							id++;
+					// Mutar caminantes reptartido en 5 procesos
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						if(i == 0) {
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto);
 						}
-						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-							proceso[id].join();
-							id++;
+						else {
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n);
 						}
+						comienzo += div_n;
 					}
-					// Mutar los restantes
-					for(int i=0; i<resto; i++) {
-						cout << "Se va a mutar " << id << endl;
-						proceso[id] = thread(&procesoMutar,ref(pAp),id);
-						id++;
-					}
-					for(int i=0; i<resto; i++) {
-						proceso[id].join();
-						id++;
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						proceso[i].join();
 					}
 					break;
 				case 2:		// Seleccionar
