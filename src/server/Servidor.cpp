@@ -17,7 +17,7 @@ const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
 //-------------------------------------------------------------
 void procesoCruzar(PoblacionAProcesar &pAp, int id, int n) {
 	if(id == n-1) {	// si es el ultimo
-		pAp.cruzar(0,id);	// se cruzara con el primero
+		pAp.cruzar(id,0);	// se cruzara con el primero
 	}
 	else {
 		pAp.cruzar(id,id+1);
@@ -115,8 +115,8 @@ int main(int argc, char *argv[]) {
 			switch(operacion) {
 				case 0:		// Cruzar
 					// Cruzar de 5 en 5
-					for(int j=0; j<div_n; j++) {
-						for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+					for(int j=0; j<NUM_PROCESOS_MAX; j++) {
+						for(int i=0; i<div_n; i++) {
 							cout << "Se va a cruzar " << id << " y " << id+1 << endl;
 							proceso[id] = thread(&procesoCruzar,ref(pAp),id,n);
 							id++;

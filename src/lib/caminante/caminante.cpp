@@ -601,10 +601,17 @@ void Poblacion::mutar(int num){
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
-    assert(1+numCam > maxCami);
+ 
+    cout<<"entro "<< p1<<endl;
+    if ((1 + numCam > maxCami))
+    {
+        cout << "Numcam " << numCam << " max " << maxCami << endl;
+        exit(1);
+    }
+   
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-
+    cout << "salgo " << p1 << endl;
 }
 
 void Poblacion::seleccionar(){
