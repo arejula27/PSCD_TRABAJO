@@ -93,6 +93,8 @@ public:
 
     ~Poblacion();
 
+    int getNumCities();
+    
     int getNumCam();
     //calcula el fit de un caminante y cambia su propio fit
     void calcFit(Caminante &caminante);

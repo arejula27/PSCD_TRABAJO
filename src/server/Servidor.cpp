@@ -198,7 +198,7 @@ int main(int argc, char *argv[]) {
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
-
+			cout<<pob.codificar();
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
 			

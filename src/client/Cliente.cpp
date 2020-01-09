@@ -146,7 +146,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			// 1 mutar
 			// 2 seleccionar
 			for(int k = 0; k < serversAceptados; k++){
-				string msg = to_string(j) + "," + personas.codificarMatriz() + pobs[i].codificar(UPGRADE_POB);
+				string msg = to_string(j) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[i].codificar(UPGRADE_POB);
 				socketServ[i].Send(server_fd[i],msg);
 				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
 				//cout<<msg<<endl;

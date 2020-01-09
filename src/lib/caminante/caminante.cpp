@@ -261,6 +261,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     f1.close();
 }
 
+
 Poblacion::Poblacion(string data)
 {
 
@@ -297,6 +298,10 @@ Poblacion::Poblacion(string data)
 
 Poblacion::~Poblacion()
 {
+}
+
+int Poblacion::getNumCities(){
+    return numCities;
 }
 
 int Poblacion::getNumCam(){
@@ -487,7 +492,6 @@ string Poblacion::codificar(int flg)
 
 void Poblacion::descodificar(string msg, int flg)
 {
-
     int inx = 0;
     if (flg == ALL_POB)
     {
@@ -512,9 +516,7 @@ void Poblacion::descodificar(string msg, int flg)
             dist[i] = new int[i];
             sizeMatrix = sizeof(int) * (i);
         }
-
         descodificarMatriz(msg, inx);
-      
         numCam = stoi(&msg[inx]);
       
         delete [] caminantes;
@@ -526,9 +528,7 @@ void Poblacion::descodificar(string msg, int flg)
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz,numCities);
-            inx += avz;
+            caminantes[i].desCodificar(msg, inx,numCities);
         }
     }
 

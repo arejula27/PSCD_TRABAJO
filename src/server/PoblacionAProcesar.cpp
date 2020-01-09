@@ -8,6 +8,7 @@
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	this->poblacion = poblacion_;
+    cout<<this->poblacion.codificar()<<endl;
 }
 
 
