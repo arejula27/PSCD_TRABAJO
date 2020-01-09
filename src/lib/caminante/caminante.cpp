@@ -603,7 +603,7 @@ void Poblacion::mutar(int num){
 void Poblacion::cruzar(int p1,int p2){
  
     cout<<"entro "<< p1<<endl;
-    assert(1 + numCam > maxCami);
+    assert(1 + numCam < maxCami);
    
 
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
