@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres
 const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;	//numero de caminantes de más que vamos a crear
 
@@ -38,7 +38,7 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
 				int aleatorio = 0 + (rand() % static_cast<int>(n - 0 + 1));
 				
 				int aleatorio2 = 0 + (rand() % static_cast<int>(n - 0 + 1));
-				cout << "Aleatorios: " << aleatorio << " y " << aleatorio2 << endl;
+				
 				if(aleatorio != aleatorio2) {
 					puede = true;
 					pAp.cruzar(aleatorio,aleatorio2);
@@ -132,10 +132,10 @@ int main(int argc, char *argv[]) {
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
+			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int extra = trunc(n*PORCENTAJE_EXTRA);
+			int extra = n*2/10;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
 			int resto = n%NUM_PROCESOS_MAX;
 			cout << "Numero de caminantes recibidos: " << n << endl;
@@ -146,6 +146,7 @@ int main(int argc, char *argv[]) {
 			int comienzo=0;
 			switch(operacion) {
 				case 0:		// Cruzar
+					cout<<"Cruzando población"<<endl;
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i==3) {
@@ -165,6 +166,7 @@ int main(int argc, char *argv[]) {
 					cout << "Cruces terminados" << endl;
 					break;
 				case 1:		// Mutar
+					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
@@ -180,7 +182,7 @@ int main(int argc, char *argv[]) {
 					}
 					break;
 				case 2:		// Seleccionar
-					cout << "Comienza proeso de seleccion" << endl;
+					cout<<"Seleccionando población"<<endl;
 					procesoSeleccionar(ref(pAp));
 					break;
 				default:	// Operacion incorrecta

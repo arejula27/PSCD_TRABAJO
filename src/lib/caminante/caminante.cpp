@@ -35,7 +35,7 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-    cout<<camino<<endl;
+   
     avance--;
     delete [] camino;
     camino = new int[max + 1];
@@ -63,7 +63,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
     avance++;
 
 
-    cout << "beep" << endl;
+  
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
@@ -344,7 +344,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     for (int i = 0; i < n; i++)
     {
 
-        getMatrixFrom(*this);
+        //getMatrixFrom(*this);
         int numSub = (numCam / n);
         if (sobr > 0)
         {
@@ -464,6 +464,7 @@ string Poblacion::codificar(int flg)
     switch (flg)
     {
     case ALL_POB:
+    cout<<"cod ALL"<<endl;
         msg = to_string(numCities) + ":";
         msg += codificarMatriz();
         msg += to_string(numCam) + ":";
@@ -476,6 +477,7 @@ string Poblacion::codificar(int flg)
       
         break;
     case UPGRADE_POB:
+     cout<<"cod UP"<<endl;
         msg = to_string(numCam) + ":";
         for (int i = 0; i < numCam; i++)
         {
@@ -491,7 +493,7 @@ string Poblacion::codificar(int flg)
 
 void Poblacion::descodificar(string msg, int flg)
 {
-
+    cout<<"descodificar"<<endl;
     int inx = 0;
     if (flg == ALL_POB)
     {
@@ -540,7 +542,7 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
-        cout<<msg<<endl;
+     
         delete[] caminantes;
   
         assert(numCam<=maxCami);
@@ -550,12 +552,13 @@ void Poblacion::descodificar(string msg, int flg)
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            cout<<i<<endl;
+            
             int avz = 0;
             caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
         }
     }
+    cout<<"fin descodificar"<<endl;
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
@@ -615,8 +618,7 @@ void Poblacion::cruzar(int p1,int p2){
 
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-    cout << "CAMINANTES: " << numCam << endl;
-    cout << "NUMERO MAXIMO " << maxCami << endl;
+
 
 }
 

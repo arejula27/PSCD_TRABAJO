@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
 void leerconfig(int &numServers, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
@@ -135,24 +135,25 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	for (int i = 0; i < serversAceptados; i++){
 		pobs[i].getMatrixFrom(personas);
 	}
-	int vueltas =1;
+	bool first = true;
 	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
-		cout <<"Generación: "<< vueltas << endl;
+		cout <<"Generación: "<< i << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
 			// 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
 			for(int k = 0; k < serversAceptados; k++){
-				string msg = to_string(j) + "," + pobs[i].codificar((0==i)?ALL_POB:UPGRADE_POB);
+				string msg = to_string(j) + "," + pobs[i].codificar((first)?ALL_POB:UPGRADE_POB);
+				if(first)first= false; 
 				
 				socketServ[i].Send(server_fd[i],msg);
-				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
+				cout << "Mensaje enviado a servidor, "<<k<<" operación "<<j<<" ,con generación: "<<i<< endl;
 			}
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[i].Recv(server_fd[i],resp,MESSAGE_SIZE);
-				cout << "Mensaje recibido del servidor, generación: " << i + 1 << endl;
+				cout << "Mensaje recibido del servidor, "<<k<<" operación "<<j<<" ,con generación: "<<i<< endl;
 				pobs[i].descodificar(resp,UPGRADE_POB);
 				
 			}
