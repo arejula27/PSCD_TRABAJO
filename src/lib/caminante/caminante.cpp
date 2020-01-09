@@ -35,6 +35,7 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
+    cout<<camino<<endl;
     avance--;
     delete [] camino;
     camino = new int[max + 1];
@@ -60,6 +61,8 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         avance++;
     }
     avance++;
+
+
     cout << "beep" << endl;
 }
 
@@ -477,7 +480,7 @@ string Poblacion::codificar(int flg)
         for (int i = 0; i < numCam; i++)
         {
             
-            msg += caminantes[i].codificar() + ";";
+            msg += caminantes[i].codificar();
         }
 
         break;
@@ -537,6 +540,7 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
+        cout<<msg<<endl;
         delete[] caminantes;
   
         assert(numCam<=maxCami);
