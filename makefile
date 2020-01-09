@@ -107,3 +107,6 @@ pobtest: ${POBTEST}.cpp ${CAM}.o
 clean:
 	$(RM) ${SOCKET}.o
 	$(RM) ${CAM}.o
+	$(RM) ${SERV}.o
+	$(RM) $(POBA).o
+	$(RM) $(POBAPROC).o
