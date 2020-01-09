@@ -60,6 +60,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         avance++;
     }
     avance++;
+    cout << "beep" << endl;
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
@@ -351,12 +352,9 @@ void Poblacion::dividir(int n, Poblacion pobs[])
    
 
         delete [] pobs[i].caminantes;
-     
 
-        int extra = numSub * 20 / 100;
- 
-        maxCami = extra + 2 * numSub;
-  
+        pobs[i].maxCami=maxCami;
+
         pobs[i].caminantes = new Caminante[maxCami];
         //¿optimizar el bucle con memcopy?
 
@@ -540,13 +538,15 @@ void Poblacion::descodificar(string msg, int flg)
 
         numCam = stoi(msg);
         delete[] caminantes;
-        cout <<"num "<<numCam<<" max "<<numCam<<endl;
-        assert(1 <= maxCami);
+  
+        assert(numCam<=maxCami);
         caminantes = new Caminante[numCam];
         while (msg[inx++] != ':');
+
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
+            cout<<i<<endl;
             int avz = 0;
             caminantes[i].desCodificar(&msg[inx], avz,numCities);
             inx += avz;
