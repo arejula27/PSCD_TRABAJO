@@ -52,3 +52,6 @@
 #word 
 *.docx
 
+#csv
+salida.csv
+

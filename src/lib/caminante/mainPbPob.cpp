@@ -63,9 +63,10 @@ bool isPobCodyDecod(){
 
     Poblacion b;
     b.descodificar(aS);
-
-
     string bS = b.codificar(ALL_POB);
+
+    b.descodificar(bS);
+    bS = b.codificar(ALL_POB);
 
     return aS == bS;
 }
@@ -209,7 +210,7 @@ void sacarPantIsDivYFus(){
              cities[num]= true;
          }
          else{
-             cout<<error(ERROR,"se repiten ciudades en los caminantes")<< i<<endl;
+             cout<<error(ERROR,"se repiten ciudades en los caminantes,ciudad: ")<< i<<endl;
              return false;
          }
          if(num == c){
