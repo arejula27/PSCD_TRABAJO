@@ -603,12 +603,9 @@ void Poblacion::mutar(int num){
 void Poblacion::cruzar(int p1,int p2){
  
     cout<<"entro "<< p1<<endl;
-    if ((1 + numCam > maxCami))
-    {
-        cout << "Numcam " << numCam << " max " << maxCami << endl;
-        exit(1);
-    }
+    assert(1 + numCam > maxCami);
    
+
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
     cout << "salgo " << p1 << endl;
