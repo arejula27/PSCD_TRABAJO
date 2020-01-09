@@ -24,7 +24,7 @@ LIB_CAM = ${LIB}/caminante
 CAM =${LIB_CAM}/caminante
 
 LIB_SERV =${SRC}/server
-SERV = ${LIB_SERV}/servidor
+SERV = ${LIB_SERV}/Servidor
 POBAPROC = ${LIB_SERV}/PoblacionAProcesar
 
 LIB_CLI =${SRC}/client
