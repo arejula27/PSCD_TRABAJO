@@ -15,7 +15,7 @@ using namespace std;
 
 const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
 const int NUM_PROCESOS_MAX = 5;	//numero de procesos concurrente maximo
-const double PORCENTAJE_EXTRA = 0.1;	//numero de caminantes de más que vamos a crear
+const double PORCENTAJE_EXTRA = 0.2;	//numero de caminantes de más que vamos a crear
 
 //-------------------------------------------------------------
 void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
