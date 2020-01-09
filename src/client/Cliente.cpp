@@ -147,12 +147,14 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 				string msg = to_string(j) + "," + pobs[i].codificar((0==i)?ALL_POB:UPGRADE_POB);
 				
 				socketServ[i].Send(server_fd[i],msg);
-				cout << "Mensaje enviado a servidor "<<i+1<< endl;
+				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
 			}
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[i].Recv(server_fd[i],resp,MESSAGE_SIZE);
+				cout << "Mensaje recibido del servidor, generación: " << i + 1 << endl;
 				pobs[i].descodificar(resp,UPGRADE_POB);
+				
 			}
 
 		}

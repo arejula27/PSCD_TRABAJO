@@ -496,10 +496,10 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCities = stoi(msg);
+       
         if(dist!=nullptr){
             for (int i = 1; i < numCities; i++)
             {
-            
                 delete[] dist[i];
             }
         }
@@ -519,6 +519,7 @@ void Poblacion::descodificar(string msg, int flg)
         descodificarMatriz(msg, inx);
       
         numCam = stoi(&msg[inx]);
+      
         delete [] caminantes;
         int extra = numCam * 20 / 100;
         maxCami = extra + 2 * numCam;
@@ -538,8 +539,11 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
-        while (msg[inx++] != ':')
-            ;
+        delete[] caminantes;
+        cout <<"num "<<numCam<<" max "<<numCam<<endl;
+        assert(1 <= maxCami);
+        caminantes = new Caminante[numCam];
+        while (msg[inx++] != ':');
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {

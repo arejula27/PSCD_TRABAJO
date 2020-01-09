@@ -205,9 +205,9 @@ int main(int argc, char *argv[]) {
 
 			cout << "Caminantes ahora: " << pob.getNumCam() << endl;
 
-			string nuevaSubPoblacion = pob.codificar();	//generar cadena resultado
-
-			cout << nuevaSubPoblacion << endl;
+			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
+			
+			
 			
             // Send, enviar nueva sub-poblacion al cliente
 			int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
