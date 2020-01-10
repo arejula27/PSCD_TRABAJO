@@ -133,9 +133,9 @@ int main(int argc, char *argv[]) {
 			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int extra = trunc(n*PORCENTAJE_EXTRA);
+			int extra = n*20/100;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
-			int resto = n%NUM_PROCESOS_MAX;
+			int resto = n%NUM_PROCESOS_MAX-1;
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
 			cout << "Numero de caminantes extra: " << extra << endl;
@@ -154,6 +154,7 @@ int main(int argc, char *argv[]) {
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
 							comienzo += div_n;
 						}
+						cout<<comienzo<<endl;
 					}
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
@@ -198,9 +199,8 @@ int main(int argc, char *argv[]) {
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
-			cout<<pob.codificar();
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
-			
+			cout<<nuevaSubPoblacion<<endl;
 			
 			
             // Send, enviar nueva sub-poblacion al cliente

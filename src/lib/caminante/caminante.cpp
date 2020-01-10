@@ -35,13 +35,15 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-    avance--;
     delete [] camino;
     camino = new int[max + 1];
     int i = 0;
     while (MiCamino[avance] != ':')
     {
-        avance++;
+        while (!isDigit(MiCamino[avance]))
+        {
+            avance++;
+        }
         camino[i] = stoi(&MiCamino[avance]);
 
         while (isDigit(MiCamino[avance]))
