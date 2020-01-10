@@ -644,7 +644,7 @@ bool camMut(){
 
     try
     {
-        cam.mutar();
+        cam.mutar(numCt);
         txt = cam.codificar();
         res = caminanteCorrecto(txt, numCt);
     }
