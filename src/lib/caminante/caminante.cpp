@@ -145,7 +145,7 @@ void Caminante::mutar(const int numCities)
         srand (time(NULL));
         camino[i]=genes[rand()%(numCities-2)];//Elige un gen entre todos los almacenados
         j=0;
-        while( !esValido(camino,i)){ //Si estaba repetido busca uno no repetido secuencialmente
+        while( !esValido(camino,i+1)){ //Si estaba repetido busca uno no repetido secuencialmente
             camino[i]=genes[(j)%(numCities-2)]; 
             cout<<(j)%(numCities-2)<<endl;
             cout<<"Buscando otro gen\n";
