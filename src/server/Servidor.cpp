@@ -131,6 +131,7 @@ int main(int argc, char *argv[]) {
 			else {		//actualizar
 				cout<<"HOLA QUE TAL"<<endl;		
 				pob.descodificar(&buffer[2],UPGRADE_POB);
+				cout << "He pasado? " << endl;
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
@@ -184,20 +185,7 @@ int main(int argc, char *argv[]) {
 					break;
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
-					/*for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						if(i == 0) {
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+resto,r);
-						}
-						else {
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n,r);
-						}
-						comienzo += div_n;
-					}
-					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						proceso[i].join();
-					}*///////////////////////////////////////////////////////////// DESCOMENTAR CUANDO ESTÉ HECHO SELECCIONAR //////////////////////////
-					
-					procesoSeleccionar(ref(pAp));  // QUITAR CUANDO ESTE HECHO SELCCIONAR Y SE DESCOMENTE LO ANTERIOR 
+					procesoSeleccionar(ref(pAp));  
 					break;
 				default:	// Operacion incorrecta
 					cout << "ERROR en operacion recibida" << endl;

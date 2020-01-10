@@ -86,7 +86,7 @@ int Socket::Bind() {
 	bzero(&(server.sin_zero),8); // 0 en el resto de la estructura
 
 	// Llamada a bind
-	int exito = bind(socket_fd, (struct sockaddr *) &server, sizeof(struct sockaddr_in));
+	int exito = ::bind(socket_fd, (struct sockaddr *) &server, sizeof(struct sockaddr_in));
 
 	if(exito == -1) {
 		return -1;
