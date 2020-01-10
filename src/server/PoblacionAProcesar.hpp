@@ -28,12 +28,13 @@ public:
 	//para operar sobre ellos 
 	PoblacionAProcesar(Poblacion poblacion_);
 
-	void seleccionar();
-
 	void cruzar(int id, int id2);
 
 	void mutar(int id);
 
+	void seleccionar();  //QUITAR CUANDO SE VAYA A QUITAR LO DE ABAJO///
+	//void seleccionar(int id); //DESCOMENTAR CUANDO ESTE HECHO SELECCIONAR///
+	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 };
