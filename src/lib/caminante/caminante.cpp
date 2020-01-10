@@ -131,17 +131,27 @@ float Caminante::MyFit()
 }
 
 //Función de mutar.
-void Caminante::mutar()
-{
-
+void Caminante::mutar(const int numCities)
+{   
+    int genes[numCities-1];
+    //Almacenamos los genes intercambiables para no perder ninguno
+    for(int i=0; i<numCities-1; i++){
+        genes[i]=camino[i+1];
+    }
+    for(int i=1; i<numCities; i++){
+        srand (time(NULL));
+        camino[i]=genes[rand()%numCities-2];//Elige un gen entre todos los almacenados
+        for(int j=i; !esValido(camino,i); j++){ //Si estaba repetido busca uno no repetido secuencialmente
+            camino[i]=genes[(j)%numCities-2]; 
+        }
+    }
 }
- 
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
     //Modo 1
     delete [] camino;
-    camino = new int[numCities];
+    camino = new int[numCities+1];
 
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
@@ -614,7 +624,7 @@ void Poblacion::addCams(int num){
 //muta el caminante de la pos num
 void Poblacion::mutar(int num){
 
-    caminantes[num].mutar();
+    caminantes[num].mutar(numCities);
 
 
 }

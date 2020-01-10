@@ -58,7 +58,7 @@ public:
     float MyFit();
 
     //Función de mutar.
-    void mutar();
+    void mutar(const int numCities);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
@@ -135,7 +135,7 @@ public:
     void addCams(int num);
 
     //muta el caminante de la pos num
-    void mutar(int num);
+    void mutar(const int numCities);
 
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
