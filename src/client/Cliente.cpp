@@ -139,7 +139,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
     */
     string mtx = personas.codificarMatriz();
     for(int i=0;i<serversAceptados;i++){
-        string msgMtx= "3,"+mtx;
+        string msg= "3,"+mtx;
         socketServ[i].Send(server_fd[i],msg);
     }
 
@@ -203,17 +203,10 @@ int main(int argc, char const *argv[]){
  
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
-<<<<<<< HEAD
     //thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
     //estadistico.join();
     GAcontrol.join();
-=======
-	//thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
-	thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
-	//estadistico.join();
-	GAcontrol.join();
->>>>>>> 91e81a609d288d425d4f62b850da76399c80f291
 
     return 0;
 }

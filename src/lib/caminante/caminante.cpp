@@ -496,10 +496,6 @@ string Poblacion::codificar(int flg)
 
 void Poblacion::descodificar(string msg, int flg)
 {
-<<<<<<< HEAD
-=======
-    cout<<"descodificar"<<endl;
->>>>>>> 91e81a609d288d425d4f62b850da76399c80f291
     int inx = 0;
     if (flg == ALL_POB)
     {
@@ -551,13 +547,7 @@ void Poblacion::descodificar(string msg, int flg)
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-<<<<<<< HEAD
-            caminantes[i].desCodificar(&msg, inx,numCities);
-=======
-            int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz,numCities);
-            inx += avz;
->>>>>>> 91e81a609d288d425d4f62b850da76399c80f291
+            caminantes[i].desCodificar(msg, inx,numCities);
         }
     }
     cout<<"fin descodificar"<<endl;
