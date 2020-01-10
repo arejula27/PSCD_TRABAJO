@@ -148,7 +148,7 @@ void Caminante::mutar(const int numCities)
     }
     int j=0;
     for(int i=1; i<numCities; i++){
-        cout<<"beep\n";
+        cout<<"beep---------------------------"<<i<<endl;
         srand (time(NULL));
         camino[i]=genes[rand()%(numCities-2)];//Elige un gen entre todos los almacenados
         j=0;
@@ -219,7 +219,6 @@ bool Caminante::esValido(int *camino,const int numCities){
                 cout<<"Hay repetido\n";
                 
             }
-            cout<<"Comparando\n";
             j--;
         }
     }
