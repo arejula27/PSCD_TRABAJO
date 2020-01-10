@@ -49,7 +49,7 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
 
 void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
     for(int i=comienzo; i<comienzo+div_n; i++) {
-		if(i<=r){
+		if(i<r){
 		}else{
         pAp.mutar(i);
 		}
