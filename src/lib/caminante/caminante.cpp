@@ -13,7 +13,7 @@ using namespace std;
 //Constructor del caminante
 Caminante::Caminante()
 {
-    camino = nullptr;
+    
     fitness = -1;
 }
 
@@ -40,12 +40,12 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
  
     //cout<< (*this).codificar()<<endl;
     //delete [] camino;
-    if (camino == nullptr){
-        delete [] camino;
+   
+        
         cout << "beepNUL" << endl;
-        camino = new int[max + 1];
+   
         cout << "beepNUL" << endl;
-    }
+
     cout << "beep3" << endl;
     int i = 0;
     while (MiCamino[avance] != ':')
@@ -100,7 +100,7 @@ string Caminante::codificar()
 void Caminante::ini(int inicio, int max)
 {
     int aux;
-    camino = new int[max+1];
+  
     bool recorridos[max];
     for (int i = 0; i < max; i++)
     {
@@ -169,8 +169,7 @@ void Caminante::mutar(const int numCities)
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
     //Modo 1
-    delete [] camino;
-    camino = new int[numCities+1];
+ 
 
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
