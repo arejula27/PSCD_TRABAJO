@@ -64,7 +64,7 @@ public:
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
 
     //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-    bool esValido(int *camino, const int numCities);
+    bool esValido(const int numCities);
 };
 
 

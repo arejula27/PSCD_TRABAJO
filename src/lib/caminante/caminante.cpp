@@ -152,10 +152,10 @@ void Caminante::mutar(const int numCities)
         srand (time(NULL));
         camino[i]=genes[rand()%(numCities-2)];//Elige un gen entre todos los almacenados
         j=0;
-        while( !esValido(camino,i)){ //Si estaba repetido busca uno no repetido secuencialmente
+        while( !esValido(i)){ //Si estaba repetido busca uno no repetido secuencialmente
             camino[i]=genes[(j)%(numCities-2)]; 
             cout<<(j)%(numCities-2)<<endl;
-            cout<<"Buscando otro gen\n";
+            
             j++;
         }
     }
@@ -174,7 +174,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
     for (int i=corte; i<numCities; i++){
         camino[i] = c2.camino[i];
-        if (!esValido(camino,i)){
+        if (!esValido(i)){
             camino[i] = c1.camino[i];
         }
     }
@@ -207,8 +207,8 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 }
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(int *camino,const int numCities){
-    bool repetido = false;
+bool Caminante::esValido(const int numCities){
+    bool repetido=false;
     int j;
     for(int i=0; i<numCities && !repetido; i++){
         j=numCities-1;
@@ -219,7 +219,6 @@ bool Caminante::esValido(int *camino,const int numCities){
             j--;
         }
     }
-    return !repetido;
 }
 
 
