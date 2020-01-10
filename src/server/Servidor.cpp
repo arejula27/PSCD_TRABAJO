@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
 
@@ -43,17 +43,17 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
                     pAp.cruzar(aleatorio,aleatorio2);
                 }
             }
-            
         }
     }
-    
 }
 
-void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n) {
+void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
     for(int i=comienzo; i<comienzo+div_n; i++) {
+		if(i<r){
+		}else{
         pAp.mutar(i);
-    }
-    
+		}
+	}
 }
 
 void procesoSeleccionar(PoblacionAProcesar &pAp) {
@@ -64,6 +64,7 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
     srand(time(NULL));
+	int r;
     char MENS_FIN[]="END OF SERVICE";
     
     if(argc != 2) {    // Comprobar que se introduce el puerto de escucha
@@ -127,14 +128,15 @@ int main(int argc, char *argv[]) {
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
 			}
-			else {				//actualizar
+			else {		//actualizar
+				cout<<"HOLA QUE TAL"<<endl;		
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int extra = n*20/100;
+			int extra = n*PORCENTAJE_EXTRA;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
 			int resto = n%(NUM_PROCESOS_MAX-1);
 			cout << "Numero de caminantes recibidos: " << n << endl;
@@ -149,7 +151,7 @@ int main(int argc, char *argv[]) {
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);  
 							comienzo += div_n+1;
 							resto--;
 						}
@@ -162,16 +164,17 @@ int main(int argc, char *argv[]) {
 						proceso[i].join();
 					}
 					cout << "Cruces terminados" << endl;
+					r=n; //Almacena padres
 					break;
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto);
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
 						}
 						else {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n);
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n,r);
 						}
 						comienzo += div_n;
 					}
@@ -181,7 +184,20 @@ int main(int argc, char *argv[]) {
 					break;
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
-					procesoSeleccionar(ref(pAp));
+					/*for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						if(i == 0) {
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+resto,r);
+						}
+						else {
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n,r);
+						}
+						comienzo += div_n;
+					}
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						proceso[i].join();
+					}*///////////////////////////////////////////////////////////// DESCOMENTAR CUANDO ESTÉ HECHO SELECCIONAR //////////////////////////
+					
+					procesoSeleccionar(ref(pAp));  // QUITAR CUANDO ESTE HECHO SELCCIONAR Y SE DESCOMENTE LO ANTERIOR 
 					break;
 				default:	// Operacion incorrecta
 					cout << "ERROR en operacion recibida" << endl;
