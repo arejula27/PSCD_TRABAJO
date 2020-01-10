@@ -61,7 +61,10 @@ public:
     void mutar();
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
-    void cruzar(const Caminante &c1, const Caminante &c2, int numCities);
+    void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
+
+    //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
+    bool esValido(int *camino, const int numCities);
 };
 
 
@@ -83,7 +86,7 @@ private:
 public:
     //constructo predeterminado
     Poblacion();
-    //constructo para inicializar una poblacion a partir de un archivo de texto
+    //constructor para inicializar una poblacion a partir de un archivo de texto
     //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion
     //con maximo CAM_MAX
     Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada = "entrada.txt");

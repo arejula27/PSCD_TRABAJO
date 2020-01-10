@@ -136,35 +136,44 @@ void Caminante::mutar()
 }
  
 //Modifica el camino del caminante con los genes cruzados de sus padres.
-void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCities)
+void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
     //Modo 1
     delete [] camino;
-    camino = new int[numCities];
+    camino = new int[numCities-1];
 
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
-        
-        camino[i] = O1.camino[i];
+        camino[i] = c1.camino[i];
     }
 
     for (int i=corte; i<numCities; i++){
-        camino[i] = O2.camino[i];
+        camino[i] = c2.camino[i];
+        if (!esValido(camino,i)){
+            camino[i] = c1.camino[i];
+        }
     }
  
-    camino[numCities]=camino[0];
+    camino[numCities-1]=camino[0];
 
     /***Modo 2 (habria que implementar una variable para elegir el modo)
 
-    Caminante hijo;
-    int aux;
+    delete [] camino;
+    camino = new int[numCities-1];
     for(int i=0; i<numCities; i++){
         srand (time(NULL));
         if(rand() % 2 >0.5){ //Genera aleatoriamente 1 ó 0
-            hijo.camino[i] = O1.camino[i];
+            camino[i] = c1.camino[i];
+            if(!esvalido(camino,i)){
+                camino[i] = c2.camino[i];
+            }
+        
         }
         else{
-            hijo.camino[i] = O2.camino[i];
+            camino[i] = c2.camino[i];
+            if(!esvalido(camino,i)){
+                camino[i] = c1.camino[i];
+            }
         }
     }
 
@@ -172,7 +181,18 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCi
     */
 }
 
-
+//Devuelve true si y solo si el caminante no tiene ciudades repetidas salvo el inicio y fin
+bool Caminante::esValido(int *camino,const int numCities){
+    bool repetido = false;
+    for(int i=0; i<numCities-1 && !repetido; i++){
+        for(int j=i+1; j<numCities-1 && !repetido; j++){
+            if(camino[j]==camino[i]){
+                repetido=true;
+            }
+        }
+    }
+    return !repetido;
+}
 
 
 
