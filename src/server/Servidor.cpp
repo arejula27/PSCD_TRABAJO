@@ -112,6 +112,7 @@ int main(int argc, char *argv[]) {
 	while (!out) {
 		// Recibimos la peticion del cliente
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+		cout<<buffer<<endl;
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
