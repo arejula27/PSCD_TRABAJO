@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = atoi(&buffer[0]);	// Coger la operacion a realizar
+			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
 			int extra = n*20/100;
@@ -144,6 +144,7 @@ int main(int argc, char *argv[]) {
 			int comienzo=0;
 			switch(operacion) {
 				case 0:		// Cruzar
+					cout<<"Cruzando población"<<endl;
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
@@ -163,6 +164,7 @@ int main(int argc, char *argv[]) {
 					cout << "Cruces terminados" << endl;
 					break;
 				case 1:		// Mutar
+					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
@@ -178,7 +180,7 @@ int main(int argc, char *argv[]) {
 					}
 					break;
 				case 2:		// Seleccionar
-					cout << "Comienza proeso de seleccion" << endl;
+					cout<<"Seleccionando población"<<endl;
 					procesoSeleccionar(ref(pAp));
 					break;
 				default:	// Operacion incorrecta

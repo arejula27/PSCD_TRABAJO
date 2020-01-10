@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 4001; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
 void leerconfig(int &numServers, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
@@ -137,9 +137,14 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		pobs[i].getMatrixFrom(personas);
 	}
 	*/
-	int vueltas =1;
+	string mtx = personas.codificarMatriz();
+	for(int i=0;i<serversAceptados;i++){
+		string msg= "3,"+mtx;
+		socketServ[i].Send(server_fd[i],msg);
+	}
+
 	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
-		cout <<"Generación: "<< vueltas << endl;
+		cout <<"Generación: "<< i << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
 			// 0 cruzar
