@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int extra = n*20/100;
+			int extra = n*PORCENTAJE_EXTRA;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
 			int resto = n%(NUM_PROCESOS_MAX-1);
 			cout << "Numero de caminantes recibidos: " << n << endl;
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);
+							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);  
 							comienzo += div_n+1;
 							resto--;
 						}
