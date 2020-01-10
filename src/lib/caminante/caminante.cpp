@@ -147,6 +147,7 @@ void Caminante::mutar(const int numCities)
         j=0;
         while( !esValido(camino,i)){ //Si estaba repetido busca uno no repetido secuencialmente
             camino[i]=genes[(j)%(numCities-2)]; 
+            cout<<(j)%(numCities-2)<<endl;
             cout<<"Buscando otro gen\n";
             j++;
         }
@@ -208,7 +209,6 @@ bool Caminante::esValido(int *camino,const int numCities){
         while((j>i) && (!repetido)){
             if(camino[j]==camino[i]){
                 repetido=true;
-                cout<<j<<"--"<<i<<endl;
                 cout<<"Hay repetido\n";
                 
             }
