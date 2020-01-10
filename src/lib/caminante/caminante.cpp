@@ -13,7 +13,7 @@ using namespace std;
 //Constructor del caminante
 Caminante::Caminante()
 {
-    camino = nullptr;
+    
     fitness = -1;
 }
 
@@ -35,17 +35,22 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
+  
     cout << "beep2" << endl;
-   //cout<< (*this).codificar()<<endl;
+ 
+    //cout<< (*this).codificar()<<endl;
     //delete [] camino;
-    if (camino == nullptr){
-        camino = new int[max + 1];
-        cout << "beepNUL" << endl;
-    }
+   
         
+        cout << "beepNUL" << endl;
+   
+        cout << "beepNUL" << endl;
+
+    cout << "beep3" << endl;
     int i = 0;
     while (MiCamino[avance] != ':')
     {
+        cout << "beep4" << endl;
         while (!isDigit(MiCamino[avance]))
         {
             avance++;
@@ -60,7 +65,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         i++;
         
     }
-
+   
     camino[i] = camino[0];
     avance++;
     stof(&MiCamino[avance]);
@@ -95,7 +100,7 @@ string Caminante::codificar()
 void Caminante::ini(int inicio, int max)
 {
     int aux;
-    camino = new int[max+1];
+  
     bool recorridos[max];
     for (int i = 0; i < max; i++)
     {
@@ -164,8 +169,7 @@ void Caminante::mutar(const int numCities)
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
     //Modo 1
-    delete [] camino;
-    camino = new int[numCities+1];
+ 
 
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){

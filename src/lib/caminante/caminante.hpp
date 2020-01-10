@@ -33,7 +33,7 @@ class Caminante
     //friend void Poblacion::calcFit();
 
 private:
-    int *camino;
+    int camino[400];
     float fitness;
 public:
 
