@@ -155,8 +155,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 				string resp;
 				socketServ[i].Recv(server_fd[i],resp,MESSAGE_SIZE);
 				cout << "Mensaje recibido del servidor, generación: " << i + 1 << endl;
-				cout<<resp<<endl;
-				pobs[i].descodificar(resp,UPGRADE_POB);
+				pobs[i].descodificar(resp,UPGRADE_POB); //FALLA Aqui
 				
 			}
 

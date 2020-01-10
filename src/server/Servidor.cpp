@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
 			int n = pob.getNumCam();				// Obtener numero de caminantes
 			int extra = n*20/100;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
-			int resto = n%NUM_PROCESOS_MAX-1;
+			int resto = n%(NUM_PROCESOS_MAX-1);
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
 			cout << "Numero de caminantes extra: " << extra << endl;
@@ -149,6 +149,7 @@ int main(int argc, char *argv[]) {
 						if(resto>0) {
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);
 							comienzo += div_n+1;
+							resto--;
 						}
 						else{	// hilo para cruzar los extra
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);

@@ -539,17 +539,13 @@ void Poblacion::descodificar(string msg, int flg)
 
         numCam = stoi(msg);
         delete[] caminantes;
-  
         assert(numCam<=maxCami);
         caminantes = new Caminante[numCam];
         while (msg[inx++] != ':');
-
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz,numCities);
-            inx += avz;
+            caminantes[i].desCodificar(msg, inx,numCities);
         }
     }
 }
