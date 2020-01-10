@@ -35,8 +35,14 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-    delete [] camino;
-    camino = new int[max + 1];
+    cout << "beep2" << endl;
+   //cout<< (*this).codificar()<<endl;
+    //delete [] camino;
+    if (camino == nullptr){
+        camino = new int[max + 1];
+        cout << "beepNUL" << endl;
+    }
+        
     int i = 0;
     while (MiCamino[avance] != ':')
     {
@@ -44,6 +50,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         {
             avance++;
         }
+        cout << i << endl;
         camino[i] = stoi(&MiCamino[avance]);
 
         while (isDigit(MiCamino[avance]))
@@ -325,9 +332,8 @@ Poblacion::Poblacion(string data)
     }
 
     descodificarMatriz(data, inx);
-    
+
     numCam = stoi(&data[inx]);
-    delete [] caminantes;
     int extra = numCam * 20 / 100;
     maxCami = extra + 2 * numCam;
     caminantes = new Caminante[maxCami];
@@ -400,14 +406,12 @@ void Poblacion::dividir(int n, Poblacion pobs[])
             sobr--;
         }
         pobs[i].numCam = numSub;
-   
-
-        delete [] pobs[i].caminantes;
 
         pobs[i].maxCami=maxCami;
 
-        pobs[i].caminantes = new Caminante[maxCami];
-        //¿optimizar el bucle con memcopy?
+        if (pobs[i].caminantes == nullptr)
+            pobs[i].caminantes = new Caminante[maxCami];
+    
 
         for (int j = 0; j < numSub; j++)
         {
@@ -429,7 +433,8 @@ void Poblacion::fusionar(int n, Poblacion pobs[])
     }
     int extra = numC * 20 / 100;
     maxCami = extra + 2 * numC;
-    caminantes = new Caminante[maxCami];
+
+    
 
     for (int i = 0; i < n; i++)
     {
@@ -564,17 +569,19 @@ void Poblacion::descodificar(string msg, int flg)
             sizeMatrix = sizeof(int) * (i);
         }
         descodificarMatriz(msg, inx);
+
         numCam = stoi(&msg[inx]);
-      
-        delete [] caminantes;
         int extra = numCam * 20 / 100;
         maxCami = extra + 2 * numCam;
-        caminantes = new Caminante[maxCami];
+        assert(numCam<=maxCami);
+        if (caminantes == nullptr)
+           caminantes = new Caminante[maxCami];
 
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
+
             caminantes[i].desCodificar(msg, inx,numCities);
         }
     }
@@ -583,15 +590,19 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
-        delete[] caminantes;
+        cout<<"No deberia estar aki"<<endl;
         assert(numCam<=maxCami);
-        caminantes = new Caminante[numCam];
+       
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
+        cout << "beep1" << endl;
+        cout << numCam << endl;
         for (int i = 0; i < numCam; i++)
         {
+            cout << i << endl;
             caminantes[i].desCodificar(msg, inx,numCities);
         }
+        cout<<"beep"<<endl;
     }
 }
 
