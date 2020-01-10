@@ -110,29 +110,31 @@ int main(int argc, char *argv[]) {
 	bool out = false; // Inicialmente no salir del bucle
 	bool primera_vez = true;
 	Poblacion pob;
+	int gen=0;
 	while (!out) {
 		// Recibimos la peticion del cliente
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-		cout<<buffer<<endl;
+		//cout<<buffer<<endl;
+		
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
-		cout << "Recibido " << endl;
+		cout << "Recibido mensaje " <<(gen++)<< endl;
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
 			if(primera_vez) {	//primera vez
-				cout<<"estoy"<<endl;
+			
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
 			}
 			else {		//actualizar
-				cout<<"HOLA QUE TAL"<<endl;		
+		
 				pob.descodificar(&buffer[2],UPGRADE_POB);
-				cout << "He pasado? " << endl;
+				
 			}
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
@@ -165,7 +167,7 @@ int main(int argc, char *argv[]) {
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
 					}
-					cout << "Cruces terminados" << endl;
+					
 					r=n; //Almacena padres
 					break;
 				case 1:		// Mutar
@@ -207,6 +209,7 @@ int main(int argc, char *argv[]) {
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
+			cout  << pob.getNumCam() << " caminantes actualmente" << endl;
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
 			

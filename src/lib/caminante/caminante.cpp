@@ -35,27 +35,16 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-  
-    cout << "beep2" << endl;
- 
-    //cout<< (*this).codificar()<<endl;
-    //delete [] camino;
-   
-        
-        cout << "beepNUL" << endl;
-   
-        cout << "beepNUL" << endl;
 
-    cout << "beep3" << endl;
     int i = 0;
     while (MiCamino[avance] != ':')
     {
-        cout << "beep4" << endl;
+        
         while (!isDigit(MiCamino[avance]))
         {
             avance++;
         }
-        cout << i << endl;
+   
         camino[i] = stoi(&MiCamino[avance]);
 
         while (isDigit(MiCamino[avance]))
@@ -145,85 +134,20 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {   
-    cout<<"empiezo\n";
-    int genes[numCities-1];
-    //Almacenamos los genes intercambiables para no perder ninguno
-    for(int i=0; i<numCities-1; i++){
-        genes[i]=camino[i+1];
-    }
-    int j=0;
-    for(int i=1; i<numCities; i++){
-        cout<<"beep----------------------------------"<<i<<endl;
-        srand (time(NULL));
-        camino[i]=genes[rand()%(numCities-2)];//Elige un gen entre todos los almacenados
-        j=0;
-        while( !esValido(camino,i)){ //Si estaba repetido busca uno no repetido secuencialmente
-            camino[i]=genes[(j)%(numCities-2)]; 
-            cout<<(j)%(numCities-2)<<endl;
-            cout<<"Buscando otro gen\n";
-            j++;
-        }
-    }
+    
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    //Modo 1
- 
-
-    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
-    for(int i=0; i<corte; i++){
+    
+    for(int i =0;i<=numCities;i++){
         camino[i] = c1.camino[i];
     }
-
-    for (int i=corte; i<numCities; i++){
-        camino[i] = c2.camino[i];
-        if (!esValido(camino,i)){
-            camino[i] = c1.camino[i];
-        }
-    }
- 
-    camino[numCities]=camino[0];
-
-    /***Modo 2 (habria que implementar una variable para elegir el modo)
-
-    delete [] camino;
-    camino = new int[numCities];
-    for(int i=0; i<numCities; i++){
-        srand (time(NULL));
-        if(rand() % 2 >0.5){ //Genera aleatoriamente 1 ó 0
-            camino[i] = c1.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c2.camino[i];
-            }
-        
-        }
-        else{
-            camino[i] = c2.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c1.camino[i];
-            }
-        }
-    }
-
-    hijo.camino[numCities]=hijo.camino[0];
-    */
 }
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int *camino,const int numCities){
-    bool repetido = false;
-    int j;
-    for(int i=0; i<numCities && !repetido; i++){
-        j=numCities-1;
-        while((j>i) && (!repetido)){
-            if(camino[j]==camino[i]){
-                repetido=true;                
-            }
-            j--;
-        }
-    }
-    return !repetido;
+    return true;
 }
 
 
@@ -590,19 +514,19 @@ void Poblacion::descodificar(string msg, int flg)
     {
 
         numCam = stoi(msg);
-        cout<<"No deberia estar aki"<<endl;
+      
         assert(numCam<=maxCami);
        
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
-        cout << "beep1" << endl;
-        cout << numCam << endl;
+  
+      
         for (int i = 0; i < numCam; i++)
         {
-            cout << i << endl;
+         
             caminantes[i].desCodificar(msg, inx,numCities);
         }
-        cout<<"beep"<<endl;
+      
     }
 }
 

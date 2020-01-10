@@ -147,24 +147,37 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			// 1 mutar
 			// 2 seleccionar
 			for(int k = 0; k < serversAceptados; k++){
-				string msg = to_string(j) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[i].codificar(UPGRADE_POB);
+               // cout << pobs[i].getNumCam() <<" ?22" <<endl;
+
+                string msg;
+               if(i==0&&j==0){
+                    msg = to_string(j) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[i].codificar(UPGRADE_POB);
+               }
+               else{
+                   msg = to_string(j) + ","  + pobs[i].codificar(UPGRADE_POB);
+               }
+                
 				socketServ[i].Send(server_fd[i],msg);
 				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
-				cout<<msg<<endl;
+			
 			}
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[i].Recv(server_fd[i],resp,MESSAGE_SIZE);
 				cout << "Mensaje recibido del servidor, generación: " << i + 1 << endl;
-                cout<<resp<<endl;
-				pobs[i].descodificar(resp,UPGRADE_POB); //FALLA Aqui
-				
-			}
+                //cout<<resp<<endl;
+				pobs[i].descodificar(resp,UPGRADE_POB);
+
+                
+            }
 
 		}
+        cout<<"empezamos a fusionar"<<endl;
 		personas.fusionar(serversAceptados,pobs);
-		pa.esperaEstadistico();
-		i++;
+        cout << "fin  fusionar" << endl;
+        pa.esperaEstadistico();
+        cout << "no va a llegar" << endl;
+        i++;
 	}
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
