@@ -142,7 +142,7 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCi
     delete [] camino;
     camino = new int[numCities];
 
-    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar 
+    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
         
         camino[i] = O1.camino[i];
@@ -228,7 +228,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         int contCol = 0;
         int num;
         int fila =0;
-        do{  
+        do{
             i=0;
             while(h[i]!='\0'){
                 //nos saltamos hasta llegar a un numero
@@ -316,7 +316,7 @@ void Poblacion::calcFit(Caminante &caminate){
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
-//tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminates
 float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media){
     int cont = 0;

@@ -19,7 +19,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <iostream>
-#include <time.h> 
+#include <time.h>
 using namespace std;
 
 
@@ -73,7 +73,7 @@ class Poblacion
   
 private:
     int maxCami;
-    int sizeMatrix; 
+    int sizeMatrix;
     int numCities;
     int **dist;
     int numCam;
