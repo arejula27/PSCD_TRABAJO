@@ -125,6 +125,7 @@ int main(int argc, char *argv[]) {
 			out = true; 
 		} else {
 			if(primera_vez) {	//primera vez
+				cout<<"estoy"<<endl;
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
 			}
