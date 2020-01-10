@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
 
@@ -43,16 +43,17 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
                     pAp.cruzar(aleatorio,aleatorio2);
                 }
             }
-            
         }
     }
-    
 }
 
-void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n) {
+void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
     for(int i=comienzo; i<comienzo+div_n; i++) {
+		if(i<=r){
+		}else{
         pAp.mutar(i);
-    }
+		}
+	}
     
 }
 
@@ -64,6 +65,7 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
     srand(time(NULL));
+	int r;
     char MENS_FIN[]="END OF SERVICE";
     
     if(argc != 2) {    // Comprobar que se introduce el puerto de escucha
@@ -162,16 +164,17 @@ int main(int argc, char *argv[]) {
 						proceso[i].join();
 					}
 					cout << "Cruces terminados" << endl;
+					r=n; //Almacena padres
 					break;
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto);
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
 						}
 						else {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n);
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n,r);
 						}
 						comienzo += div_n;
 					}
