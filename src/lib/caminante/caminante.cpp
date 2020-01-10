@@ -35,13 +35,15 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
-    avance--;
     delete [] camino;
     camino = new int[max + 1];
     int i = 0;
     while (MiCamino[avance] != ':')
     {
-        avance++;
+        while (!isDigit(MiCamino[avance]))
+        {
+            avance++;
+        }
         camino[i] = stoi(&MiCamino[avance]);
 
         while (isDigit(MiCamino[avance]))
@@ -60,7 +62,6 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         avance++;
     }
     avance++;
-    cout << "beep" << endl;
 }
 
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
@@ -141,7 +142,7 @@ void Caminante::cruzar(const Caminante &O1, const Caminante &O2, const int numCi
     delete [] camino;
     camino = new int[numCities];
 
-    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar 
+    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
         
         camino[i] = O1.camino[i];
@@ -227,7 +228,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         int contCol = 0;
         int num;
         int fila =0;
-        do{  
+        do{
             i=0;
             while(h[i]!='\0'){
                 //nos saltamos hasta llegar a un numero
@@ -261,6 +262,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     }
     f1.close();
 }
+
 
 Poblacion::Poblacion(string data)
 {
@@ -300,6 +302,10 @@ Poblacion::~Poblacion()
 {
 }
 
+int Poblacion::getNumCities(){
+    return numCities;
+}
+
 int Poblacion::getNumCam(){
     return numCam;
 }
@@ -310,7 +316,7 @@ void Poblacion::calcFit(Caminante &caminate){
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
-//tambien por mejorFit devuelve el fitness del mejor caminante y por media la 
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminates
 float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media){
     int cont = 0;
@@ -341,7 +347,7 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     for (int i = 0; i < n; i++)
     {
 
-        getMatrixFrom(*this);
+        //getMatrixFrom(*this);
         int numSub = (numCam / n);
         if (sobr > 0)
         {
@@ -477,7 +483,7 @@ string Poblacion::codificar(int flg)
         for (int i = 0; i < numCam; i++)
         {
             
-            msg += caminantes[i].codificar() + ";";
+            msg += caminantes[i].codificar();
         }
 
         break;
@@ -488,7 +494,6 @@ string Poblacion::codificar(int flg)
 
 void Poblacion::descodificar(string msg, int flg)
 {
-
     int inx = 0;
     if (flg == ALL_POB)
     {
@@ -513,9 +518,7 @@ void Poblacion::descodificar(string msg, int flg)
             dist[i] = new int[i];
             sizeMatrix = sizeof(int) * (i);
         }
-
         descodificarMatriz(msg, inx);
-      
         numCam = stoi(&msg[inx]);
       
         delete [] caminantes;
@@ -527,9 +530,7 @@ void Poblacion::descodificar(string msg, int flg)
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz,numCities);
-            inx += avz;
+            caminantes[i].desCodificar(msg, inx,numCities);
         }
     }
 
@@ -538,18 +539,13 @@ void Poblacion::descodificar(string msg, int flg)
 
         numCam = stoi(msg);
         delete[] caminantes;
-  
         assert(numCam<=maxCami);
         caminantes = new Caminante[numCam];
         while (msg[inx++] != ':');
-
         //descodificar todos los viajeros
         for (int i = 0; i < numCam; i++)
         {
-            cout<<i<<endl;
-            int avz = 0;
-            caminantes[i].desCodificar(&msg[inx], avz,numCities);
-            inx += avz;
+            caminantes[i].desCodificar(&msg, inx,numCities);
         }
     }
 }
@@ -611,9 +607,6 @@ void Poblacion::cruzar(int p1,int p2){
 
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-    cout << "CAMINANTES: " << numCam << endl;
-    cout << "NUMERO MAXIMO " << maxCami << endl;
-
 }
 
 void Poblacion::seleccionar(){
