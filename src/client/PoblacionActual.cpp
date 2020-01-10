@@ -62,7 +62,7 @@ bool PobActual::finEjec(Poblacion &personas){
     unique_lock <mutex> lck(mtx);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOAL
     float fit,mejorFit,media;
-    float porcentaje = personas.stats(personas,fit,mejorFit,media);
+    float porcentaje = personas.stats(fit,mejorFit,media);
     if (porcentaje <= 3.0){
         return true;
     }else{

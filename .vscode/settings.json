@@ -5,6 +5,7 @@
         "streambuf": "cpp",
         "random": "cpp",
         "iostream": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "string": "cpp"
     }
 }

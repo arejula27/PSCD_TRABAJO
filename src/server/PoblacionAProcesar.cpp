@@ -7,7 +7,7 @@
 
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
-	this->poblacion = poblacion_;
+	poblacion = poblacion_;
 }
 
 
@@ -29,10 +29,11 @@ void PoblacionAProcesar::mutar(int id) {
 // funcion seleccionar
 void PoblacionAProcesar::seleccionar() {   
     unique_lock<mutex> lck(mtx);
+    poblacion.seleccionar();
 }
 
 
 // Devuelve la poblacion
 Poblacion PoblacionAProcesar::getPoblacion() {
-    return this->poblacion;
+    return poblacion;
 }

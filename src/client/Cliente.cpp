@@ -67,20 +67,22 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
     pa.syncro(ID);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
     float fit;
-    float porcentaje = personas.stats(personas,fit,mejorFit,media);
+    float porcentaje = personas.stats(fit,mejorFit,media);
     pa.finProceso(ID);
 }
 
 
 void controlEstadistico(Poblacion& personas,PobActual &pa){
+    cout<<"CONTROL ESTADISTICO\n";
+    pa.esperaGA();
     ofstream f("salida.csv");
     f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
-    thread estadisticas[MAX_GENS];
     int i = 0;
     float mejorFit,media;
-    while (i < MAX_GENS && !pa.finEjec(personas)){
-        estadisticas[i] = thread(&calcEstadisticas,ref(personas),i+1,ref(pa),ref(mejorFit),ref(media));
+    while (i<MAX_GENS){
+        calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << "," << mejorFit << "," << media << endl;
+        cout<<"Esperando GA\n";
         pa.esperaGA();
         i++;
     }
@@ -90,9 +92,7 @@ void controlEstadistico(Poblacion& personas,PobActual &pa){
     }else{
         max = MAX_GENS;
     }
-    for (int i = 0; i < max; i++){
-        estadisticas[i].join();
-    }
+    f.close();
 }
 
 
@@ -140,7 +140,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	
 
 	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
-		cout <<"Generación: "<< i << endl;
+		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
 			// 0 cruzar
@@ -154,16 +154,16 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                     msg = to_string(j) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[i].codificar(UPGRADE_POB);
                }
                else{
-                   msg = to_string(j) + ","  + pobs[i].codificar(UPGRADE_POB);
+                   msg = to_string(j) + ","  + pobs[k].codificar(UPGRADE_POB);
                }
-                
 				socketServ[i].Send(server_fd[i],msg);
 				cout << "Mensaje enviado a servidor, generación: "<<i+1<< endl;
-			
+                cout<<msg<<endl;
 			}
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[i].Recv(server_fd[i],resp,MESSAGE_SIZE);
+                cout<<"llega"<<endl;
 				cout << "Mensaje recibido del servidor, generación: " << i + 1 << endl;
                 //cout<<resp<<endl;
 				pobs[i].descodificar(resp,UPGRADE_POB);
@@ -177,12 +177,12 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
         cout << "fin  fusionar" << endl;
         pa.esperaEstadistico();
         cout << "no va a llegar" << endl;
-        i++;
 	}
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
 		#warning cambiar msg de finalizacion
 		string fin = "todos tochos";
+        cout<<"ASAS"<<endl;
 		socketServ[i].Send(server_fd[i],fin);
 	}
 
@@ -213,9 +213,9 @@ int main(int argc, char const *argv[]){
  
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
-    //thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
+    thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
-    //estadistico.join();
+    estadistico.join();
     GAcontrol.join();
 
     return 0;

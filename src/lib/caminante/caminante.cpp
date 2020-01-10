@@ -293,10 +293,10 @@ void Poblacion::calcFit(Caminante &caminate){
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminates
-float Poblacion::stats(Poblacion &subPob,float fit,float &mejorFit,float &media){
+float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
     for (int i = 0; i < numCam; i++){
-        subPob.calcFit(caminantes[i]); // Calcula el fit
+        calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
             cont++;
         }
@@ -318,7 +318,6 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     
     int sobr = numCam % n;
     int indx = 0;
-
     for (int i = 0; i < n; i++)
     {
 
@@ -330,13 +329,11 @@ void Poblacion::dividir(int n, Poblacion pobs[])
             sobr--;
         }
         pobs[i].numCam = numSub;
-
         pobs[i].maxCami=maxCami;
 
-        if (pobs[i].caminantes == nullptr)
+        if (pobs[i].caminantes == nullptr){
             pobs[i].caminantes = new Caminante[maxCami];
-    
-
+        }
         for (int j = 0; j < numSub; j++)
         {
     
@@ -436,7 +433,6 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 //UPGRADE_POB=> "numCam:[caminante]*"
 string Poblacion::codificar(int flg)
 {
-   
     string msg;
     switch (flg)
     {
@@ -456,13 +452,11 @@ string Poblacion::codificar(int flg)
         msg = to_string(numCam) + ":";
         for (int i = 0; i < numCam; i++)
         {
-            
             msg += caminantes[i].codificar();
         }
 
         break;
     }
-
     return msg;
 }
 
@@ -590,5 +584,5 @@ void Poblacion::cruzar(int p1,int p2){
 }
 
 void Poblacion::seleccionar(){
-    
+    numCam = 10;
 }

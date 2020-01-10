@@ -113,16 +113,17 @@ int main(int argc, char *argv[]) {
 	int gen=0;
 	while (!out) {
 		// Recibimos la peticion del cliente
+		buffer = "";
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-		//cout<<buffer<<endl;
-		
+		cout<<"llega"<<endl;
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
-		cout << "Recibido mensaje " <<(gen++)<< endl;
+		cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
+		cout<<buffer<<endl;
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
@@ -212,8 +213,8 @@ int main(int argc, char *argv[]) {
 			cout  << pob.getNumCam() << " caminantes actualmente" << endl;
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
-			
             // Send, enviar nueva sub-poblacion al cliente
+			cout<<"envia"<<endl;
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
             if(send_bytes == -1) {
                 string mensError(strerror(errno));

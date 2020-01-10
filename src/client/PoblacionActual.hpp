@@ -9,7 +9,7 @@
 
 using namespace std;
 //Numero maximo de generaciones que crearemos
-const int MAX_GENS = 100;
+const int MAX_GENS = 10;
 class PobActual
 {
 public:

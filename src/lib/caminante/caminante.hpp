@@ -104,7 +104,7 @@ public:
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
     //media de fitness de los caminates
-    float stats(Poblacion &subPob, float fit, float &mejorFit, float &media);
+    float stats(float fit, float &mejorFit, float &media);
     //divide la poblacion en n subpoblaciones
     void dividir(int n, Poblacion pobs[]);
 
