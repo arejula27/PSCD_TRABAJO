@@ -201,9 +201,10 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int *camino,const int numCities){
     bool repetido = false;
-    int j=numCities-1;
+    int j;
     for(int i=0; i<numCities && !repetido; i++){
         cout<<"Siguiente componente\n";
+        j=numCities-1;
         while((j>i) && (!repetido)){
             if(camino[j]==camino[i]){
                 repetido=true;
