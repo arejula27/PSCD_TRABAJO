@@ -35,17 +35,22 @@ Caminante::~Caminante()
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
+  
     cout << "beep2" << endl;
-   //cout<< (*this).codificar()<<endl;
+ 
+    //cout<< (*this).codificar()<<endl;
     //delete [] camino;
     if (camino == nullptr){
+        delete [] camino;
+        cout << "beepNUL" << endl;
         camino = new int[max + 1];
         cout << "beepNUL" << endl;
     }
-        
+    cout << "beep3" << endl;
     int i = 0;
     while (MiCamino[avance] != ':')
     {
+        cout << "beep4" << endl;
         while (!isDigit(MiCamino[avance]))
         {
             avance++;
@@ -60,7 +65,7 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
         i++;
         
     }
-
+   
     camino[i] = camino[0];
     avance++;
     stof(&MiCamino[avance]);
