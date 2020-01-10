@@ -204,7 +204,7 @@ bool Caminante::esValido(int *camino,const int numCities){
     int j=numCities-1;
     for(int i=0; i<numCities && !repetido; i++){
         cout<<"Siguiente componente\n";
-        while(j>i) && (!repetido){
+        while((j>i) && (!repetido)){
             if(camino[j]==camino[i]){
                 repetido=true;
                 cout<<j<<"--"<<i<<endl;
