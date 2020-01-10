@@ -156,7 +156,6 @@ int main(int argc, char *argv[]) {
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
 							comienzo += div_n;
 						}
-						cout<<comienzo<<endl;
 					}
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
@@ -203,7 +202,6 @@ int main(int argc, char *argv[]) {
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
-			cout<<nuevaSubPoblacion<<endl;
 			
 			
             // Send, enviar nueva sub-poblacion al cliente
