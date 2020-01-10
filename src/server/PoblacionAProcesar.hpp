@@ -32,8 +32,7 @@ public:
 
 	void mutar(int id);
 
-	void seleccionar();  //QUITAR CUANDO SE VAYA A QUITAR LO DE ABAJO///
-	//void seleccionar(int id); //DESCOMENTAR CUANDO ESTE HECHO SELECCIONAR///
+	void seleccionar();  
 	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
