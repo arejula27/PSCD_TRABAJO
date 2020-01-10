@@ -133,16 +133,22 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {   
+    cout<<"empiezo\n";
     int genes[numCities-1];
     //Almacenamos los genes intercambiables para no perder ninguno
     for(int i=0; i<numCities-1; i++){
         genes[i]=camino[i+1];
     }
+    int j=0;
     for(int i=1; i<numCities; i++){
+        cout<<"beep\n";
         srand (time(NULL));
-        camino[i]=genes[rand()%numCities-2];//Elige un gen entre todos los almacenados
-        for(int j=i; !esValido(camino,i); j++){ //Si estaba repetido busca uno no repetido secuencialmente
-            camino[i]=genes[(j)%numCities-2]; 
+        camino[i]=genes[rand()%(numCities-2)];//Elige un gen entre todos los almacenados
+        j=0;
+        while( !esValido(camino,i)){ //Si estaba repetido busca uno no repetido secuencialmente
+            camino[i]=genes[(j)%(numCities-2)]; 
+            cout<<"Buscando otro gen\n";
+            j++;
         }
     }
 }
@@ -192,14 +198,17 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     */
 }
 
-//Devuelve true si y solo si el caminante no tiene ciudades repetidas salvo el inicio y fin
+//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int *camino,const int numCities){
     bool repetido = false;
     for(int i=0; i<numCities && !repetido; i++){
-        for(int j=i+1; j<numCities && !repetido; j++){
+        cout<<"Siguiente componente";
+        for(int j=numCities-1; j>i && !repetido; j--){
             if(camino[j]==camino[i]){
                 repetido=true;
+                cout<<"Hay repetido";
             }
+            cout<<"Comparando\n";
         }
     }
     return !repetido;
