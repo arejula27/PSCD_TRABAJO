@@ -74,6 +74,30 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
 }
 
 
+//He comentado esta funcion porque utilizaba dos funciones del monitor que gestionaban la 
+//concurrencia de los hilos pero como ya no lanzamos hilos es una gilipollez segur teniendola 
+// solo con invocar a stats en imprimirCSV es mejor.
+//Fdo: Aaron
+
+void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
+    ofstream f("salida.csv");
+    pa.esperaGA();
+    f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
+    int i = 0;
+    float mejorFit,media;
+    while (i<MAX_GENS){
+        float porcentaje = personas.stats(0.8,mejorFit,media);
+        //calcEstadisticas(personas,i+1,pa,mejorFit,media);
+        f << i+1 << "," << mejorFit << "," << media << endl;
+        string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
+        pa.guardarDatos(info);
+
+        pa.esperaGA();
+        i++;
+    }
+    f.close();
+}
+
 void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
     pa.syncro(ID);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
@@ -83,28 +107,6 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 }
 
 
-void controlEstadistico(Poblacion& personas,PobActual &pa,int gen){
-    cout<<"CONTROL ESTADISTICO\n";
-    ofstream f("salida.csv");
-
-    pa.esperaGA();
-    f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
-    int i = 0;
-    float mejorFit,media;
-    while (i<gen){
-        calcEstadisticas(personas,i+1,pa,mejorFit,media);
-        f << i+1 << "," << mejorFit << "," << media << endl;
-        pa.esperaGA();
-        i++;
-    }
-    int max = 0;
-    if (pa.finEjec(personas)){
-        max = i;
-    }else{
-        max = gen;
-    }
-    f.close();
-}
 
 
 void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[],int gen){
@@ -201,12 +203,118 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
     pa.despertarTodos();
 }
 
+
+//-------------------------------------------------------------
+void servCliente(Socket& soc, int client_fd, PobActual &pa) {
+	// Buffer para recibir el mensaje
+    string buffer;
+	int send_bytes;
+	bool aux = true;
+	//Aumentamos el número de clientes conectados
+	pa.nuevoCliente();
+	bool res;
+	while(!pa.finalAccepts()) {
+        pa.dormirServidor();
+        pa.extraerDatos(buffer);
+		//Enviamos mensaje de bienvenida
+		send_bytes = soc.Send(client_fd, buffer);
+		if(send_bytes == -1) {
+			cerr << "Error al enviar datos: " + string(strerror(errno)) + "\n";
+			// Cerramos los sockets
+			soc.Close(client_fd);
+			exit(1);
+		}
+	}
+	pa.finCliente();
+	soc.Close(client_fd);
+}
+
+void finalizador(PobActual &ga, int SERVER_PORT)
+{
+	string SERVER_ADDRESS = "localhost";
+	// Creación del socket para conectarse al servidor creado.
+	Socket sock(SERVER_ADDRESS , SERVER_PORT);
+    string buffer = "";
+	//El proceso se bloquea hasta que el último cliente conectado acabe sus peticiones de reservas
+	ga.dormirFinalizador();
+	int sock_fd = sock.Connect();
+}
+
+
+
+void controlEstadistico(PobActual &pa, Poblacion &persona, int SERVER_PORT, int max_connections, int GEN_MAX){
+    thread cliente[max_connections];
+	thread finalizar;
+    thread imprimir;
+    int client_fd[max_connections];
+
+	
+
+	// Creación del socket con el que se llevará a cabo
+	// la comunicación con el servidor.
+	Socket socket(SERVER_PORT);
+	
+	// Bind 
+	int socket_fd =socket.Bind();
+	if (socket_fd == -1) {
+    	cerr << "Error en el bind: " + string(strerror(errno)) + "\n";
+		exit(1);
+	}
+
+	// Listen
+	int error_code = socket.Listen(max_connections);
+	if (error_code == -1) {
+		cerr << "Error en el listen: " + string(strerror(errno)) + "\n";
+		// Cerramos el socket
+		socket.Close(socket_fd);
+		exit(1);
+	}
+	//Proceso dormido que ejecutará una conexión al servidor cuando el avión se haya llenado y salgan todos los clientes del servicio.
+	finalizar = thread(&finalizador,ref(pa), SERVER_PORT);
+    imprimir = thread(&imprimirCSV,ref(persona), ref(pa), GEN_MAX);
+	int conected = 0;
+	int i=0;
+	//Si gestor.estaLleno significa que finalizador ha ejecutado su conexión con el servidor porque el avión estaba lleno y los clientes
+	//salieron del servicio, por tanto se dejan de aceptar nuevas conexiones.
+	while (i<max_connections && !pa.finalAccepts()) {
+		// Accept
+		client_fd[i] = socket.Accept();
+		
+
+		if(client_fd[i] == -1) {
+			cerr << "Error en el accept: " + string(strerror(errno)) + "\n";
+			// Cerramos el socket
+			socket.Close(socket_fd);
+			exit(1);
+		}
+
+		conected++;
+		//Servidor que atenderá al cliente que se acaba de conectar.
+		cliente[i] = thread(&servCliente, ref(socket), client_fd[i], ref(pa));
+		i++;
+	}
+	
+	for (int i=0; i<conected; i++) {
+		cliente[i].join();
+	}
+	finalizar.join();
+	imprimir.join();
+    // Cerramos el socket del servidor
+    error_code = socket.Close(socket_fd);
+    if (error_code == -1) {
+    	cerr << "Error cerrando el socket del servidor: " + string(strerror(errno)) + " aceptado" + "\n";
+	}
+}
+
+
+
+
 int main(int argc, char const *argv[]){
 
 
     const string MENS_FIN("END OF SERVICE");
-
-    int puertoServer;
+    int MAX_CONEXIONS_EST = 20;
+	int puertoServer;
     int numPersonas;
     int cities;
     int numServers;
@@ -220,7 +328,8 @@ int main(int argc, char const *argv[]){
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
-    thread estadistico (&controlEstadistico,ref(proletariado),ref(pa),gen);
+
+    thread estadistico (&controlEstadistico,ref(pa),ref(proletariado),puertoCs, MAX_CONEXIONS_EST, gen);
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen);
     estadistico.join();
     GAcontrol.join();

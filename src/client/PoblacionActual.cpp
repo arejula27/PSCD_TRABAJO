@@ -3,6 +3,8 @@
 //n = numero de personas
 PobActual:: PobActual(int gen){
     historico= new int*[gen];
+    clientesConectados = 0;
+    finAccepts = false;
     for (int i = 0; i < gen; i++)
     {
         historico[i]=new int [2];
@@ -24,6 +26,9 @@ PobActual:: ~PobActual(){
 int PobActual::numGeneracion(){
     return numGen;
 }
+
+
+
 
 void PobActual::agnadirDatos(int numGen, int mejorFit, int avgFit){
     unique_lock <mutex> lck(mtx);
@@ -65,10 +70,49 @@ void PobActual::syncro(int id){
         }
     }
 }
+
+void PobActual::dormirServidor(){
+    unique_lock <mutex> lck(mtx);
+    servidor.wait(lck);
+}
+
+//Guarda los datos de la poblacion actual en el string datosCompartidos para 
+//que luego tengan acceso a ellos otras funciones.
+void PobActual::guardarDatos(string info){
+    unique_lock <mutex> lck(mtx);
+    datosCompartidos = info;
+    servidor.notify_all();
+}
+//Lee los datos de la poblacion que hay almacenados en el string datosCompartidos 
+//y los devuelve por referecia;
+void PobActual::extraerDatos(string &datos){
+    unique_lock <mutex> lck(mtx);
+    datos = datosCompartidos;
+}
+
 void PobActual::finProceso(int id){
     unique_lock <mutex> lck(mtx);
     sync[id-1] = true;
     calcEstadistico.notify_all();
+}
+
+void PobActual::nuevoCliente(){
+    unique_lock <mutex> lck(mtx);
+    clientesConectados++;
+}
+
+bool PobActual::finalAccepts(){
+    unique_lock <mutex> lck(mtx);
+    return finAccepts;
+}
+
+void PobActual::finCliente(){
+    unique_lock <mutex> lck(mtx);
+    clientesConectados--;
+    if(clientesConectados == 0) {
+        finAccepts = true;
+        Finalizador.notify_all();
+    }
 }
 
 void PobActual::despertarTodos(){
@@ -76,4 +120,14 @@ void PobActual::despertarTodos(){
     calcEstadistico.notify_all();
     dormir_estadistico.notify_all();
     dormir_GA.notify_all();
+    if(clientesConectados == 0){
+        finAccepts = true;
+        Finalizador.notify_all();
+    }
+}
+
+
+void PobActual::dormirFinalizador(){
+    unique_lock <mutex> lck(mtx);
+    Finalizador.wait(lck);
 }
