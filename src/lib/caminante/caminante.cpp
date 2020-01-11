@@ -195,10 +195,9 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     
     
     for(int i=1; i<numCities; i++){
-        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities-1);
+        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
         while(!esValido(i)){
-            cout<<"Ha fallado componente-"<<i;
-            camino[i]=(camino[i]+1)%(numCities-1);
+            camino[i]=(camino[i]+1)%(numCities);
             cout<<i<<"--"<<camino[i]<<endl;
 
 
