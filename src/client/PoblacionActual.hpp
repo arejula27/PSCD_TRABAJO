@@ -41,14 +41,24 @@ public:
     void syncro(int id);
     void finProceso(int id);
     void despertarTodos();
+    void dormirFinalizador();
+    void nuevoCliente();
+    void finCliente();
+    bool finalAccepts();
+    void guardarDatos(string info);
+    void extraerDatos(string &datos);
+    void dormirServidor();
 private:
+    string datosCompartidos;
     int **historico;
     mutex mtx;
     int numGen; //Número de poblaciones generadas hasta el momento
     //Variables condicion para sincronizar estadisitico y GA
     condition_variable dormir_estadistico,dormir_GA;
-    condition_variable calcEstadistico;
+    condition_variable calcEstadistico, Finalizador, servidor;
     bool *sync;
+    int clientesConectados;
+    bool finAccepts;
     
 };
 #endif
