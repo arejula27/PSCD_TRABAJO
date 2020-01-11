@@ -165,9 +165,10 @@ void Caminante::mutar(const int numCities)
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    //Modo 1
- 
-
+    //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
+    
+    /*
+    
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
         camino[i] = c1.camino[i];
@@ -182,32 +183,20 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
  
     camino[numCities]=camino[0];
 
-    /***Modo 2 (habria que implementar una variable para elegir el modo)
+    */    
 
-    delete [] camino;
-    camino = new int[numCities];
+    //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
+    //se elige el de uno de ellos 
+
+
+
     for(int i=0; i<numCities; i++){
-        srand (time(NULL));
-        if(rand() % 2 >0.5){ //Genera aleatoriamente 1 ó 0
-            camino[i] = c1.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c2.camino[i];
-            }
-        
-        }
-        else{
-            camino[i] = c2.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c1.camino[i];
-            }
-        }
+        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities-1);
     }
-
-    hijo.camino[numCities]=hijo.camino[0];
-    */
+    camino[numCities]=camino[0];
 }
 
-//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
+//Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(const int numCities){
     bool valido=true;
     int j=0;
