@@ -679,6 +679,7 @@ void Poblacion::cruzar(int p1,int p2){
 }
 
 void Poblacion::seleccionar(){
+
     
     Caminante selected[numCam];
     
@@ -693,6 +694,7 @@ void Poblacion::seleccionar(){
 
     for(int i=0; i<numCam ; i++){
         elegido[i]=false;
+        calcFit(caminantes[i]);
         prob=caminantes[i].MyFit();
         cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
