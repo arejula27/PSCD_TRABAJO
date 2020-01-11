@@ -694,17 +694,17 @@ void Poblacion::seleccionar(){
     for(int i=0; i<numCam ; i++){
         elegido[i]=false;
         prob=caminantes[i].MyFit();
+        cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
+        cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
     }
     
     
 
-    for(int tirada = 0; tirada<100;){
+    for(int tirada = 0; tirada<numCam;){
         srand48 (time(NULL));
-        cout<<"Casillas:"<<totalCasillas<<"-----";
         bola= totalCasillas*drand48();
-        cout<<"Bola en:"<<bola<<"----"<<"tirada:"<<tirada<<endl;
         //Recorrer para comprobar resultado
         for(int i=0; i<numCam ; i++){
 
