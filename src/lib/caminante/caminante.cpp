@@ -172,9 +172,9 @@ void Caminante::mutar(const int numCities)
 
     int random=rand()%(numCities);
     for(int i=0; i<numCities; i++){
-        cout<<random<<"--";
+        cout<<"Suma en los genes: "<<random<<endl;
         camino[i]=(camino[i]+random)%(numCities);
-        cout<<camino[i]<<endl;
+        cout<<"En el gen "<<i<<" hay "<<camino[i]<<endl;
     }
     //camino[numCities-1]=camino[0];
     
