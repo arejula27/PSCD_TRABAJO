@@ -710,9 +710,10 @@ void Poblacion::seleccionar(){
         for(int i=0; i<numCam ; i++){
 
             if(casillaCam[i]>=bola){
-                tirada++;
-                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<endl;
+                
+                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
+                tirada++;
             }
             
         }
