@@ -115,7 +115,6 @@ int main(int argc, char *argv[]) {
 		// Recibimos la peticion del cliente
 		buffer = "";
 		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-		cout<<"llega"<<endl;
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
@@ -123,7 +122,6 @@ int main(int argc, char *argv[]) {
 			socket.Close(socket_fd);
 		}
 		cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
-		cout<<buffer<<endl;
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			out = true; 
 		} else {
@@ -214,15 +212,16 @@ int main(int argc, char *argv[]) {
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
             // Send, enviar nueva sub-poblacion al cliente
-			cout<<"envia"<<endl;
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
-            if(send_bytes == -1) {
+            /*
+			if(send_bytes == -1) {
                 string mensError(strerror(errno));
                 cerr << "Error al enviar datos: " + mensError + "\n";
                 socket.Close(client_fd);
                 socket.Close(socket_fd);
                 exit(1);
             }
+			*/
             cout << "Mensaje enviado al cliente" << endl;
         }
     }
