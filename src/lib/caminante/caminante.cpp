@@ -671,7 +671,7 @@ void Poblacion::seleccionar(){
 
 
     for(int i=0; i<numCam ; i++){
-        prob=caminantes[i].MyFit;
+        prob=caminantes[i].MyFit();
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
     }
