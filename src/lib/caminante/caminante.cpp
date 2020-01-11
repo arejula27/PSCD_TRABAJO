@@ -189,7 +189,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     //se elige el de uno de ellos 
 
 
-    int corte;
+    
     srand(time(NULL));
     camino[0]=c1.camino[0];
     
@@ -197,6 +197,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         camino[i]=(c1.camino[i]+c2.camino[i])%(numCities-1);
         while(!esValido(i)){
             camino[i]=(camino[i]+1)%(numCities-1);
+            cout<<camino[i]<<endl;
 
 
         }
