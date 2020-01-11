@@ -691,6 +691,7 @@ void Poblacion::seleccionar(){
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
     double bola; 
 
+    
 
     for(int i=0; i<numCam ; i++){
         calcFit(caminantes[i]);
@@ -701,21 +702,26 @@ void Poblacion::seleccionar(){
         cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
     }
     
-    
+    int i;
+    int elegido;
+
 
     for(int tirada = 0; tirada<100;){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
-        for(int i=0; i<numCam ; i++){
+        elegido=false;
+        i=0;
+        while(i<numCam && !elegido){
 
             if(casillaCam[i]>=bola){
                 
                 cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
                 tirada++;
+                elegido=true;
             }
-            
+            i++;
         }
 
     }
