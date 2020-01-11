@@ -680,7 +680,7 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(){
 
-    
+    int numCam=100;
     
     Caminante selected[numCam];
     
@@ -703,7 +703,7 @@ void Poblacion::seleccionar(){
     
     
 
-    for(int tirada = 0; tirada<numCam;){
+    for(int tirada = 0; tirada<100;){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
