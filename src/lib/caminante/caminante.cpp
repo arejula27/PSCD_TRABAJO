@@ -212,7 +212,7 @@ bool Caminante::esValido(const int numCities){
     bool valido=true;
     int j=0;
     while(j<numCities && valido){
-        for(int i = 1; i<numCities+1 ; i++){
+        for(int i = j+1; i<numCities+1 ; i++){
             if(camino[j]==camino[i]) valido = false;
             cout<<"comparando"<<j<<"--"<<i<<endl;
         }
