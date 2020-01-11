@@ -83,7 +83,27 @@ void PobActual::esperaGA(){
     dormir_GA.notify_all();
     dormir_estadistico.wait(lck);
 }
-
+//Guarda los datos de la poblacion actual en el string datosCompartidos para 
+//que luego tengan acceso a ellos otras funciones.
+void PobActual::guardarDatos(string info){
+    unique_lock <mutex> lck(mtx);
+    datosCompartidos = info;
+    dormirServ.notify_all();
+}
+//Lee los datos de la poblacion que hay almacenados en el string datosCompartidos 
+//y los devuelve por referecia;
+void PobActual::extraerDatos(string &datos){
+    unique_lock <mutex> lck(mtx);
+    datos = datosCompartidos;
+}
+//Duerme al proceso ServCliente
+void PobActual::dormirSer(){
+    unique_lock <mutex> lck(mtx);
+    dormirServ.wait(lck);
+}
+//Si quieres calcular las estadisitcas de tu poblacion y todavia no se han calculado las
+//de la poblacion anterior, te duermes hasta que la posicion del vector anterir a tu id este a true,
+// es decir, se hayan calculados las estadisticas de la poblacion anterior
 void PobActual::syncro(int id){
     unique_lock <mutex> lck(mtx);
     if (id !=1){
@@ -92,6 +112,8 @@ void PobActual::syncro(int id){
         }
     }
 }
+//Cuando acaban de calcularse las estadisticas de la poblacion n, pone a true su poscion 
+//en el vector de calculados y notifica a todos los procesos dormidos.
 void PobActual::finProceso(int id){
     unique_lock <mutex> lck(mtx);
     sync[id-1] = true;
@@ -104,3 +126,28 @@ void PobActual::despertarTodos(){
     dormir_estadistico.notify_all();
     dormir_GA.notify_all();
 }
+int PobActual::maxCli(){
+	unique_lock<mutex> lck(mtx);
+	return clientes_max;
+}
+
+void PobActual::dormir(){
+	unique_lock<mutex> lck(mtx);
+	//se dormira hasta que todos los clientes hayan sido notificados
+	//que el avión esta lleno
+	esperando.wait(lck);
+}
+
+void PobActual::nuevoCl(){ 
+	unique_lock<mutex> lck(mtx);
+	clientes_conect++;
+	clientes_max++;
+}
+
+void PobActual::endPr(){
+	unique_lock<mutex> lck(mtx);
+	if(--clientes_conect ==0){
+		//si se han cerrado todos los clientes
+		//avisar al proceso finalizador
+		esperando.notify_one();
+	}

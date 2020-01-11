@@ -38,17 +38,39 @@ public:
     // esperar GA control hace signal de ga xq ya ha cogido la poblacion y 
     //wait de control estadistico
     void esperaGA();
+    //Si quieres calcular las estadisitcas de tu poblacion y todavia no se han calculado las
+    //de la poblacion anterior, te duermes hasta que la posicion del vector anterir a tu id este a true,
+    // es decir, se hayan calculados las estadisticas de la poblacion anterior
     void syncro(int id);
+    //Cuando acaban de calcularse las estadisticas de la poblacion n, pone a true su poscion 
+    //en el vector de calculados y notifica a todos los procesos dormidos.
     void finProceso(int id);
+    //Guarda los datos de la poblacion actual en el string datosCompartidos para 
+    //que luego tengan acceso a ellos otras funciones.
+    void guardarDatos(string info);
+    //Lee los datos de la poblacion que hay almacenados en el string datosCompartidos 
+    //y los devuelve por referecia;
+    void extraerDatos(string &datos);
+    //Duerme al proceso ServCliente
+    void dormirSer();
+
+    void dormir();
+    int maxCli();
+    void nuevoCl();
+    void endPr();
     void despertarTodos();
+    
 private:
     int historico[MAX_GENS][2];
     mutex mtx;
+    string datosCompartidos;
     int numGen; //Número de poblaciones generadas hasta el momento
     //Variables condicion para sincronizar estadisitico y GA
-    condition_variable dormir_estadistico,dormir_GA;
-    condition_variable calcEstadistico;
+    condition_variable dormir_estadistico,dormir_GA,dormirServ;
+    condition_variable calcEstadistico,esperando;
     bool sync[MAX_GENS];
+    int clientes_max;
+    int clientes_conect;
     
 };
 #endif
