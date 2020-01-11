@@ -145,6 +145,10 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
+
+    /*MODO1
+
+
     int genes[numCities-1];
     bool cogidos[numCities-1];
     //Almacenamos los genes intercambiables para no perder ninguno
@@ -161,7 +165,23 @@ void Caminante::mutar(const int numCities)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
+
+    */
+
+   //MODO2
+
+    int random=rand()%(numCities-1);
+    for(int i=0; i<numCities; i++){
+
+        camino[i]=(camino[i]+random)%(numCities);
+    }
+    camino[numCities]=camino[0];
+
 }
+
+
+
+
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
@@ -189,9 +209,12 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     //se elige el de uno de ellos 
 
 
+    srand(time(NULL));
+    if(rand()<0.5) camino[0]=c1.camino[0];
 
+    else camino[0]=c2.camino[0];
     
-    camino[0]=c1.camino[0];
+    
         
     for(int i=1; i<numCities; i++){
         camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
