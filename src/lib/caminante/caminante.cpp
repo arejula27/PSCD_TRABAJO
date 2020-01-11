@@ -204,7 +204,6 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         }
     }
  
-    camino[numCities]=camino[0];
 
     */    
 
@@ -213,9 +212,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
 
     srand(time(NULL));
-    if(rand()<0.5) camino[0]=c1.camino[0];
-
-    else camino[0]=c2.camino[0];
+  
     
     
         
@@ -225,16 +222,17 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
             camino[i]=(camino[i]+1)%(numCities);
         }
     }
-    camino[numCities]=camino[0];
 }
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(const int numCities){
     bool valido=true;
-    int j=0;
-    while(j<numCities && valido){
-        for(int i = j+1; i<numCities+1 ; i++){
+    int j=1;
+    if(camino[1]==0) valido=false;
+    while(j<numCities-1 && valido){
+        for(int i = j+1; i<numCities ; i++){
             if(camino[j]==camino[i]) valido = false;
+            if(camino[i]==0) valido = false;
         }
         j++;
     }
