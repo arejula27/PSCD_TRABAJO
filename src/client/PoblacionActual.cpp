@@ -2,6 +2,7 @@
 
 //n = numero de personas
 PobActual:: PobActual(int gen){
+    finPrograma = false;
     historico= new int*[gen];
     clientesConectados = 0;
     finAccepts = false;
@@ -115,11 +116,17 @@ void PobActual::finCliente(){
     }
 }
 
+bool PobActual::finGA(){
+    return finPrograma;
+}
+
 void PobActual::despertarTodos(){
     unique_lock <mutex> lck(mtx);
     calcEstadistico.notify_all();
     dormir_estadistico.notify_all();
     dormir_GA.notify_all();
+    servidor.notify_all();
+    finPrograma = true;
     if(clientesConectados == 0){
         finAccepts = true;
         Finalizador.notify_all();

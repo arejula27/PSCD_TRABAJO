@@ -85,7 +85,13 @@ ${CLI}.o: ${CLI}.cpp
 # Compilacion monitor de PoblacionActual
 ${POBA}.o: ${POBA}.cpp 
 	${CC} -c ${CPPFLAGS} ${POBA}.cpp  -o ${POBA}.o
+#-----------------------------------------------------------
+#CLIENTE Estadístico
+clienteB: ${CLI}B.o ${SOCKET}.o
+	${CC}  ${LDFLAGS} ${CLI}B.o ${SOCKET}.o -o ${CLI}B
 
+${CLI}B.o: ${CLI}B.cpp 
+	${CC} -c ${CPPFLAGS} ${CLI}B.cpp  -o ${CLI}B.o
 
 #-----------------------------------------------------------
 pobtest: ${POBTEST}.cpp ${CAM}.o 

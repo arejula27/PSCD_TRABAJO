@@ -210,10 +210,11 @@ void servCliente(Socket& soc, int client_fd, PobActual &pa) {
     string buffer;
 	int send_bytes;
 	bool aux = true;
+	const string MENS_FIN("END OF SERVICE");
 	//Aumentamos el número de clientes conectados
 	pa.nuevoCliente();
 	bool res;
-	while(!pa.finalAccepts()) {
+	while(!pa.finGA()) {
         pa.dormirServidor();
         pa.extraerDatos(buffer);
 		//Enviamos mensaje de bienvenida
@@ -225,6 +226,7 @@ void servCliente(Socket& soc, int client_fd, PobActual &pa) {
 			exit(1);
 		}
 	}
+	send_bytes = soc.Send(client_fd, MENS_FIN);
 	pa.finCliente();
 	soc.Close(client_fd);
 }
@@ -237,6 +239,7 @@ void finalizador(PobActual &ga, int SERVER_PORT)
     string buffer = "";
 	//El proceso se bloquea hasta que el último cliente conectado acabe sus peticiones de reservas
 	ga.dormirFinalizador();
+	cout<<"Finalizador\n";
 	int sock_fd = sock.Connect();
 }
 

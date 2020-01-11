@@ -48,6 +48,7 @@ public:
     void guardarDatos(string info);
     void extraerDatos(string &datos);
     void dormirServidor();
+    bool finGA();
 private:
     string datosCompartidos;
     int **historico;
@@ -59,7 +60,7 @@ private:
     bool *sync;
     int clientesConectados;
     bool finAccepts;
-    
+    bool finPrograma;
 };
 #endif
 
