@@ -210,7 +210,7 @@ int main(int argc, char const *argv[]){
     int numPersonas;
     int cities;
     int numServers;
-    int gen;
+    int gen, puertoCS;
     string fichero;
     string IPs[MAX_SERVERS];
     
