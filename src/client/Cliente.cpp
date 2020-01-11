@@ -123,7 +123,7 @@ void servCliente(Socket &soc, int client_fd, PobActual &pa, Poblacion &personas)
         send_bytes = soc.Send(client_fd, msg);
         i++;
     }
-    string FIN = ("Se han acabado las mutaciones");
+    string FIN = ("END OF SERVICE");
     send_bytes = soc.Send(client_fd, FIN);
     soc.Close(client_fd);//cerramos la conexión
     pa.endPr();//indicamos que hemos acabado
