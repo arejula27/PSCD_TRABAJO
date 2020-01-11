@@ -695,12 +695,13 @@ void Poblacion::seleccionar(){
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
     }
     
-
+    
 
     for(int tirada = 0; tirada<100;){
         srand48 (time(NULL));
+        cout<<"Casillas:"<<totalCasillas<<"-----";
         bola= totalCasillas*drand48();
-        cout<<bola<<"---";
+        cout<<"Bola en:"<<bola<<"----"<<"tirada:"<<tirada<<endl;
         //Recorrer para comprobar resultado
         for(int i=0; i<numCam ; i++){
 
