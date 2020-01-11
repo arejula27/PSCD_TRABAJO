@@ -161,7 +161,7 @@ void Caminante::mutar(const int numCities)
     srand (time(NULL));
     for(int i=0; i<numCities-1; i++){
         random=rand()%(numCities-1);
-        while(cogidos[random]) random = (random + 1)%(numCities);
+        while(cogidos[random]) random = (random + 1)%(numCities-1);
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
