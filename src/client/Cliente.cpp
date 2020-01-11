@@ -239,8 +239,8 @@ void finalizador(PobActual &ga, int SERVER_PORT)
     string buffer = "";
 	//El proceso se bloquea hasta que el último cliente conectado acabe sus peticiones de reservas
 	ga.dormirFinalizador();
-	cout<<"Finalizador\n";
 	int sock_fd = sock.Connect();
+	sock.Recv(sock_fd, buffer, MESSAGE_SIZE);
 }
 
 
@@ -282,7 +282,6 @@ void controlEstadistico(PobActual &pa, Poblacion &persona, int SERVER_PORT, int 
 	while (i<max_connections && !pa.finalAccepts()) {
 		// Accept
 		client_fd[i] = socket.Accept();
-		
 
 		if(client_fd[i] == -1) {
 			cerr << "Error en el accept: " + string(strerror(errno)) + "\n";
@@ -296,7 +295,6 @@ void controlEstadistico(PobActual &pa, Poblacion &persona, int SERVER_PORT, int 
 		cliente[i] = thread(&servCliente, ref(socket), client_fd[i], ref(pa));
 		i++;
 	}
-	
 	for (int i=0; i<conected; i++) {
 		cliente[i].join();
 	}
