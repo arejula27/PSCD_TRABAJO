@@ -19,7 +19,7 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
-void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
+void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos, int ops[]){
     string buffer;
     ifstream f;
     f.open("cliente.config");
@@ -62,7 +62,41 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
                 fDatos = (&buffer[strlen("Fichero de datos:")]);
                 cout <<"Fichero de datos: = "<<fDatos<<endl;
             }
-            
+            else if (buffer.find("Cruzar:") == 0)
+            {
+                string buff = (&buffer[strlen("Cruzar:")]);
+                cout << "Versión cruzar:  " << fDatos << endl;
+                if(buff=="v2"){
+
+                }
+                else{
+                    ops[0] = 0;
+                }
+            }
+            else if (buffer.find("Mutar:") == 0)
+            {
+                string buff = (&buffer[strlen("Mutar:")]);
+                cout << "Versión mutar:  " << fDatos << endl;
+                if (buff == "v2")
+                {
+                }
+                else
+                {
+                    ops[1] = 1;
+                }
+            }
+            else if (buffer.find("Seleccionar:") == 0)
+            {
+                string buff = (&buffer[strlen("Seleccionar:")]);
+                cout << "Versión seleccionar:  " << fDatos << endl;
+                if (buff == "v2")
+                {
+                }
+                else
+                {
+                    ops[2] = 2;
+                }
+            }
         }
     }
     else{
@@ -109,7 +143,7 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 
 
 
-void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[],int gen){
+void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[],int gen,int ops[]){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[numServers];
@@ -163,10 +197,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 
                 string msg;
                if(i==0&&j==0){
-                    msg = to_string(j) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[k].codificar(UPGRADE_POB);
+                    msg = to_string(ops[j]) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[k].codificar(UPGRADE_POB);
                }
                else{
-                   msg = to_string(j) + ","  + pobs[k].codificar(UPGRADE_POB);
+                   msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
                }
 				socketServ[k].Send(server_fd[k],msg);
 				cout << "Mensaje enviado a servidor("<<k<<"), generación: "<<i+1<< endl;
@@ -321,16 +355,17 @@ int main(int argc, char const *argv[]){
     int gen, puertoCs;
     string fichero;
     string IPs[MAX_SERVERS];
+    int ops[3];
     
     
     #warning la ciudad a inicial se puede cambiar
-    leerconfig(numServers,puertoCs,gen,puertoServer, cities, IPs, numPersonas, fichero);
+    leerconfig(numServers,puertoCs,gen,puertoServer, cities, IPs, numPersonas, fichero,ops);
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
 
     thread estadistico (&controlEstadistico,ref(pa),ref(proletariado),puertoCs, MAX_CONEXIONS_EST, gen);
-    thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen);
+    thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen,ops);
     estadistico.join();
     GAcontrol.join();
     cout<<"FIN DE SERVICIO, MIRAR salida.csv PARA VER EL HISTÓRICO"<<endl;
