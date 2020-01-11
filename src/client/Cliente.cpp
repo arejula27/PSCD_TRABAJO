@@ -362,6 +362,8 @@ int main(int argc, char const *argv[]){
     int numPersonas;
     int cities;
     int numServers;
+    int puertoCs;
+    int gen;
     int puertoCS; //puerto del cliente que actua como server 
     string fichero;
     string IPs[MAX_SERVERS];
