@@ -34,7 +34,7 @@ class Caminante
 
 private:
     int camino[400];
-    float fitness;
+    double fitness;
 public:
 
     Caminante();
@@ -55,7 +55,7 @@ public:
     void calcMiFit(int **dist, int numCiuds);
 
     //Devuelve el fitness del caminante.
-    float MyFit();
+    double MyFit();
 
     //Función de mutar.
     void mutar(const int numCities);
