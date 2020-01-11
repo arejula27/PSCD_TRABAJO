@@ -713,7 +713,7 @@ void Poblacion::seleccionar(){
                 cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<endl;
                 selected[tirada]=caminantes[i];
             }
-            
+            cout<<".";
         }
 
     }
