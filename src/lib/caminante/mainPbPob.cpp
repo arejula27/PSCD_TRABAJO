@@ -63,9 +63,10 @@ bool isPobCodyDecod(){
 
     Poblacion b;
     b.descodificar(aS);
-
-
     string bS = b.codificar(ALL_POB);
+
+    b.descodificar(bS);
+    bS = b.codificar(ALL_POB);
 
     return aS == bS;
 }
@@ -209,7 +210,7 @@ void sacarPantIsDivYFus(){
              cities[num]= true;
          }
          else{
-             cout<<error(ERROR,"se repiten ciudades en los caminantes")<< i<<endl;
+             cout<<error(ERROR,"se repiten ciudades en los caminantes,ciudad: ")<< i<<endl;
              return false;
          }
          if(num == c){
@@ -566,10 +567,7 @@ bool tryselec()
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    for (int i = 0; i < numCam; i++)
-    {
-        pob.mutar(i);
-    }
+    pob.seleccionar();
     string txt = pob.codificar();
     bool res = false;
 
@@ -599,6 +597,7 @@ bool tryselec()
         cout << error(ERROR, "Población errónea") << endl;
     }
     return res;
+    
 }
 
 void sacarPantSeleccion()
@@ -643,7 +642,7 @@ bool camMut(){
 
     try
     {
-        cam.mutar();
+        cam.mutar(numCt);
         txt = cam.codificar();
         res = caminanteCorrecto(txt, numCt);
     }

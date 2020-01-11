@@ -19,10 +19,10 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <iostream>
-#include <time.h> 
+#include <time.h>
 using namespace std;
 
-const int CAM_MAX = 300;
+
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 
@@ -33,8 +33,8 @@ class Caminante
     //friend void Poblacion::calcFit();
 
 private:
-    int *camino;
-    float fitness;
+    int camino[400];
+    double fitness;
 public:
 
     Caminante();
@@ -55,13 +55,16 @@ public:
     void calcMiFit(int **dist, int numCiuds);
 
     //Devuelve el fitness del caminante.
-    float MyFit();
+    double MyFit();
 
     //Función de mutar.
-    void mutar();
+    void mutar(const int numCities);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
-    void cruzar(const Caminante &c1, const Caminante &c2, int numCities);
+    void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
+
+    //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
+    bool esValido(const int numCities);
 };
 
 
@@ -72,17 +75,18 @@ class Poblacion
     friend Caminante;
   
 private:
-    int sizeMatrix; 
+    int maxCami;
+    int sizeMatrix;
     int numCities;
     int **dist;
     int numCam;
-    Caminante caminantes[CAM_MAX];
+    Caminante *caminantes;
     
 
 public:
     //constructo predeterminado
     Poblacion();
-    //constructo para inicializar una poblacion a partir de un archivo de texto
+    //constructor para inicializar una poblacion a partir de un archivo de texto
     //con una matriz, se le debe de indicar el numero de caminantes de la pobaclion
     //con maximo CAM_MAX
     Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada = "entrada.txt");
@@ -92,6 +96,8 @@ public:
 
     ~Poblacion();
 
+    int getNumCities();
+    
     int getNumCam();
     //calcula el fit de un caminante y cambia su propio fit
     void calcFit(Caminante &caminante);
@@ -129,12 +135,13 @@ public:
     void addCams(int num);
 
     //muta el caminante de la pos num
-    void mutar(int num);
+    void mutar(const int numCities);
 
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
+    //Selecciona 100 caminantes de la poblacion de acuerdo a la regla de la ruleta.
     void seleccionar();
 };
 

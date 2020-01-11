@@ -23,6 +23,9 @@ SOCKET=${SOCKET_DIR}/Socket
 LIB_CAM = ${LIB}/caminante
 CAM =${LIB_CAM}/caminante
 
+LIB_SERV =${SRC}/server
+SERV = ${LIB_SERV}/Servidor
+POBAPROC = ${LIB_SERV}/PoblacionAProcesar
 
 LIB_CLI =${SRC}/client
 CLI = ${LIB_CLI}/Cliente
@@ -40,11 +43,35 @@ LDFLAGS=-pthread   # Flags linkado threads
 TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11   # Flags compilacion
 
 
-all: cliente
+all: cliente server
 #----------------------------------------------------------------------------
 #Para gestionar opciones de compilación según la máquina: hendrix tiene sus manías
 #Descomentar la siguiente línea para compilar en hendrix
 #SOCKETSFLAGS=-lsocket -lnsl
+#-----------------------------------------------------------
+#Servidor
+server: ${SERV}.o  ${POBAPROC}.o ${CAM}.o ${SOCKET}.o
+	${CC}  ${LDFLAGS} ${SERV}.o  ${CAM}.o ${SOCKET}.o ${POBAPROC}.o -o ${SERV}
+
+${SERV}.o: ${SERV}.cpp 
+	${CC} -c ${CPPFLAGS} ${SERV}.cpp  -o ${SERV}.o
+
+#-----------------------------------------------------------
+# PoblacionActual
+# Compilacion monitor de PoblacionActual
+${POBAPROC}.o: ${POBAPROC}.cpp 
+	${CC} -c ${CPPFLAGS} ${POBAPROC}.cpp  -o ${POBAPROC}.o
+#-----------------------------------------------------------
+# SOCKETS
+# Compilacion libreria de Sockets
+${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
+	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
+#-----------------------------------------------------------	
+
+# Caminate
+# Compilacion libreria de Caminante
+${CAM}.o: ${CAM}.hpp ${CAM}.cpp
+	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
 #-----------------------------------------------------------
 #CLIENTE
 cliente: ${CLI}.o  ${POBA}.o ${CAM}.o ${SOCKET}.o
@@ -58,17 +85,8 @@ ${CLI}.o: ${CLI}.cpp
 # Compilacion monitor de PoblacionActual
 ${POBA}.o: ${POBA}.cpp 
 	${CC} -c ${CPPFLAGS} ${POBA}.cpp  -o ${POBA}.o
-#-----------------------------------------------------------
-# SOCKETS
-# Compilacion libreria de Sockets
-${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
-	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
-#-----------------------------------------------------------	
 
-# Caminate
-# Compilacion libreria de Caminante
-${CAM}.o: ${CAM}.hpp ${CAM}.cpp
-	${CC} -c ${CPPFLAGS} ${CAM}.cpp -o ${CAM}.o
+
 #-----------------------------------------------------------
 pobtest: ${POBTEST}.cpp ${CAM}.o 
 
@@ -80,3 +98,6 @@ pobtest: ${POBTEST}.cpp ${CAM}.o
 clean:
 	$(RM) ${SOCKET}.o
 	$(RM) ${CAM}.o
+	$(RM) ${SERV}.o
+	$(RM) $(POBA).o
+	$(RM) $(POBAPROC).o

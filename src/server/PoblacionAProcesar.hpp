@@ -4,7 +4,7 @@
 //*****************************************************************
 
 #ifndef POBLACIONAPROCESAR_H
-#define POBLACIONAPROCEAR_H
+#define POBLACIONAPROCESAR_H
 
 #include <iostream>
 #include <mutex>
@@ -28,12 +28,12 @@ public:
 	//para operar sobre ellos 
 	PoblacionAProcesar(Poblacion poblacion_);
 
-	void seleccionar();
-
 	void cruzar(int id, int id2);
 
 	void mutar(int id);
 
+	void seleccionar();  
+	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 };
