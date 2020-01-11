@@ -567,10 +567,7 @@ bool tryselec()
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    for (int i = 0; i < numCam; i++)
-    {
-        pob.mutar(i);
-    }
+    pob.seleccionar();
     string txt = pob.codificar();
     bool res = false;
 
@@ -600,6 +597,7 @@ bool tryselec()
         cout << error(ERROR, "Población errónea") << endl;
     }
     return res;
+    
 }
 
 void sacarPantSeleccion()

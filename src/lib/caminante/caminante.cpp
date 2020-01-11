@@ -137,7 +137,7 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
 }
 
 //Devuelve el fitness del caminante.
-float Caminante::MyFit()
+double Caminante::MyFit()
 {
     return fitness;
 }
@@ -145,6 +145,10 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
+
+    //MODO1
+
+    /*
     int genes[numCities-1];
     bool cogidos[numCities-1];
     //Almacenamos los genes intercambiables para no perder ninguno
@@ -161,13 +165,33 @@ void Caminante::mutar(const int numCities)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
+
+    */
+
+   //MODO2
+
+    int random=rand()%(numCities-1)+1;
+    
+    for(int i=1; i<numCities; i++){
+        
+        camino[i]=1+(camino[i]+random)%(numCities-1);
+        
+    }
+    
+    
+
 }
+
+
+
+
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    //Modo 1
- 
-
+    //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
+    
+    /*
+    
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     for(int i=0; i<corte; i++){
         camino[i] = c1.camino[i];
@@ -180,40 +204,35 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         }
     }
  
-    camino[numCities]=camino[0];
 
-    /***Modo 2 (habria que implementar una variable para elegir el modo)
+    */    
 
-    delete [] camino;
-    camino = new int[numCities];
-    for(int i=0; i<numCities; i++){
-        srand (time(NULL));
-        if(rand() % 2 >0.5){ //Genera aleatoriamente 1 ó 0
-            camino[i] = c1.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c2.camino[i];
-            }
+    //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
+    //se elige el de uno de ellos 
+
+
+    srand(time(NULL));
+  
+    
+    
         
-        }
-        else{
-            camino[i] = c2.camino[i];
-            if(!esvalido(camino,i)){
-                camino[i] = c1.camino[i];
-            }
+    for(int i=1; i<numCities; i++){
+        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
+        while(!esValido(i+1)){
+            camino[i]=(camino[i]+1)%(numCities);
         }
     }
-
-    hijo.camino[numCities]=hijo.camino[0];
-    */
 }
 
-//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
+//Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(const int numCities){
     bool valido=true;
-    int j=0;
-    while(j<numCities && valido){
-        for(int i = 0; i<numCities ; i++){
+    int j=1;
+    if(camino[1]==0) valido=false;
+    while(j<numCities-1 && valido){
+        for(int i = j+1; i<numCities ; i++){
             if(camino[j]==camino[i]) valido = false;
+            if(camino[i]==0) valido = false;
         }
         j++;
     }
@@ -662,33 +681,41 @@ void Poblacion::cruzar(int p1,int p2){
 void Poblacion::seleccionar(){
     
     Caminante selected[numCam];
-    float casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
-    float prob;
-    float fit;
+    
+    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    bool elegido[numCam]; //Guarda si un caminante ya ha sido elegido o no
+    double prob;
+    double fit;
     //totalCasillas tiene que ser enteros para poder ser generados aleatoriamente
-    float totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
-    float bola; 
+    double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
+    double bola; 
 
 
     for(int i=0; i<numCam ; i++){
+        elegido[i]=false;
         prob=caminantes[i].MyFit();
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
     }
     
-
+    
 
     for(int tirada = 0; tirada<100;){
         srand48 (time(NULL));
+        cout<<"Casillas:"<<totalCasillas<<"-----";
         bola= totalCasillas*drand48();
-        cout<<bola<<"---";
+        cout<<"Bola en:"<<bola<<"----"<<"tirada:"<<tirada<<endl;
         //Recorrer para comprobar resultado
         for(int i=0; i<numCam ; i++){
 
-            if(casillaCam[i]>bola){
+            if(casillaCam[i]>=bola && !elegido[i]){
+                if(i==(numCam-1) && elegido[i]){
+                    i=0;
+                }
                 tirada++;
                 cout<<casillaCam[i]<<endl;
                 selected[tirada]=caminantes[i];
+                elegido[i]=true;
             }
             
         }
