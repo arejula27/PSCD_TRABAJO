@@ -136,9 +136,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		pobs[i].getMatrixFrom(personas);
 	}
 	*/
-	
-      #warning Ponía && pero pongo && !pa.finEjec(personas) para acabar las conexiones porque habia bloqueo (Warning en PoblacionActual)
-	for (int i = 0; i < MAX_GENS; i++){
+	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
