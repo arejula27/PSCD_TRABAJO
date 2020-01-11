@@ -356,7 +356,7 @@ int main(int argc, char const *argv[]){
     int gen, puertoCs;
     string fichero;
     string IPs[MAX_SERVERS];
-    int ops[3];
+    int ops[3]={0,1,2};
     
     
     #warning la ciudad a inicial se puede cambiar
