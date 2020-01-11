@@ -6,7 +6,7 @@
 //*****************************************************************
 
 
-
+#include <math.h>
 #include "caminante.hpp"
 using namespace std;
 
@@ -661,4 +661,37 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(){
     
+    Caminante selected[numCam];
+    float casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    float prob;
+    float fit;
+    //totalCasillas tiene que ser enteros para poder ser generados aleatoriamente
+    float totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
+    float bola; 
+
+
+    for(int i=0; i<numCam ; i++){
+        prob=caminantes[i].MyFit;
+        casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
+        totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
+    }
+    
+
+
+    for(int tirada = 0; tirada<100;){
+        srand48 (time(NULL));
+        bola= totalCasillas*drand48();
+        cout<<bola<<"---";
+        //Recorrer para comprobar resultado
+        for(int i=0; i<numCam ; i++){
+
+            if(casillaCam[i]>bola){
+                tirada++;
+                cout<<casillaCam[i]<<endl;
+                selected[tirada]=caminantes[i];
+            }
+            
+        }
+
+    }
 }

@@ -141,6 +141,7 @@ public:
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
+    //Selecciona 100 caminantes de la poblacion de acuerdo a la regla de la ruleta.
     void seleccionar();
 };
 
