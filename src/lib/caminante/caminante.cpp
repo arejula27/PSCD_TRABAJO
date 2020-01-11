@@ -191,7 +191,9 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
 
     for(int i=0; i<numCities; i++){
+        
         camino[i]=1+(((c1.camino[i]+c2.camino[i])%numCities)-c1.camino[i])%numCities;
+        cout<<camino[i]<<" = "<<c1.camino[i]<<"+"<<c2.camino[i]<<" mod "<<numCities;
     }
     camino[numCities]=camino[0];
 }
