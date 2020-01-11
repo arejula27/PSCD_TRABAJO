@@ -19,7 +19,7 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
-void leerconfig(int &numServers,int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
+void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
     string buffer;
     ifstream f;
     f.open("cliente.config");
@@ -29,6 +29,12 @@ void leerconfig(int &numServers,int &gen, int &puerto, int &numCiudades, string 
                 puerto = stoi(&buffer[strlen("Puerto:")]);
                 cout<<"Puerto = "<<puerto<<endl;
             }
+            else if(buffer.find("PuertoCs:") == 0)
+            {
+                puertoCs = stoi(&buffer[strlen("PuertoCs:")]);
+                cout << "Puerto = " << puerto << endl;
+            }
+
             else if(buffer.find("numCiudades:")==0){
                 numCiudades = stoi(&buffer[strlen("numCiudades:")]);
                 cout <<"numCiudades = "<<numCiudades<<endl;
@@ -80,6 +86,7 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 void controlEstadistico(Poblacion& personas,PobActual &pa,int gen){
     cout<<"CONTROL ESTADISTICO\n";
     ofstream f("salida.csv");
+
     pa.esperaGA();
     f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
     int i = 0;
@@ -208,7 +215,7 @@ int main(int argc, char const *argv[]){
     
     
     #warning la ciudad a inicial se puede cambiar
-    leerconfig(numServers,gen,puertoServer, cities, IPs, numPersonas, fichero);
+    leerconfig(numServers,puertoCs,gen,puertoServer, cities, IPs, numPersonas, fichero);
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
