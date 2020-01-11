@@ -170,12 +170,12 @@ void Caminante::mutar(const int numCities)
 
    //MODO2
 
-    int random=rand()%(numCities);
+    int random=rand()%(numCities-1);
     for(int i=0; i<numCities; i++){
 
-        camino[i]=(camino[i]+random)%(numCities);
+        camino[i]=(camino[i]+random)%(numCities-1);
     }
-   
+    camino[numCities-1]=camino[0];
     
 
 }
