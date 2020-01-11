@@ -193,10 +193,12 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     srand(time(NULL));
     camino[0]=c1.camino[0];
     
+    
     for(int i=1; i<numCities; i++){
         camino[i]=(c1.camino[i]+c2.camino[i])%(numCities-1);
         while(!esValido(i+1)){
             camino[i]=(camino[i]+1)%(numCities-1);
+            cout<<camino[0]<<endl;
             cout<<i<<"--"<<camino[i]<<endl;
 
 
@@ -212,6 +214,7 @@ bool Caminante::esValido(const int numCities){
     while(j<numCities && valido){
         for(int i = 1; i<numCities ; i++){
             if(camino[j]==camino[i]) valido = false;
+            cout<<"comparando"<<j<<"--"<<i<<endl;
         }
         j++;
     }
