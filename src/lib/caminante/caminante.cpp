@@ -146,7 +146,7 @@ float Caminante::MyFit()
 void Caminante::mutar(const int numCities)
 {
 
-    /*MODO1
+    //MODO1
 
 
     int genes[numCities-1];
@@ -166,9 +166,9 @@ void Caminante::mutar(const int numCities)
         cogidos[random] = true;
     }
 
-    */
+    
 
-   //MODO2
+   /*MODO2
 
     int random=rand()%(numCities-1);
     for(int i=0; i<numCities; i++){
@@ -176,6 +176,7 @@ void Caminante::mutar(const int numCities)
         camino[i]=(camino[i]+random)%(numCities);
     }
     camino[numCities]=camino[0];
+    */
 
 }
 
