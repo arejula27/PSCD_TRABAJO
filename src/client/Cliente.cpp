@@ -114,6 +114,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	for (int i = 0; i<numServers; i++){
 		socketServ[i].ini(IPs[i],puerto);
 	}
+     
 	int server_fd[numServers];
 	// Conectamos con el servidor. Probamos varias conexiones
 	int serversAceptados = 0;
