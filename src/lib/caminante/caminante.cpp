@@ -153,7 +153,7 @@ void Caminante::mutar(const int numCities)
     bool cogidos[numCities-1];
     //Almacenamos los genes intercambiables para no perder ninguno
     for(int i=0; i<numCities-1; i++){
-        genes[i]=camino[i];
+        genes[i]=camino[i+1];
         cogidos[i]=false;
     }
     int j=0;
