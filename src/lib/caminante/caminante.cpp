@@ -173,7 +173,8 @@ void Caminante::mutar(const int numCities)
     int random=rand()%(numCities-1);
     for(int i=0; i<numCities; i++){
 
-        camino[i]=(camino[i]+random)%(numCities-1);
+        camino[i]=(camino[i]+random)%(numCities);
+        
     }
     camino[numCities-1]=camino[0];
     
