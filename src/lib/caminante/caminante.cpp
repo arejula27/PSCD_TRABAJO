@@ -171,6 +171,7 @@ void Caminante::mutar(const int numCities)
    //MODO2
 
     int random=rand()%(numCities);
+    cout<<"Nuevo caminante--Suma en los genes: "<<random<<endl;
     for(int i=0; i<numCities; i++){
         cout<<"Suma en los genes: "<<random<<endl;
         camino[i]=(camino[i]+random)%(numCities);
