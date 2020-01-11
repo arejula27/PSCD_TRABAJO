@@ -681,7 +681,9 @@ void Poblacion::cruzar(int p1,int p2){
 void Poblacion::seleccionar(){
     
     Caminante selected[numCam];
+    
     float casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    bool elegido[numCam]; //Guarda si un caminante ya ha sido elegido o no
     float prob;
     float fit;
     //totalCasillas tiene que ser enteros para poder ser generados aleatoriamente
@@ -690,6 +692,7 @@ void Poblacion::seleccionar(){
 
 
     for(int i=0; i<numCam ; i++){
+        elegido[i]=false;
         prob=caminantes[i].MyFit();
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
@@ -705,10 +708,14 @@ void Poblacion::seleccionar(){
         //Recorrer para comprobar resultado
         for(int i=0; i<numCam ; i++){
 
-            if(casillaCam[i]>bola){
+            if(casillaCam[i]>=bola && !elegido[i]){
+                if(i==(numCam-1) && elegido[i]){
+                    i=0;
+                }
                 tirada++;
                 cout<<casillaCam[i]<<endl;
                 selected[tirada]=caminantes[i];
+                elegido[i]=true;
             }
             
         }
