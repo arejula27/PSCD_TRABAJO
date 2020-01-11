@@ -170,14 +170,14 @@ void Caminante::mutar(const int numCities)
 
    //MODO2
 
-    int random=rand()%(numCities-1)+1;
-    //cout<<"Nuevo caminante--Suma en los genes: "<<random<<endl;
-    for(int i=1; i<numCities; i++){
-        //cout<<"En el gen ("<<i<<") hay "<<camino[i];
-        camino[i]=(camino[i]+random)%(numCities-1);
-        //cout<<" y ha cambiado a "<<camino[i]<<endl;
+    int random=rand()%(numCities);
+    cout<<"Nuevo caminante--Suma en los genes: "<<random<<endl;
+    for(int i=0; i<numCities; i++){
+        cout<<"En el gen ("<<i<<") hay "<<camino[i];
+        camino[i]=(camino[i]+random)%(numCities);
+        cout<<" y ha cambiado a "<<camino[i]<<endl;
     }
-
+    //camino[numCities-1]=camino[0];
     
 
 }
@@ -213,21 +213,25 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
 
     srand(time(NULL));
-  
+    if(rand()<0.5) camino[0]=c1.camino[0];
+
+    else camino[0]=c2.camino[0];
+    
     
         
     for(int i=1; i<numCities; i++){
-        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities-1);
+        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
         while(!esValido(i)){
-            camino[i]=(camino[i]+1)%(numCities-1);
+            camino[i]=(camino[i]+1)%(numCities);
         }
     }
+    camino[numCities]=camino[0];
 }
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(const int numCities){
     bool valido=true;
-    int j=1;
+    int j=0;
     while(j<numCities && valido){
         for(int i = j+1; i<numCities+1 ; i++){
             if(camino[j]==camino[i]) valido = false;
@@ -698,12 +702,13 @@ void Poblacion::seleccionar(){
     for(int tirada = 0; tirada<100;){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
-
+        cout<<bola<<"---";
         //Recorrer para comprobar resultado
         for(int i=0; i<numCam ; i++){
 
             if(casillaCam[i]>bola){
                 tirada++;
+                cout<<casillaCam[i]<<endl;
                 selected[tirada]=caminantes[i];
             }
             

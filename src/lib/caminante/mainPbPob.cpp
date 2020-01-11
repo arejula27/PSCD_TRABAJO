@@ -195,7 +195,7 @@ void sacarPantIsDivYFus(){
 }
 
  bool cityPosCorrect(string txt, int numCity){
-     bool res=true;
+
      bool cities[numCity];
      for(int i=0;i<numCity;i++){
          cities[i]=false;
@@ -204,31 +204,27 @@ void sacarPantIsDivYFus(){
      int c = stoi(&txt[0]);
       while(txt[++coma]!=',');
      int end =txt.find_first_of(":");
-     for(int i =0;i<numCity+1;i++){
+     for(int i =0;i<numCity;i++){
          int num=stoi(&txt[++coma]);
          if(!cities[num]){
              cities[num]= true;
          }
          else{
              cout<<error(ERROR,"se repiten ciudades en los caminantes,ciudad: ")<< i<<endl;
-             //return false;
-             res=false;
+             return false;
          }
          if(num == c){
             while(isDigit(txt[++coma],"h"))
-            cout<<&txt[coma]<<endl;
-            cout<<"coma"<<coma<<"--end"<<end<<endl;
             if(coma != end){
                  cout<<error(ERROR,"numero de ciudades incorrecto")<<endl;
-                 //return false;
-                 res=false;
+                 return false;
             }
          }
          while(txt[++coma]!=',');
          
 
      }
-    return res;
+    return true;
 
  }
  bool caminanteCorrecto(string txt,int numCity){
@@ -747,7 +743,7 @@ void sacarPantCamCruz()
 int main()
 {
 
-    //caminanteIni();
+    caminanteIni();
     sacarPantIsCamCyD();
     sacarPantIsPobCyD();
     sacarPantIsPCS();
