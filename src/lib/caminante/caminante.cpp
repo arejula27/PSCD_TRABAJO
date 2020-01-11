@@ -137,7 +137,7 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
 }
 
 //Devuelve el fitness del caminante.
-float Caminante::MyFit()
+double Caminante::MyFit()
 {
     return fitness;
 }
@@ -682,13 +682,13 @@ void Poblacion::seleccionar(){
     
     Caminante selected[numCam];
     
-    float casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     bool elegido[numCam]; //Guarda si un caminante ya ha sido elegido o no
-    float prob;
-    float fit;
+    double prob;
+    double fit;
     //totalCasillas tiene que ser enteros para poder ser generados aleatoriamente
-    float totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
-    float bola; 
+    double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
+    double bola; 
 
 
     for(int i=0; i<numCam ; i++){
