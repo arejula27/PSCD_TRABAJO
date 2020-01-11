@@ -153,13 +153,13 @@ void Caminante::mutar(const int numCities)
     bool cogidos[numCities-1];
     //Almacenamos los genes intercambiables para no perder ninguno
     for(int i=0; i<numCities-1; i++){
-        genes[i]=camino[i];
+        genes[i]=camino[i+1];
         cogidos[i]=false;
     }
     int j=0;
     int random;
     srand (time(NULL));
-    for(int i=0; i<numCities; i++){
+    for(int i=0; i<numCities-1; i++){
         random=rand()%(numCities-1);
         while(cogidos[random]) random = (random + 1)%(numCities-1);
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
