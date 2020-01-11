@@ -218,7 +218,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         
     for(int i=1; i<numCities; i++){
         camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
-        while(!esValido(i)){
+        while(!esValido(i+1)){
             camino[i]=(camino[i]+1)%(numCities);
         }
     }
