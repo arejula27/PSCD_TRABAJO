@@ -74,15 +74,14 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 
 void controlEstadistico(Poblacion& personas,PobActual &pa){
     cout<<"CONTROL ESTADISTICO\n";
-    pa.esperaGA();
     ofstream f("salida.csv");
+    pa.esperaGA();
     f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
     int i = 0;
     float mejorFit,media;
     while (i<MAX_GENS){
         calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << "," << mejorFit << "," << media << endl;
-        cout<<"Esperando GA\n";
         pa.esperaGA();
         i++;
     }
@@ -138,8 +137,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	}
 	*/
 	
-
-	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
+      #warning Ponía && pero pongo && !pa.finEjec(personas) para acabar las conexiones porque habia bloqueo (Warning en PoblacionActual)
+	for (int i = 0; i < MAX_GENS; i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
@@ -177,7 +176,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
 		#warning cambiar msg de finalizacion
-		string fin = "todos tochos";
+		string fin = "END OF SERVICE";
 		socketServ[i].Send(server_fd[i],fin);
 	}
 
@@ -188,6 +187,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
             cerr << "Error cerrando el socket: " << strerror(errno) << endl;
         }
     }
+    pa.despertarTodos();
 }
 
 int main(int argc, char const *argv[]){
@@ -212,6 +212,6 @@ int main(int argc, char const *argv[]){
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
     estadistico.join();
     GAcontrol.join();
-
+    cout<<"FIN DE SERVICIO, MIRAR salida.csv PARA VER EL HISTÓRICO"<<endl;
     return 0;
 }

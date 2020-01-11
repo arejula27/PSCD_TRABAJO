@@ -6,6 +6,7 @@
         "random": "cpp",
         "iostream": "cpp",
         "new": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "__mutex_base": "cpp"
     }
 }

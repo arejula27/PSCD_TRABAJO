@@ -121,17 +121,16 @@ int main(int argc, char *argv[]) {
 			socket.Close(client_fd);
 			socket.Close(socket_fd);
 		}
-		cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
+			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
 			out = true; 
 		} else {
+			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 			if(primera_vez) {	//primera vez
-			
 				primera_vez = false;
 				pob.descodificar(&buffer[2],ALL_POB);
 			}
 			else {		//actualizar
-		
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 				
 			}

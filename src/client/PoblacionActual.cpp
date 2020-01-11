@@ -63,11 +63,14 @@ bool PobActual::finEjec(Poblacion &personas){
     #warning darle valor a fit para calcular el % IGUAL VAR GLOAL
     float fit,mejorFit,media;
     float porcentaje = personas.stats(fit,mejorFit,media);
-    if (porcentaje <= 3.0){
+    /*if (porcentaje <= 3.0){
         return true;
     }else{
         return false;
     }
+    */
+    #warning Nunca se cumple la condición y se bloquea todo, comprobar qué ocurre
+   return true;
 }
 //haced sleep de GA y despierta estadistico 
 void PobActual::esperaEstadistico(){
@@ -96,4 +99,11 @@ void PobActual::finProceso(int id){
     unique_lock <mutex> lck(mtx);
     sync[id-1] = true;
     calcEstadistico.notify_all();
+}
+
+void PobActual::despertarTodos(){
+    unique_lock <mutex> lck(mtx);
+    calcEstadistico.notify_all();
+    dormir_estadistico.notify_all();
+    dormir_GA.notify_all();
 }

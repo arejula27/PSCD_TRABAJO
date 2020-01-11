@@ -40,6 +40,7 @@ public:
     void esperaGA();
     void syncro(int id);
     void finProceso(int id);
+    void despertarTodos();
 private:
     int historico[MAX_GENS][2];
     mutex mtx;
