@@ -9,12 +9,12 @@
 
 using namespace std;
 //Numero maximo de generaciones que crearemos
-const int MAX_GENS = 10;
+
 class PobActual
 {
 public:
     //Construye el monitor
-    PobActual();
+    PobActual(int gen);
     //Destructor
     ~PobActual();
     //Crea poblaciones según el parámetro n (llama a uno de los 3 constructores)
@@ -42,13 +42,13 @@ public:
     void finProceso(int id);
     void despertarTodos();
 private:
-    int historico[MAX_GENS][2];
+    int **historico;
     mutex mtx;
     int numGen; //Número de poblaciones generadas hasta el momento
     //Variables condicion para sincronizar estadisitico y GA
     condition_variable dormir_estadistico,dormir_GA;
     condition_variable calcEstadistico;
-    bool sync[MAX_GENS];
+    bool *sync;
     
 };
 #endif

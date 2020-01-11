@@ -19,7 +19,7 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
-void leerconfig(int &numServers, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
+void leerconfig(int &numServers,int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos){
     string buffer;
     ifstream f;
     f.open("cliente.config");
@@ -32,6 +32,11 @@ void leerconfig(int &numServers, int &puerto, int &numCiudades, string IPs[], in
             else if(buffer.find("numCiudades:")==0){
                 numCiudades = stoi(&buffer[strlen("numCiudades:")]);
                 cout <<"numCiudades = "<<numCiudades<<endl;
+            }
+            else if (buffer.find("generaciones:") == 0)
+            {
+                gen = stoi(&buffer[strlen("generaciones:")]);
+                cout << "Generaciones= " << gen << endl;
             }
             else if(buffer.find("SERVERS:{")==0){
                 numServers=0;
@@ -72,14 +77,14 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 }
 
 
-void controlEstadistico(Poblacion& personas,PobActual &pa){
+void controlEstadistico(Poblacion& personas,PobActual &pa,int gen){
     cout<<"CONTROL ESTADISTICO\n";
     ofstream f("salida.csv");
     pa.esperaGA();
     f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
     int i = 0;
     float mejorFit,media;
-    while (i<MAX_GENS){
+    while (i<gen){
         calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << "," << mejorFit << "," << media << endl;
         pa.esperaGA();
@@ -89,13 +94,13 @@ void controlEstadistico(Poblacion& personas,PobActual &pa){
     if (pa.finEjec(personas)){
         max = i;
     }else{
-        max = MAX_GENS;
+        max = gen;
     }
     f.close();
 }
 
 
-void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[]){
+void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[],int gen){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[numServers];
@@ -136,7 +141,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		pobs[i].getMatrixFrom(personas);
 	}
 	*/
-	for (int i = 0; i < MAX_GENS && !pa.finEjec(personas); i++){
+	for (int i = 0; i < gen && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
@@ -197,17 +202,18 @@ int main(int argc, char const *argv[]){
     int numPersonas;
     int cities;
     int numServers;
+    int gen;
     string fichero;
     string IPs[MAX_SERVERS];
-    PobActual pa;
+    
     
     #warning la ciudad a inicial se puede cambiar
-    leerconfig(ref(numServers), ref(puertoServer), ref(cities), IPs, ref(numPersonas), ref(fichero));
- 
+    leerconfig(numServers,gen,puertoServer, cities, IPs, numPersonas, fichero);
+    PobActual pa(gen);
     Poblacion proletariado(numPersonas,3,cities,fichero);
 
-    thread estadistico (&controlEstadistico,ref(proletariado),ref(pa));
-    thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs);
+    thread estadistico (&controlEstadistico,ref(proletariado),ref(pa),gen);
+    thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen);
     estadistico.join();
     GAcontrol.join();
     cout<<"FIN DE SERVICIO, MIRAR salida.csv PARA VER EL HISTÓRICO"<<endl;
