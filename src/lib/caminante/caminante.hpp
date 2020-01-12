@@ -150,10 +150,8 @@ public:
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
-    //Selecciona (fin-ini) caminantes de la poblacion de acuerdo a la regla de la ruleta.
-    //Los almacena en las posiciones delimitadas por ini y fin. Ademas incrementa n con el numero 
-    //seleccionados, de modo que si llega a numCamOrig se lo asigna a numCam
-    void seleccionar(int ini, int fin, int &n);
+    //Selecciona n caminantes de la poblacion y los guarda en las n primeras posiciones 
+    void seleccionar(int n);
 };
 
 #endif //!CAMINANTE_Y_POBLACION

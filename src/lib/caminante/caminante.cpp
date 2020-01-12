@@ -692,9 +692,9 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 
-void Poblacion::seleccionar(int ini, int fin, int &n){
+void Poblacion::seleccionar(int n){
 
-    Caminante selected[fin-ini];
+    Caminante selected[n];
 
     /*MODO1 (RULETA)
     
@@ -723,7 +723,7 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     int elegido;
 
     //BUCLE DE ELEGIR 
-    for(int tirada = 0; tirada<(fin-ini);){
+    for(int tirada = 0; tirada<n;){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
@@ -748,11 +748,11 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     */
 
 
-
+   //MODO 2 random
     int random;
     //BUCLE DE ELEGIR 
 
-    for(int tirada = 0; tirada<(fin-ini);tirada++){
+    for(int tirada = 0; tirada<n;tirada++){
         srand48 (time(NULL));
         random = rand()%(numCam);
         cout<<"Elegido el caminante--"<<random<<endl;
@@ -762,19 +762,9 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
 
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
-    for(int i=0; i<(fin-ini); i++){
-
-        caminantes[ini+i]= selected[i];
-
+    for(int i=0; i<n; i++){
+        caminantes[i]= selected[i];
     }
     
-    //Actualizar el tamaño de la poblacion
-    n=n+fin-ini; //n se incrementa con el numero de caminantes ya seleccionados
-    cout<<"acumulado "<<n<<"de entre "<<numCam<<endl;
-    
-    if(n==numCamOrig){
-        cout<<"HORA DE ACTUALIZAR NUMCAM\n";
-        setNumCam(n);
-    }
     
 }
