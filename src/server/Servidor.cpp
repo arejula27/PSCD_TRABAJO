@@ -203,12 +203,12 @@ int main(int argc, char *argv[]) {
 
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,comienzo+div_n+1);  
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+1);  
 							comienzo += div_n+1;
 							resto--;
 						}
 						else{	// hilo para cruzar los extra
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,comienzo+div_n);
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n);
 							comienzo += div_n;
 						}
 					}
