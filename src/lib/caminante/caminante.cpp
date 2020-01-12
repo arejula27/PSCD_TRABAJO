@@ -764,10 +764,12 @@ void Poblacion::seleccionar(int n){
                 }
                 
                 cout<<"Elegido el "<<posicion<<endl;
-                cout<<"Elecciones hasta ahora"<<j<<endl;
+                cout<<"Elecciones hasta ahora----"<<numElegTor<<endl;
                 elegido[posicion]=true;
                 selected[numElegidos]=caminantes[posicion];
-                numElegidos++;  /* code */
+                numElegTor++;
+                numElegidos++;
+
                 l++;
                 }
                 
