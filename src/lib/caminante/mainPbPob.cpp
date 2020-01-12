@@ -186,6 +186,7 @@ void sacarPantIsDivYFus(){
     
         for(int i= 1+frs;i<lst;i++)
             if(!isDigit(txt[i])||!(txt[i]=='.') ){
+            cout<<txt<<endl;
             cout<<"El fit de "<<i<<"se jodio\n";
             return false;
             }
