@@ -136,8 +136,8 @@ void sacarPantIsPCS()
 
 void isFitCorr(){
     Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
-    float bestFit, media;
-    a.stats(a, 0, bestFit, media);
+    double bestFit, media;
+    a.stats(0, bestFit, media);
     cout<<a.codificar()<<endl;
     cout<<bestFit<<endl;
     cout<<media<<endl;
@@ -186,6 +186,7 @@ void sacarPantIsDivYFus(){
     
         for(int i= 1+frs;i<lst;i++)
             if(!isDigit(txt[i])||!(txt[i]=='.') ){
+            cout<<"El fit de "<<i<<"se jodio\n";
             return false;
             }
         
@@ -485,7 +486,7 @@ void sacarPantMutar(){
     
 }
 
-/******************************************
+/*******************************************
  * Ahora la función cruzar
  * *********************************************/
 bool trycruzar()
@@ -562,15 +563,14 @@ void sacarPantCruzar()
 bool tryselec()
 {
     int idx = 0;
-    int numCam = 100;
+    int numCam = 220;
     int ciudadIni = 0;
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    for (int i = 0; i < numCam; i++)
-    {
-        pob.mutar(i);
-    }
+    
+    pob.seleccionar(100);
+    
     string txt = pob.codificar();
     bool res = false;
 

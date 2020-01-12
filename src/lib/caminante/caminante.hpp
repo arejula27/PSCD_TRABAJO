@@ -34,7 +34,7 @@ class Caminante
 
 private:
     int camino[400];
-    float fitness;
+    double fitness;
 public:
 
     Caminante();
@@ -55,7 +55,7 @@ public:
     void calcMiFit(int **dist, int numCiuds);
 
     //Devuelve el fitness del caminante.
-    float MyFit();
+    double MyFit();
 
     //Función de mutar.
     void mutar(const int numCities);
@@ -106,7 +106,7 @@ public:
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
     //media de fitness de los caminates
-    float stats(float fit, float &mejorFit, float &media);
+    double stats(double fit, double &mejorFit, double &media);
     //divide la poblacion en n subpoblaciones
     void dividir(int n, Poblacion pobs[]);
 
@@ -147,7 +147,7 @@ public:
     //se inserta la parte centra de un padre en el otro y viceversa
     void cruzar2(int p1, int p2);
 
-    void seleccionar();
+    void seleccionar(int n);
 };
 
 #endif //!CAMINANTE_Y_POBLACION

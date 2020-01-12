@@ -126,7 +126,7 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
 }
 
 //Devuelve el fitness del caminante.
-float Caminante::MyFit()
+double Caminante::MyFit()
 {
     return fitness;
 }
@@ -313,7 +313,7 @@ void Poblacion::calcFit(Caminante &caminate){
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminates
-float Poblacion::stats(float fit,float &mejorFit,float &media){
+double Poblacion::stats(double fit,double &mejorFit,double &media){
     int cont = 0;
     for (int i = 0; i < numCam; i++){
         calcFit(caminantes[i]); // Calcula el fit
@@ -611,4 +611,118 @@ void Poblacion::cruzar2(int p1, int p2){
 }
 void Poblacion::seleccionar(){
     numCam = 10;
+}
+void Poblacion::seleccionar(int n){
+
+     Caminante selected[n];
+    
+
+    //MODO1 (RULETA)
+    /*
+    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    double fit;
+    double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
+    double bola; 
+
+    
+
+    for(int i=0; i<numCam ; i++){
+        calcFit(caminantes[i]);
+        fit=caminantes[i].MyFit();
+        //cout<<"fit"<<i<<"---"<<prob;
+        casillaCam[i]=fit+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
+        totalCasillas=fit+totalCasillas; //Se aumenta el tamaño de la ruleta
+        //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
+    }
+    
+    int i;
+    bool elegido;
+
+
+    for(int tirada = 0; tirada<n;){
+        srand48 (time(NULL));
+        bola= totalCasillas*drand48();
+        //Recorrer para comprobar resultado
+        elegido=false;
+        i=0;
+        while(i<numCam && !elegido){
+
+            if(casillaCam[i]>=bola){
+                
+                //cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
+                selected[tirada]=caminantes[i];
+                tirada++;
+                elegido=true;
+            }
+            i++;
+        }
+    }
+    cout<<"Metodo de seleccion por ruleta(1)"<<endl;
+    
+    */
+   
+   //MODO2 (RANDOM)
+    /*
+    int random;
+    //BUCLE DE ELEGIR 
+
+    for(int tirada = 0; tirada<n;tirada++){
+        srand48 (time(NULL));
+        random = rand()%(numCam);
+        selected[tirada]=caminantes[random];
+        cout<<"seleccionado--"<<random;
+    }
+
+    cout<<"Seleccionar version random(2)\n";
+    */
+   
+   //MODO 3 (TORNEO)
+    int nVeces=4; //Numero de torneos
+    int k=numCam/nVeces; //Numero de participantes en cada torneo
+    int l=n/nVeces; //elegidos en cada torneo
+    cout<<"part="<<k<<" -- eleg="<<l<<endl;
+    double fit;
+    bool elegido[numCam];
+    int posicion;
+    
+     for(int i=0; i<numCam ; i++){
+        elegido[i]=false;
+    }
+
+    for (int numElegidos=0;numElegidos<n;){ //Seleccion total
+
+        for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
+            cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
+            for(int j=0;j<l;l++){   //Seleccion dentro de cada torneo
+                
+                fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
+                cout<<"comparando cam--"<<j+(k*i)<<endl;
+                for(int p=(k*i)+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                    if(fit<caminantes[p].MyFit() && !elegido[p]){
+                        fit=caminantes[p].MyFit();
+                        posicion=p;
+                        cout<<"cambiado a cami--"<<posicion<<endl;
+                    }
+                }
+                cout<<"Elegido el "<<posicion<<endl;
+                elegido[posicion]=true;
+                selected[numElegidos]=caminantes[posicion];
+                numElegidos++;
+                
+            }
+
+        }
+    
+    }
+    
+    //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
+    
+    for(int i=0; i<(n); i++){
+
+        caminantes[i]= selected[i];
+        //caminantes[i].calcMiFit;
+
+    }
+    numCam=n;
+    
 }
