@@ -770,7 +770,8 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     
     //Actualizar el tamaño de la poblacion
     n=n+fin-ini; //n se incrementa con el numero de caminantes ya seleccionados
-    cout<<"acumulado"<<n<<endl;
+    cout<<"acumulado "<<n<<"de entre "<<numCam<<endl;
+    
     if(n==numCamOrig){
         setNumCam(n);
     }
