@@ -756,9 +756,7 @@ void Poblacion::seleccionar(int n){
             {
             calcFit(caminantes[j+(k*i)]);
             fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
-            cout<<"comparando cam--"<<j+(k*i)<<endl;
-            cout<<"fitness a superar"<<fit<<endl;
-            
+                        
             for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                 calcFit(caminantes[p]);
                 if(fit<caminantes[p].MyFit() && !elegido[p]){
@@ -766,9 +764,6 @@ void Poblacion::seleccionar(int n){
                     posicion=p;
                 }
             }
-            
-            cout<<"Elegido el "<<posicion<<endl;
-            cout<<"Elecciones hasta ahora----"<<numElegTor<<endl;
             
             elegido[posicion]=true;
             selected[numElegidos]=caminantes[posicion];
@@ -784,12 +779,12 @@ void Poblacion::seleccionar(int n){
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
     for(int i=0; i<n; i++){
-        cout<<i<<endl;
+        
         caminantes[i]= selected[i];
         //caminantes[i].calcMiFit;
 
     }
-    
+
     numCam=n;
     
 }
