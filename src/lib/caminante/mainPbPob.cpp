@@ -136,7 +136,7 @@ void sacarPantIsPCS()
 
 void isFitCorr(){
     Poblacion a(10, 4, 12, "./../entradas/uk12.txt");
-    float bestFit, media;
+    double bestFit, media;
     a.stats(0, bestFit, media);
     cout<<a.codificar()<<endl;
     cout<<bestFit<<endl;
