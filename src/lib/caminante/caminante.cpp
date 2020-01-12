@@ -743,7 +743,7 @@ void Poblacion::seleccionar(int ini, int fin){
     
     for(int i=0; i<(fin-ini); i++){
 
-        caminantes[ini+1]= selected[i];
+        caminantes[ini+i]= selected[i];
 
     }
 }
