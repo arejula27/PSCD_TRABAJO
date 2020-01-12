@@ -774,7 +774,6 @@ void Poblacion::seleccionar(int n){
                 numElegTor++;
                 numElegidos++;
 
-                l++;
                 }
                 j++;               
             }
