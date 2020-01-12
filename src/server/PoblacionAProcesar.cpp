@@ -27,8 +27,11 @@ void PoblacionAProcesar::mutar(int id) {
 
 //------------------------------------------------------------------------------------------------
 // funcion seleccionar
-void PoblacionAProcesar::seleccionar() {   
+void PoblacionAProcesar::seleccionar(int ini, int fin) {   
     unique_lock<mutex> lck(mtx);
+    poblacion.seleccionar(ini,fin);
+    
+    
 }
 
 

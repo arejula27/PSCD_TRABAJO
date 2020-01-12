@@ -56,8 +56,9 @@ void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
 	}
 }
 
-void procesoSeleccionar(PoblacionAProcesar &pAp) {
-    pAp.seleccionar();
+void procesoSeleccionar(PoblacionAProcesar &pAp,int comienzo, int div_n) {
+    pAp.seleccionar(comienzo, div_n);
+    
 }
 
 
@@ -148,6 +149,8 @@ int main(int argc, char *argv[]) {
 			int id = 0;
 			int comienzo=0;
 			switch(operacion) {
+
+
 				case 0:		// Cruzar
 					cout<<"Cruzando población"<<endl;
 					// Cruzar con 5 hilos
@@ -168,6 +171,10 @@ int main(int argc, char *argv[]) {
 					cout << "Cruces terminados" << endl;
 					r=n; //Almacena padres
 					break;
+
+
+
+
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
@@ -184,10 +191,36 @@ int main(int argc, char *argv[]) {
 						proceso[i].join();
 					}
 					break;
+
+
+
+
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
-					procesoSeleccionar(ref(pAp));  
+					n = pob.getNumCamOrig();				// Obtener numero de caminantes
+					div_n = n/(NUM_PROCESOS_MAX-1);			// Caminantes que va a seleccionar cada thread
+					resto = n%(NUM_PROCESOS_MAX-1);
+
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						if(resto>0) {
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,comienzo+div_n+1);  
+							comienzo += div_n+1;
+							resto--;
+						}
+						else{	// hilo para cruzar los extra
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,comienzo+div_n);
+							comienzo += div_n;
+						}
+					}
+					
+					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
+						proceso[i].join();
+					}
+					
 					break;
+
+
+
 				default:	// Operacion incorrecta
 					cout << "ERROR en operacion recibida" << endl;
 					// Enviar mensaje de error de operacion

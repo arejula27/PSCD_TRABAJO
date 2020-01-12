@@ -79,11 +79,14 @@ private:
     int sizeMatrix;
     int numCities;
     int **dist;
-    int numCam;
+    int numCam; 
+    int numCamOrig;
     Caminante *caminantes;
     
 
 public:
+
+    
     //constructo predeterminado
     Poblacion();
     //constructor para inicializar una poblacion a partir de un archivo de texto
@@ -100,6 +103,12 @@ public:
     
     int getNumCam();
     //calcula el fit de un caminante y cambia su propio fit
+    
+    int getNumCamOrig();
+    
+    //Actualiza numCam con el valor de numCamOrig
+    void setNumCam();
+
     void calcFit(Caminante &caminante);
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
@@ -141,8 +150,9 @@ public:
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
-    //Selecciona 100 caminantes de la poblacion de acuerdo a la regla de la ruleta.
-    void seleccionar();
+    //Selecciona (fin-ini) caminantes de la poblacion de acuerdo a la regla de la ruleta.
+    //Los almacena en las posiciones delimitadas por ini y fin
+    void seleccionar(int ini, int fin);
 };
 
 #endif //!CAMINANTE_Y_POBLACION

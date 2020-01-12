@@ -252,7 +252,7 @@ Poblacion::Poblacion(){
     dist=nullptr;
     caminantes=nullptr;
     maxCami=0;
-    
+    numCamOrig=numCam;
 }
 
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
@@ -326,6 +326,8 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
         exit(0);
     }
     f1.close();
+
+    numCamOrig=numCam;
 }
 
 
@@ -373,6 +375,18 @@ int Poblacion::getNumCities(){
 int Poblacion::getNumCam(){
     return numCam;
 }
+
+int Poblacion::getNumCamOrig(){
+    return numCamOrig;
+}
+
+
+//Actualiza numCam al valor de numCam a numcamOrig
+void Poblacion::setNumCam(){
+    numCam=numCamOrig;
+}
+
+
 
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate){
@@ -678,11 +692,11 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 
-void Poblacion::seleccionar(){
+void Poblacion::seleccionar(int ini, int fin){
 
-    int numCam=100;
     
-    Caminante selected[numCam];
+    
+    Caminante selected[fin-ini];
     
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double prob;
@@ -692,7 +706,7 @@ void Poblacion::seleccionar(){
     double bola; 
 
     
-
+    //BUCLE INICIALIZAR
     for(int i=0; i<numCam ; i++){
         calcFit(caminantes[i]);
         prob=caminantes[i].MyFit();
@@ -705,17 +719,17 @@ void Poblacion::seleccionar(){
     int i;
     int elegido;
 
-
-    for(int tirada = 0; tirada<100;){
+    //BUCLE DE ELEGIR 
+    for(int tirada = 0; tirada<(fin-ini);){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
         elegido=false;
         i=0;
         while(i<numCam && !elegido){
-
+            
             if(casillaCam[i]>=bola){
-                
+
                 cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
                 tirada++;
@@ -723,6 +737,13 @@ void Poblacion::seleccionar(){
             }
             i++;
         }
+    }
+
+    //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
+    
+    for(int i=0; i<(fin-ini); i++){
+
+        caminantes[ini+1]= selected[i];
 
     }
 }

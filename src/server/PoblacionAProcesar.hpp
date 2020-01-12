@@ -32,7 +32,8 @@ public:
 
 	void mutar(int id);
 
-	void seleccionar();  
+	//Selecciona caminantes y los pone en las posiciones desde ini hasta fin
+	void seleccionar(int ini, int fin);  
 	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
