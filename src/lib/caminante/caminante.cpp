@@ -658,13 +658,13 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 //Cruce con doble corte (Double Point Crossover)
-void Poblacion::cruzar2(int p1, int p2){
+/*void Poblacion::cruzar2(int p1, int p2){
 
     assert(1 + numCam <= maxCami);  
 
     caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-}
+}*/
 
 void Poblacion::seleccionar(int n){
 
