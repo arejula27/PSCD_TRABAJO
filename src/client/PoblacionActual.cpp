@@ -40,8 +40,8 @@ void PobActual::agnadirDatos(int numGen, int mejorFit, int avgFit){
 bool PobActual::finEjec(Poblacion &personas){
     unique_lock <mutex> lck(mtx);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOAL
-    float fit,mejorFit,media;
-    float porcentaje = personas.stats(fit,mejorFit,media);
+    double fit,mejorFit,media;
+    double porcentaje = personas.stats(fit,mejorFit,media);
     if (porcentaje <= 3.0){
         return true;
     }else{
