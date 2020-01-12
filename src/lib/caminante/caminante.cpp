@@ -588,10 +588,9 @@ void Poblacion::seleccionar(int n){
      Caminante selected[n];
     
 
-    /*MODO1 (RULETA)
+    //MODO1 (RULETA)
 
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
-    double prob;
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
     double bola; 
@@ -600,10 +599,10 @@ void Poblacion::seleccionar(int n){
 
     for(int i=0; i<numCam ; i++){
         calcFit(caminantes[i]);
-        prob=caminantes[i].MyFit();
+        fit=caminantes[i].MyFit();
         //cout<<"fit"<<i<<"---"<<prob;
-        casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
-        totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
+        casillaCam[i]=fit+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
+        totalCasillas=fit+totalCasillas; //Se aumenta el tamaño de la ruleta
         //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
     }
     
@@ -611,7 +610,7 @@ void Poblacion::seleccionar(int n){
     bool elegido;
 
 
-    for(int tirada = 0; tirada<numCamFin;){
+    for(int tirada = 0; tirada<n;){
         srand48 (time(NULL));
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
@@ -629,9 +628,9 @@ void Poblacion::seleccionar(int n){
             i++;
         }
     }
-
-    */
-
+    cout<<"MEtodo de seleccion por ruleta(1)"<<endl;
+    
+   /*
    //MODO2 (RANDOM)
 
     int random;
@@ -645,7 +644,8 @@ void Poblacion::seleccionar(int n){
         selected[tirada]=caminantes[random];
     }
 
-    
+    cout<<"Seleccionar version random(2)\n"
+    */
    /*
    //MODO 3 (TORNEO)
     int nVeces=5; //Numero de veces que se va a repetir el proceso
@@ -658,6 +658,7 @@ void Poblacion::seleccionar(int n){
     for(int i=0; i<(n); i++){
 
         caminantes[i]= selected[i];
+        //caminantes[i].calcMiFit;
 
     }
     
