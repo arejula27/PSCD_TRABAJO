@@ -570,9 +570,9 @@ bool tryselec()
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    
-    pob.seleccionar(100);
-    cout<<numCam<<endl;
+    int n=100;
+    pob.seleccionar(n);
+    cout<<pob.getNumCam()<<endl;
     string txt = pob.codificar();
     bool res = false;
 

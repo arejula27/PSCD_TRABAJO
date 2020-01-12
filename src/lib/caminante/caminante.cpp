@@ -789,6 +789,7 @@ void Poblacion::seleccionar(int n){
         //caminantes[i].calcMiFit;
 
     }
+    
     numCam=n;
     
 }
