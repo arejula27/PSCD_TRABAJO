@@ -710,10 +710,10 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     for(int i=0; i<numCam ; i++){
         calcFit(caminantes[i]);
         prob=caminantes[i].MyFit();
-        cout<<"fit"<<i<<"---"<<prob;
+        //cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
-        cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
+        //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
     }
     
     int i;
@@ -749,6 +749,7 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     
     //Actualizar el tamaño de la poblacion
     n=n+fin-ini; //n se incrementa con el numero de caminantes ya seleccionados
+    cout<<"acumulado"<<n<<endl;
     if(n==numCamOrig){
         setNumCam(n);
     }
