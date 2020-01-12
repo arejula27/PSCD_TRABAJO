@@ -752,7 +752,7 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     int random;
     //BUCLE DE ELEGIR 
 
-    for(int tirada = 0; tirada<(fin-ini);i++){
+    for(int tirada = 0; tirada<(fin-ini);tirada++){
         srand48 (time(NULL));
         random = rand()%(numCam);
         cout<<"Elegido el caminante--"<<random<<endl;
