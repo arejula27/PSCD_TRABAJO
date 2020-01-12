@@ -738,7 +738,7 @@ void Poblacion::seleccionar(int n){
     double fit;
     bool elegido[numCam];
     int posicion;
-    
+    int numElegTor; //numero de elegidos en el torneo actual
      for(int i=0; i<numCam ; i++){
         elegido[i]=false;
     }
@@ -746,8 +746,9 @@ void Poblacion::seleccionar(int n){
     for (int numElegidos=0;numElegidos<n;){ //Seleccion total
 
         for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
+            numElegTor=0;
             cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
-            for(int j=0;j<l;j++){   //Seleccion dentro de cada torneo
+            for(int j=0;numElegTor<l;j++){   //Seleccion dentro de cada torneo
                 if (!elegido[j+(k*i)])   //Coger uno no elegido
                 {
                 calcFit(caminantes[j+(k*i)]);
@@ -767,6 +768,7 @@ void Poblacion::seleccionar(int n){
                 elegido[posicion]=true;
                 selected[numElegidos]=caminantes[posicion];
                 numElegidos++;  /* code */
+                l++;
                 }
                 
                
