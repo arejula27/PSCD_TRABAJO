@@ -184,7 +184,7 @@ void sacarPantIsDivYFus(){
      if(!(stoi(&txt[++frs])==-1)){
 
         for(int i= 1+frs;i<lst;i++)
-            if(!isDigit(txt[i])||!(txt[i]=='.') ){
+            if(!isDigit(txt[i]) && !(txt[i]=='.') ){
                 cout<<txt[i]<<endl;
                 cout<<txt<<endl;
                 cout<<txt[frs]<<endl;
