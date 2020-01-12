@@ -365,6 +365,12 @@ int Poblacion::getNumCamOrig(){
     return numCamOrig;
 }
 
+
+//Iguala numCamOrig al valor actual de numCam
+void Poblacion::setNumCamOrig(){
+    numCamOrig=numCam;
+}
+
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate){
     caminate.calcMiFit(dist, numCities);

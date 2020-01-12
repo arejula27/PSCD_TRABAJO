@@ -106,6 +106,11 @@ public:
     int getNumCam();
 
     int getNumCamOrig();
+
+    //Iguala numCamOrig al valor actual de numCam
+    void setNumCamOrig();
+
+
     //calcula el fit de un caminante y cambia su propio fit
     void calcFit(Caminante &caminante);
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,

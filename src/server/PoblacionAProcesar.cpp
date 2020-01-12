@@ -37,3 +37,9 @@ void PoblacionAProcesar::seleccionar() {
 Poblacion PoblacionAProcesar::getPoblacion() {
     return poblacion;
 }
+
+//Guarda el numCam actual en numCamOrig de la poblacion
+void PoblacionAProcesar::setNumCamOrig() {
+    
+    poblacion.setNumCamOrig();
+}

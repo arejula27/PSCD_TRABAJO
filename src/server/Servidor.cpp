@@ -57,6 +57,7 @@ void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
 }
 
 void procesoSeleccionar(PoblacionAProcesar &pAp) {
+	
     pAp.seleccionar();
 }
 
@@ -171,6 +172,7 @@ int main(int argc, char *argv[]) {
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
+					pAp.setNumCamOrig();
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);

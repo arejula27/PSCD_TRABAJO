@@ -34,6 +34,9 @@ public:
 
 	void seleccionar();  
 	
+	void setNumCamOrig();
+
+
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 };
