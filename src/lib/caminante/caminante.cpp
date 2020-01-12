@@ -209,7 +209,6 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         }
     }
 }
-<<<<<<< HEAD
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int numCities){
@@ -224,32 +223,6 @@ bool Caminante::esValido(int numCities){
         j++;
     }
     return valido;
-=======
-//Cruce con doble corte (Double Point Crossover) 
-void Caminante::cruzar2(const Caminante &c1, const Caminante &c2, const int numCities){
-    bool ciudades [numCities];
-    for (int i = 0; i < numCities; i++ ){
-        ciudades[i] = false;
-    }
-    int i = 0;
-    for (i = 0; i < 100; i++)
-    {
-        ciudades[c1.camino[i]] = true;        
-        camino[i] = c1.camino[i];
-    }
-    for (i = 100; i < 200; i++)
-    {
-        camino[i] = c2.camino[i];
-    }
-    for (i = 200; i < numCities; i++)
-    {
-        camino[i] = c1.camino[i];
-    }
-}
-//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(int *camino,const int numCities){
-    return true;
->>>>>>> 665852d4dd5d33f122daf40e7efbf983def5c2d8
 }
 
 
@@ -692,9 +665,9 @@ void Poblacion::cruzar2(int p1, int p2){
     caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
 }
-void Poblacion::seleccionar(){
+/*void Poblacion::seleccionar(){
     numCam = 10;
-}
+}*/
 void Poblacion::seleccionar(int n){
 
      Caminante selected[n];
