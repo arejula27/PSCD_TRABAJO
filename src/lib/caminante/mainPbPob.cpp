@@ -569,7 +569,7 @@ bool tryselec()
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
     
-    pob.seleccionar(numCam);
+    pob.seleccionar(100);
     
     string txt = pob.codificar();
     bool res = false;
