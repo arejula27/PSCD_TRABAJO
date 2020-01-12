@@ -748,8 +748,10 @@ void Poblacion::seleccionar(int n){
         for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
             cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
             for(int j=0;j<l;j++){   //Seleccion dentro de cada torneo
+                if (!elegido[j+(k*i)])   //Coger uno no elegido
+                {
                 calcFit(caminantes[j+(k*i)]);
-                fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
+                fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
                 cout<<"comparando cam--"<<j+(k*i)<<endl;
                 cout<<"fitness a superar"<<fit<<endl;
                 for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
@@ -757,13 +759,17 @@ void Poblacion::seleccionar(int n){
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
-                        cout<<"cambiado a cami--"<<posicion<<endl;
                     }
                 }
+                
                 cout<<"Elegido el "<<posicion<<endl;
+                cout<<"Elecciones hasta ahora"<<j<<endl;
                 elegido[posicion]=true;
                 selected[numElegidos]=caminantes[posicion];
-                numElegidos++;
+                numElegidos++;  /* code */
+                }
+                
+               
                 
             }
 
