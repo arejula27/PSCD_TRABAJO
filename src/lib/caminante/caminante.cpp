@@ -751,7 +751,9 @@ void Poblacion::seleccionar(int n){
                 
                 fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
                 cout<<"comparando cam--"<<j+(k*i)<<endl;
-                for(int p=j+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                cout<<"fitness a superar"<<fit<<endl;
+                for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                    cout<<"comparando----"<<p<<endl;
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
