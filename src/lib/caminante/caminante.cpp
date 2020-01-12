@@ -133,22 +133,98 @@ double Caminante::MyFit()
 
 //Función de mutar.
 void Caminante::mutar(const int numCities)
-{   
+{
+
+    //MODO1
+
+    /*
+    int genes[numCities-1];
+    bool cogidos[numCities-1];
+    //Almacenamos los genes intercambiables para no perder ninguno
+    for(int i=0; i<numCities-1; i++){
+        genes[i]=camino[i+1];
+        cogidos[i]=false;
+    }
+    int j=0;
+    int random;
+    srand (time(NULL));
+    for(int i=1; i<numCities; i++){
+        random=rand()%(numCities-1);
+        while(cogidos[random]) random = (random + 1)%(numCities-1);
+        camino[i]=genes[random];//Elige un gen entre todos los almacenados
+        cogidos[random] = true;
+    }
+    */
+
+   //MODO2
+
+    int random=rand()%(numCities-1)+1;
     
+    for(int i=1; i<numCities; i++){
+        
+        camino[i]=1+(camino[i]+random)%(numCities-1);
+        
+    }
+    
+    
+
 }
+
+
+
+
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
+    //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
     
-    for(int i =0;i<=numCities;i++){
+    /*
+    
+    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
+    for(int i=0; i<corte; i++){
         camino[i] = c1.camino[i];
+    }
+    for (int i=corte; i<numCities; i++){
+        camino[i] = c2.camino[i];
+        if (!esValido(i)){
+            camino[i] = c1.camino[i];
+        }
+    }
+ 
+    */    
+
+    //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
+    //se elige el de uno de ellos 
+
+
+    srand(time(NULL));
+  
+    
+    
+        
+    for(int i=1; i<numCities; i++){
+        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
+        while(!esValido(i+1)){
+            camino[i]=(camino[i]+1)%(numCities);
+        }
     }
 }
 
-//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(int *camino,const int numCities){
-    return true;
+//Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
+bool Caminante::esValido(int numCities){
+    bool valido=true;
+    int j=1;
+    if(camino[1]==0) valido=false;
+    while(j<numCities-1 && valido){
+        for(int i = j+1; i<numCities ; i++){
+            if(camino[j]==camino[i]) valido = false;
+            if(camino[i]==0) valido = false;
+        }
+        j++;
+    }
+    return valido;
 }
+
 
 
 
@@ -668,7 +744,7 @@ void Poblacion::seleccionar(int n){
                 
                 fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
                 cout<<"comparando cam--"<<j+(k*i)<<endl;
-                for(int p=(k*i)+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                for(int p=j+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;

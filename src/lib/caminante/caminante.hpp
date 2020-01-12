@@ -57,6 +57,8 @@ public:
     //Devuelve el fitness del caminante.
     double MyFit();
 
+    bool esValido(int numCities);
+
     //Función de mutar.
     void mutar(const int numCities);
 
