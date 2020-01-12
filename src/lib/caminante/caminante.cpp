@@ -783,8 +783,8 @@ void Poblacion::seleccionar(int n){
     
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
-    for(int i=0; i<(n); i++){
-
+    for(int i=0; i<n; i++){
+        cout<<i<<endl;
         caminantes[i]= selected[i];
         //caminantes[i].calcMiFit;
 
