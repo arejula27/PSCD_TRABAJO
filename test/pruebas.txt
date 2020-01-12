@@ -4,4 +4,4 @@
 - Poblacion inicial correctas
 - fitness correcto
 - siempre duvuelve la poblacion con el mismo número de gente 
-- 
+-  
