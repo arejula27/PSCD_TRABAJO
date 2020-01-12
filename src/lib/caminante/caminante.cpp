@@ -589,7 +589,7 @@ void Poblacion::seleccionar(int n){
     
 
     //MODO1 (RULETA)
-
+    /*
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
@@ -630,7 +630,8 @@ void Poblacion::seleccionar(int n){
     }
     cout<<"Metodo de seleccion por ruleta(1)"<<endl;
     
-   /*
+    */
+   
    //MODO2 (RANDOM)
 
     int random;
@@ -642,10 +643,11 @@ void Poblacion::seleccionar(int n){
         cout<<"Elegido el caminante--"<<random<<endl;
         //Recorrer para comprobar resultado
         selected[tirada]=caminantes[random];
+        cout<<"seleccionado--"<<random;
     }
 
-    cout<<"Seleccionar version random(2)\n"
-    */
+    cout<<"Seleccionar version random(2)\n";
+    
    /*
    //MODO 3 (TORNEO)
     int nVeces=5; //Numero de veces que se va a repetir el proceso
