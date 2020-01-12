@@ -676,7 +676,7 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }*/
 
-void Poblacion::seleccionar(){
+void Poblacion::seleccionar(int numCamOrig){
 
      Caminante selected[numCamOrig];
     

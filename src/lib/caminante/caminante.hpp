@@ -158,7 +158,7 @@ public:
     void cruzar2(int p1, int p2);
 
     //selecciona la poblacion y la deja en numCamOrig caminantes
-    void seleccionar();
+    void seleccionar(int numCamOrig);
 };
 
 #endif //!CAMINANTE_Y_POBLACION
