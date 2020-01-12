@@ -563,7 +563,7 @@ void sacarPantCruzar()
 bool tryselec()
 {
     int idx = 0;
-    int numCam = 100;
+    int numCam = 220;
     int ciudadIni = 0;
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
