@@ -194,7 +194,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     */    
 
     //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
-    //se elige el de uno de ellos 
+    //se elige un gen cualquiera no repetido
 
 
     srand(time(NULL));
@@ -658,16 +658,14 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 //Cruce con doble corte (Double Point Crossover)
-void Poblacion::cruzar2(int p1, int p2){
+/*void Poblacion::cruzar2(int p1, int p2){
 
     assert(1 + numCam <= maxCami);  
 
     caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
-}
-/*void Poblacion::seleccionar(){
-    numCam = 10;
 }*/
+
 void Poblacion::seleccionar(int n){
 
      Caminante selected[n];
@@ -749,21 +747,29 @@ void Poblacion::seleccionar(int n){
 
         for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
             cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
-            for(int j=0;j<l;l++){   //Seleccion dentro de cada torneo
-                
-                fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
+            for(int j=0;j<l;j++){   //Seleccion dentro de cada torneo
+                if (!elegido[j+(k*i)])   //Coger uno no elegido
+                {
+                calcFit(caminantes[j+(k*i)]);
+                fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
                 cout<<"comparando cam--"<<j+(k*i)<<endl;
-                for(int p=j+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                cout<<"fitness a superar"<<fit<<endl;
+                for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                    calcFit(caminantes[p]);
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
-                        cout<<"cambiado a cami--"<<posicion<<endl;
                     }
                 }
+                
                 cout<<"Elegido el "<<posicion<<endl;
+                cout<<"Elecciones hasta ahora"<<j<<endl;
                 elegido[posicion]=true;
                 selected[numElegidos]=caminantes[posicion];
-                numElegidos++;
+                numElegidos++;  /* code */
+                }
+                
+               
                 
             }
 

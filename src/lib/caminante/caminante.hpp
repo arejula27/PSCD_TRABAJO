@@ -65,7 +65,7 @@ public:
     //Modifica el camino del caminante con los genes cruzados de sus padres.
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
     //Cruce con doble corte (Double Point Crossover)
-    void cruzar2(const Caminante &c1, const Caminante &c2, const int numCities);
+    //void cruzar2(const Caminante &c1, const Caminante &c2, const int numCities);
 
     //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
     bool esValido(int *camino, const int numCities);
