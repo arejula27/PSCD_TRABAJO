@@ -118,9 +118,9 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     pa.esperaGA();
     f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
     int i = 0;
-    float mejorFit,media;
+    double mejorFit,media;
     while (i<MAX_GENS){
-        float porcentaje = personas.stats(0.8,mejorFit,media);
+        double porcentaje = personas.stats(0.8,mejorFit,media);
         //calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << "," << mejorFit << "," << media << endl;
         string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
@@ -132,11 +132,11 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     f.close();
 }
 
-void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
+void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,double &mejorFit,double &media){
     pa.syncro(ID);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
-    float fit;
-    float porcentaje = personas.stats(fit,mejorFit,media);
+    double fit;
+    double porcentaje = personas.stats(fit,mejorFit,media);
     pa.finProceso(ID);
 }
 
