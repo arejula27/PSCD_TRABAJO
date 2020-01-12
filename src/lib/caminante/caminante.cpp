@@ -694,10 +694,13 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(int ini, int fin, int &n){
 
-    
-    
     Caminante selected[fin-ini];
+
+    /*MODO1 (RULETA)
     
+    
+    
+
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double prob;
     double fit;
@@ -737,6 +740,23 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
             }
             i++;
         }
+    }
+
+
+
+
+    */
+
+
+
+    int random;
+    //BUCLE DE ELEGIR 
+
+    for(int tirada = 0; tirada<(fin-ini);){
+        srand48 (time(NULL));
+        random = rand()%(numCam);
+        //Recorrer para comprobar resultado
+        selected[tirada]=caminantes[random];
     }
 
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
