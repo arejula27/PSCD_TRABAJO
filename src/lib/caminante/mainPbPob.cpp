@@ -567,10 +567,9 @@ bool tryselec()
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    for (int i = 0; i < numCam; i++)
-    {
-        pob.mutar(i);
-    }
+    
+    pob.seleccionar(numCam);
+    
     string txt = pob.codificar();
     bool res = false;
 
