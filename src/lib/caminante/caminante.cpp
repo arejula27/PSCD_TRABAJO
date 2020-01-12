@@ -583,6 +583,82 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 
-void Poblacion::seleccionar(){
-    numCam = 10;
+void Poblacion::seleccionar(int n){
+
+     Caminante selected[n];
+    
+
+    /*MODO1 (RULETA)
+
+    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    double prob;
+    double fit;
+    double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
+    double bola; 
+
+    
+
+    for(int i=0; i<numCam ; i++){
+        calcFit(caminantes[i]);
+        prob=caminantes[i].MyFit();
+        //cout<<"fit"<<i<<"---"<<prob;
+        casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
+        totalCasillas=prob+totalCasillas; //Se aumenta el tamaño de la ruleta
+        //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
+    }
+    
+    int i;
+    bool elegido;
+
+
+    for(int tirada = 0; tirada<numCamFin;){
+        srand48 (time(NULL));
+        bola= totalCasillas*drand48();
+        //Recorrer para comprobar resultado
+        elegido=false;
+        i=0;
+        while(i<numCam && !elegido){
+
+            if(casillaCam[i]>=bola){
+                
+                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
+                selected[tirada]=caminantes[i];
+                tirada++;
+                elegido=true;
+            }
+            i++;
+        }
+    }
+
+    */
+
+   //MODO2 (RANDOM)
+
+    int random;
+    //BUCLE DE ELEGIR 
+
+    for(int tirada = 0; tirada<n;tirada++){
+        srand48 (time(NULL));
+        random = rand()%(numCam);
+        cout<<"Elegido el caminante--"<<random<<endl;
+        //Recorrer para comprobar resultado
+        selected[tirada]=caminantes[random];
+    }
+
+    
+   /*
+   //MODO 3 (TORNEO)
+    int nVeces=5; //Numero de veces que se va a repetir el proceso
+    int k=numCam/nVeces;
+    
+
+    */
+    //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
+    
+    for(int i=0; i<(n); i++){
+
+        caminantes[i]= selected[i];
+
+    }
+    
 }
