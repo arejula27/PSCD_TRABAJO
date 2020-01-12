@@ -572,7 +572,7 @@ bool tryselec()
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
     
     pob.seleccionar(100);
-    
+    cout<<numCam<<endl;
     string txt = pob.codificar();
     bool res = false;
 
