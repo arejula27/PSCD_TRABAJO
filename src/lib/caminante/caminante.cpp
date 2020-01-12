@@ -711,7 +711,7 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     
     //BUCLE INICIALIZAR
     for(int i=0; i<numCam ; i++){
-        calcFit(caminantes[i]);
+        calcFit(caminantes[i]);cout
         prob=caminantes[i].MyFit();
         //cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=prob+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
@@ -752,9 +752,10 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     int random;
     //BUCLE DE ELEGIR 
 
-    for(int tirada = 0; tirada<(fin-ini);){
+    for(int tirada = 0; tirada<(fin-ini);i++){
         srand48 (time(NULL));
         random = rand()%(numCam);
+        cout<<"Elegido el caminante--"<<random<<endl;
         //Recorrer para comprobar resultado
         selected[tirada]=caminantes[random];
     }
