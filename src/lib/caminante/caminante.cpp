@@ -746,5 +746,5 @@ void Poblacion::seleccionar(int ini, int fin){
         caminantes[ini+i]= selected[i];
 
     }
-    setNumCam();
+    
 }
