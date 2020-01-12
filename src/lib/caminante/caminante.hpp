@@ -107,7 +107,7 @@ public:
     int getNumCamOrig();
     
     //Actualiza numCam con el valor de numCamOrig
-    void setNumCam();
+    void setNumCam( int n);
 
     void calcFit(Caminante &caminante);
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
@@ -151,8 +151,9 @@ public:
     void cruzar(int p1, int p2);
 
     //Selecciona (fin-ini) caminantes de la poblacion de acuerdo a la regla de la ruleta.
-    //Los almacena en las posiciones delimitadas por ini y fin
-    void seleccionar(int ini, int fin);
+    //Los almacena en las posiciones delimitadas por ini y fin. Ademas incrementa n con el numero 
+    //seleccionados, de modo que si llega a numCamOrig se lo asigna a numCam
+    void seleccionar(int ini, int fin, int &n);
 };
 
 #endif //!CAMINANTE_Y_POBLACION

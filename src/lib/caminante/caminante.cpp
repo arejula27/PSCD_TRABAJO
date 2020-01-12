@@ -381,9 +381,9 @@ int Poblacion::getNumCamOrig(){
 }
 
 
-//Actualiza numCam al valor de numCam a numcamOrig
-void Poblacion::setNumCam(){
-    numCam=numCamOrig;
+//Actualiza numCam al valor de numCam a n
+void Poblacion::setNumCam(int n){
+    numCam=n;
 }
 
 
@@ -692,7 +692,7 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 
-void Poblacion::seleccionar(int ini, int fin){
+void Poblacion::seleccionar(int ini, int fin, int &n){
 
     
     
@@ -745,6 +745,12 @@ void Poblacion::seleccionar(int ini, int fin){
 
         caminantes[ini+i]= selected[i];
 
+    }
+    
+    //Actualizar el tamaño de la poblacion
+    n=n+fin-ini; //n se incrementa con el numero de caminantes ya seleccionados
+    if(n==numCamOrig){
+        setNumCam(n);
     }
     
 }
