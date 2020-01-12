@@ -748,12 +748,13 @@ void Poblacion::seleccionar(int n){
         for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
             cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
             for(int j=0;j<l;l++){   //Seleccion dentro de cada torneo
-                
+                calcFit(caminantes[j+(k*i)]);
                 fit=caminantes[j+(k*i)].MyFit(); //Se coge el primero y se compara su fit con el de todos
                 cout<<"comparando cam--"<<j+(k*i)<<endl;
                 cout<<"fitness a superar"<<fit<<endl;
                 for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                     cout<<"comparando----"<<p<<endl;
+                    calcFit(caminantes[p]);
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
