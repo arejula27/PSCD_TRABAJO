@@ -199,15 +199,18 @@ int main(int argc, char *argv[]) {
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
 					n = pob.getNumCamOrig();				// Obtener numero de caminantes
-					div_n = n/(NUM_PROCESOS_MAX-1);			// Caminantes que va a seleccionar cada thread
-					resto = n%(NUM_PROCESOS_MAX-1);
+					cout<<"Tiene que reducir a "<<n<<" caminantes\n";
+					div_n = n/(NUM_PROCESOS_MAX);			// Caminantes que va a seleccionar cada thread
+					resto = n%(NUM_PROCESOS_MAX);
 					
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+1,ref(seleccionados));  
-							comienzo += div_n+1;
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n,ref(seleccionados));  
+							comienzo += div_n;
 							resto--;
+							cout<<"seleccionados despues de seleccionar"<<i<<"vale "<<seleccionados<<endl;
 						}
+						
 						else{	// hilo para cruzar los extra
 							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n,ref(seleccionados));
 							comienzo += div_n;
