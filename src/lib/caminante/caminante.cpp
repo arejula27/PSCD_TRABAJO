@@ -361,6 +361,10 @@ int Poblacion::getNumCam(){
     return numCam;
 }
 
+int Poblacion::getNumCamOrig(){
+    return numCamOrig;
+}
+
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate){
     caminate.calcMiFit(dist, numCities);
