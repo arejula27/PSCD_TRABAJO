@@ -144,7 +144,27 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         camino[i] = c1.camino[i];
     }
 }
-
+//Cruce con doble corte (Double Point Crossover) 
+void Caminante::cruzar2(const Caminante &c1, const Caminante &c2, const int numCities){
+    bool ciudades [numCities];
+    for (int i = 0; i < numCities; i++ ){
+        ciudades[i] = false;
+    }
+    int i = 0;
+    for (i = 0; i < 100; i++)
+    {
+        ciudades[c1.camino[i]] = true;        
+        camino[i] = c1.camino[i];
+    }
+    for (i = 100; i < 200; i++)
+    {
+        camino[i] = c2.camino[i];
+    }
+    for (i = 200; i < numCities; i++)
+    {
+        camino[i] = c1.camino[i];
+    }
+}
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int *camino,const int numCities){
     return true;
@@ -578,11 +598,17 @@ void Poblacion::cruzar(int p1,int p2){
     
     assert(1 + numCam <= maxCami);
    
-
     caminantes[numCam].cruzar(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
 }
+//Cruce con doble corte (Double Point Crossover)
+void Poblacion::cruzar2(int p1, int p2){
 
+    assert(1 + numCam <= maxCami);  
+
+    caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
+    numCam+=1;
+}
 void Poblacion::seleccionar(){
     numCam = 10;
 }
