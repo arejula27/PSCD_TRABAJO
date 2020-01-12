@@ -633,28 +633,57 @@ void Poblacion::seleccionar(int n){
     */
    
    //MODO2 (RANDOM)
-
+    /*
     int random;
     //BUCLE DE ELEGIR 
 
     for(int tirada = 0; tirada<n;tirada++){
         srand48 (time(NULL));
         random = rand()%(numCam);
-        cout<<"Elegido el caminante--"<<random<<endl;
-        //Recorrer para comprobar resultado
         selected[tirada]=caminantes[random];
         cout<<"seleccionado--"<<random;
     }
 
     cout<<"Seleccionar version random(2)\n";
-    
-   /*
-   //MODO 3 (TORNEO)
-    int nVeces=5; //Numero de veces que se va a repetir el proceso
-    int k=numCam/nVeces;
-    
-
     */
+   
+   //MODO 3 (TORNEO)
+    int nVeces=4; //Numero de torneos
+    int k=numCam/nVeces; //Numero de participantes en cada torneo
+    int l=n/nVeces; //elegidos en cada torneo
+    cout<<"part="<<k<<" -- eleg="<<l<<endl;
+    double fit;
+    bool elegido[numCam];
+    int posicion;
+    
+     for(int i=0; i<numCam ; i++){
+        elegido[i]=false;
+    }
+
+    for (int numElegidos=0;numElegidos<n;){ //Seleccion total
+
+        for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
+            cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]"<<endl;
+            for(int j=0;j<l;l++){   //Seleccion dentro de cada torneo
+                
+                fit=caminantes[j+(k*i)].MyFit; //Se coge el primero y se compara su fit con el de todos
+                for(int p=(k*i)+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                    if(fit<caminantes[p].MyFit&&!elegido[p]){
+                        fit=caminantes[p].calcMiFit.MyFit;
+                        posicion=p;
+                    }
+                }
+                cout<<posicion<<"--";
+                elegido[posicion]=true;
+                selected[numElegidos]=caminantes[posicion];
+                numElegidos++;
+                
+            }
+
+        }
+    
+    }
+    
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
     for(int i=0; i<(n); i++){
