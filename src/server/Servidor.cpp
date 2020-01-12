@@ -200,8 +200,8 @@ int main(int argc, char *argv[]) {
 					cout<<"Seleccionando población"<<endl;
 					n = pob.getNumCamOrig();				// Obtener numero de caminantes
 					cout<<"Tiene que reducir a "<<n<<" caminantes\n";
-					div_n = n/(NUM_PROCESOS_MAX);			// Caminantes que va a seleccionar cada thread
-					resto = n%(NUM_PROCESOS_MAX);
+					div_n = n/(NUM_PROCESOS_MAX-1);			// Caminantes que va a seleccionar cada thread
+					resto = n%(NUM_PROCESOS_MAX-1);
 					
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
