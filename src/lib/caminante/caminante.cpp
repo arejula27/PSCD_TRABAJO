@@ -743,8 +743,8 @@ void Poblacion::seleccionar(int n){
      for(int i=0; i<numCam ; i++){
         elegido[i]=false;
     }
-
-    for (int numElegidos=0;numElegidos<n;){ //Seleccion total
+    int numElegidos=0;
+    while(numElegidos<n){ 
 
         for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
             numElegTor=0;
