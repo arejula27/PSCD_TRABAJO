@@ -773,6 +773,7 @@ void Poblacion::seleccionar(int ini, int fin, int &n){
     cout<<"acumulado "<<n<<"de entre "<<numCam<<endl;
     
     if(n==numCamOrig){
+        cout<<"HORA DE ACTUALIZAR NUMCAM\n";
         setNumCam(n);
     }
     

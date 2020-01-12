@@ -56,8 +56,8 @@ void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
 	}
 }
 
-void procesoSeleccionar(PoblacionAProcesar &pAp,int comienzo, int div_n) {
-    pAp.seleccionar(comienzo, div_n);
+void procesoSeleccionar(PoblacionAProcesar &pAp,int comienzo, int div_n, int &n) {
+    pAp.seleccionar(comienzo, div_n, n);
     
 }
 
@@ -200,15 +200,15 @@ int main(int argc, char *argv[]) {
 					n = pob.getNumCamOrig();				// Obtener numero de caminantes
 					div_n = n/(NUM_PROCESOS_MAX-1);			// Caminantes que va a seleccionar cada thread
 					resto = n%(NUM_PROCESOS_MAX-1);
-
+					int seleccionados=0;
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+1);  
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n+1,ref(seleccionados));  
 							comienzo += div_n+1;
 							resto--;
 						}
 						else{	// hilo para cruzar los extra
-							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n);
+							proceso[i] = thread(&procesoSeleccionar,ref(pAp),comienzo,div_n,ref(seleccionados));
 							comienzo += div_n;
 						}
 					}

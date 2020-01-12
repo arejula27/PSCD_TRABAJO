@@ -33,7 +33,9 @@ public:
 	void mutar(int id);
 
 	//Selecciona caminantes y los pone en las posiciones desde ini hasta fin
-	void seleccionar(int ini, int fin);  
+	//n es actualizado con el numero de caminantes seleccionado y si vale numCamOrig
+	//numCam tambien recibe ese valor
+	void seleccionar(int ini, int fin, int &n);  
 	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
