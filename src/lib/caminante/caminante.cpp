@@ -746,40 +746,40 @@ void Poblacion::seleccionar(int n){
     int numElegidos=0;
    
 
-        for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
-            numElegTor=0;
-            cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]----"<<l<<endl;
+    for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
+        numElegTor=0;
+        cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]----"<<l<<endl;
+        
+        while(numElegTor<l){   //Seleccion dentro de cada torneo
+            j=0;
+            if (!elegido[j+(k*i)])   //Coger uno no elegido
+            {
+            calcFit(caminantes[j+(k*i)]);
+            fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
+            cout<<"comparando cam--"<<j+(k*i)<<endl;
+            cout<<"fitness a superar"<<fit<<endl;
             
-            while(numElegTor<l){   //Seleccion dentro de cada torneo
-                j=0;
-                if (!elegido[j+(k*i)])   //Coger uno no elegido
-                {
-                calcFit(caminantes[j+(k*i)]);
-                fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
-                cout<<"comparando cam--"<<j+(k*i)<<endl;
-                cout<<"fitness a superar"<<fit<<endl;
-                
-                for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
-                    calcFit(caminantes[p]);
-                    if(fit<caminantes[p].MyFit() && !elegido[p]){
-                        fit=caminantes[p].MyFit();
-                        posicion=p;
-                    }
+            for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                calcFit(caminantes[p]);
+                if(fit<caminantes[p].MyFit() && !elegido[p]){
+                    fit=caminantes[p].MyFit();
+                    posicion=p;
                 }
-                
-                cout<<"Elegido el "<<posicion<<endl;
-                cout<<"Elecciones hasta ahora----"<<numElegTor<<endl;
-                
-                elegido[posicion]=true;
-                selected[numElegidos]=caminantes[posicion];
-                numElegTor++;
-                numElegidos++;
-
-                }
-                j++;               
             }
+            
+            cout<<"Elegido el "<<posicion<<endl;
+            cout<<"Elecciones hasta ahora----"<<numElegTor<<endl;
+            
+            elegido[posicion]=true;
+            selected[numElegidos]=caminantes[posicion];
+            numElegTor++;
+            numElegidos++;
 
+            }
+            j++;               
         }
+
+    }
     
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
