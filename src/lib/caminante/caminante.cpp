@@ -620,7 +620,7 @@ void Poblacion::seleccionar(int n){
 
             if(casillaCam[i]>=bola){
                 
-                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
+                //cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
                 tirada++;
                 elegido=true;
@@ -628,7 +628,7 @@ void Poblacion::seleccionar(int n){
             i++;
         }
     }
-    cout<<"MEtodo de seleccion por ruleta(1)"<<endl;
+    cout<<"Metodo de seleccion por ruleta(1)"<<endl;
     
    /*
    //MODO2 (RANDOM)
