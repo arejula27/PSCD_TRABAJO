@@ -161,13 +161,13 @@ for (int i = 0; i < numCities - 1; i++)
 */
    //MODO2
     
-cout <<"ant: " <<(*this).codificar() << endl;
+//cout <<"ant: " <<(*this).codificar() << endl;
 int random = rand() % numCities ;
 
 
 for (int i = 1; i < numCities; i++)
 {
-    cout << "ponemos "<<i << endl;
+   // cout << "ponemos "<<i << endl;
 
     int avanza = (i + random);
     if(avanza>=12){
@@ -176,15 +176,15 @@ for (int i = 1; i < numCities; i++)
 
     
     camino[i] = camino[avanza];
-    cout << camino[i] << endl;
+    //cout << camino[i] << endl;
     if (camino[i] == camino[0])
     {
-        cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
+        //cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
         exit(2);
         }
     }
 
-    cout << "desp: "<<(*this).codificar() << endl;
+    //cout << "desp: "<<(*this).codificar() << endl;
 }
 
 
