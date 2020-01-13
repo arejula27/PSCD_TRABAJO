@@ -423,6 +423,7 @@ void Poblacion::calcFit(Caminante &caminate){
 //media de fitness de los caminates
 double Poblacion::stats(double fit,double &mejorFit,double &media){
     int cont = 0;
+    int idMejorFit = 0;
     for (int i = 0; i < numCam; i++){
         calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
@@ -431,10 +432,16 @@ double Poblacion::stats(double fit,double &mejorFit,double &media){
         //Calculo del mejor fit
         if (caminantes[i].MyFit() >= mejorFit){
             mejorFit = caminantes[i].MyFit();
+            idMejorFit = i;
         }
         //calculo de la media
         media += caminantes[i].MyFit();
     }
+    if (mejorFit > mejorFitEver){
+        mejorFitEver = mejorFit;
+        caminoMejorFit = caminantes[idMejorFit].codificar();
+    }
+    
     media = media/numCam;
     //Devuelve el porcentaje
     return (cont*100)/numCam;
@@ -887,7 +894,6 @@ void Poblacion::seleccionar()
             }
             j++;               
         }
-    
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
     for(int i=0; i<numCamOrig; i++){

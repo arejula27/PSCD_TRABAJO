@@ -112,6 +112,7 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     f << "ID poblacion" << ";" << "Mejor Fitness" << ";" << "Fitness Medio" << endl;
     int i = 0;
     double mejorFit,media;
+    string caminoMejorFit;
     while (i<MAX_GENS){
         double porcentaje = personas.stats(0.8,mejorFit,media);
         //calcEstadisticas(personas,i+1,pa,mejorFit,media);
@@ -129,7 +130,7 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,double &mejorFit,
     pa.syncro(ID);
     #warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
     double fit;
-    double porcentaje = personas.stats(fit,mejorFit,media);
+    //double porcentaje = personas.stats(fit,mejorFit,media);
     pa.finProceso(ID);
 }
 

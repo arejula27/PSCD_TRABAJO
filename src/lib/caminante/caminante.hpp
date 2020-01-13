@@ -86,6 +86,8 @@ private:
     int numCam;
     int numCamOrig;
     Caminante *caminantes;
+    string caminoMejorFit;
+    double mejorFitEver = 0.0;
     
 
 public:
