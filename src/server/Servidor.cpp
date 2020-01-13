@@ -152,6 +152,7 @@ int main(int argc, char *argv[]) {
 					cout << "Numero de caminantes recibidos: " << n << endl;
 					cout << "Numero de iteraciones de 4 procesos: " << div_n << endl;
 					cout << "Numero de caminantes en proceso extra: " << extra << endl;
+					pAp.setNumCamOrig();
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
