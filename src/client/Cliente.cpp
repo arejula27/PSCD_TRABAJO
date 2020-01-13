@@ -206,8 +206,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
                 cout << "Mensaje recibido del servidor(" << k << "),con operación(" << ops[j] << ") generación: " << i + 1 << endl;
-                cout<<resp<<endl;
-                cout<<endl;
+                /*cout<<resp<<endl;
+                cout<<endl;*/
                 
                 pobs[k].descodificar(resp,UPGRADE_POB);
                 /*cout << endl;
@@ -219,9 +219,9 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		}
 
 		personas.fusionar(serversAceptados,pobs);
-        cout << endl;
+       /* cout << endl;
         cout << "fusionar" << endl;
-        cout<<personas.codificar(UPGRADE_POB)<<endl;
+        cout<<personas.codificar(UPGRADE_POB)<<endl;*/
 
       
         pa.esperaEstadistico();
