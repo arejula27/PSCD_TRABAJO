@@ -159,6 +159,7 @@ int main(int argc, char *argv[]) {
 							resto--;
 						}
 						else{	// hilo para cruzar los extra
+						
 							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
 							comienzo += div_n;
 						}
@@ -176,13 +177,19 @@ int main(int argc, char *argv[]) {
 					// Mutar caminantes reptartido en 5 procesos
 					pAp.setNumCamOrig();
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						if(i == 0) {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
+
+						cout<<n<<endl;
+						cout<<div_n*(NUM_PROCESOS_MAX-1)+resto<<endl;
+					
+						if(i == NUM_PROCESOS_MAX-1) {
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,resto,r);
+							
 						}
 						else {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n,r);
+							comienzo += div_n;
 						}
-						comienzo += div_n;
+						
 					}
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
