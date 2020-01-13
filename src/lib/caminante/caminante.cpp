@@ -781,7 +781,7 @@ void Poblacion::seleccionar(){
     
     int lextra=numCamOrig%nVeces;
 
-    cout<<"part="<<k<<" -- eleg="<<l<<endl;
+    cout<<"Va a haber 4 torneos de"<<k<<"participantes, en cada uno se seleccionaran "<<l<<", y en el ultimo torneo se seleccionaran "<<lextra<<endl;
     double fit;
     bool elegido[numCam];
     int posicion;
