@@ -168,7 +168,7 @@ void Caminante::mutar(const int numCities)
 
     for(int i=1; i<numCities; i++){
       
-        camino[i]=1+(camino[i]+random)%(numCities-1);
+        camino[i]=(camino[i]+random)%(numCities);
         
     }
     
@@ -818,16 +818,16 @@ void Poblacion::seleccionar()
     for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
         numElegTor=0;
         cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]----"<<l<<endl;
-        
+        j=k*i;
         while(numElegTor<l){   //Seleccion dentro de cada torneo
-            j=0;
+            
            // cout<<"hola"<<endl;
-            if (!elegido[j+(k*i)])   //Coger uno no elegido
+            if (!elegido[j])   //Coger uno no elegido
             {
-            calcFit(caminantes[j+(k*i)]);
-            fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
+            calcFit(caminantes[j]);
+            fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
            // cout << "hola" << endl;
-            for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+            for(int p=j+1;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                 calcFit(caminantes[p]);
                 if(fit<caminantes[p].MyFit() && !elegido[p]){
                     fit=caminantes[p].MyFit();
