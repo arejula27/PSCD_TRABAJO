@@ -163,10 +163,8 @@ for (int i = 0; i < numCities - 1; i++)
     
 //cout <<"ant: " <<(*this).codificar() << endl;
 
-bool ciuds[numCities+1];
 int caminoArtif[numCities+1];
 for(int i=1;i<numCities+1;i++) {
-    ciuds[i] = false;
     caminoArtif[i] = camino[i];
 }
 
@@ -174,9 +172,7 @@ int random = rand();
 for (int i = 1; i < numCities; i++)
 {
     int avanza = (i + random)%(numCities-1)+1;
-    while(ciuds[avanza]) avanza = (avanza+1)% (numCities-1) +1;
     camino[i] = caminoArtif[avanza];
-    ciuds[avanza] = true;
     if (camino[i] == camino[0])
     {
         //cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
