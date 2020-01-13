@@ -37,11 +37,7 @@ void PoblacionAProcesar::seleccionar() {
     unique_lock<mutex> lck(mtx);
     poblacion.seleccionar();
 }
-void PoblacionAProcesar::seleccionar_v2()
-{
-    unique_lock<mutex> lck(mtx);
-    poblacion.seleccionar_v2();
-}
+
 
 // Devuelve la poblacion
 Poblacion PoblacionAProcesar::getPoblacion() {

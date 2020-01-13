@@ -33,7 +33,6 @@ public:
 	void mutar(int id);
 
 	void seleccionar();
-	void seleccionar_v2();
 
 	void setNumCamOrig();
 
