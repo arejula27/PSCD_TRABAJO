@@ -65,6 +65,10 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
     avance++;
 }
 
+int Caminante:: ciudadIni(){
+    return camino[0];
+}
+
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 string Caminante::codificar()
@@ -133,14 +137,19 @@ double Caminante::MyFit()
 }
 
 //Función de mutar.
-void Caminante::mutar(const int numCities)
+void Caminante::mutar(int **dist,const int numCities)
 {
-    
-    
+
+    cout<<"ORIGINAL: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+    cout<<endl;
+
     //MODO1
-/*
-cout <<"ant: " <<(*this).codificar() << endl;
-int genes[numCities - 1];
+
+
+/*int genes[numCities - 1];
 bool cogidos[numCities - 1];
 //Almacenamos los genes intercambiables para no perder ninguno
 for (int i = 0; i < numCities - 1; i++)
@@ -157,31 +166,60 @@ for (int i = 0; i < numCities - 1; i++)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
+    */
+  //MODO2
     
-*/
-   //MODO2
-    
-//cout <<"ant: " <<(*this).codificar() << endl;
-
-int caminoArtif[numCities+1];
-for(int i=1;i<numCities+1;i++) {
-    caminoArtif[i] = camino[i];
-}
-
-int random = rand();
-cout <<"copia el vector de ciudades" ;
-for (int i = 1; i < numCities -1; i++)
-{
-    int avanza = (i + random)%(numCities-1)+1;
-    camino[i] = caminoArtif[avanza];
-    if (camino[i] == camino[0])
-    {
-        //cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
-        exit(2);
-        }
+    //cout <<"ant: " <<(*this).codificar() << endl;
+/*
+    int caminoArtif[numCities];
+    for(int i=0;i<=numCities;i++) {
+        caminoArtif[i] = camino[i];
     }
 
+    int random = rand();
+    
+    //cout <<"copia el vector de ciudades" ;
+    for (int i = 1; i < numCities; i++)
+    {
+        int avanza = ((i + random) % (numCities-1))+1;
+        camino[i] = caminoArtif[avanza];
+        /*if (camino[i] == camino[0])
+        {
+            cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
+            exit(2);
+        }*/
+   // }
+
     //cout << "desp: "<<(*this).codificar() << endl;
+
+    //cout << "desp: "<<(*this).codificar() << endl;
+
+    //MODO 3
+    int random = (rand()%(numCities -1))+1;
+    int recorrido = 0;
+    int recorridoMasCorto = 1000000;
+    int idDelMasCorto;
+
+    for(int i = 0; i < numCities; i++)
+    {
+        recorrido = getValorMatriz(dist,camino[random],camino[i]);
+        if (recorridoMasCorto < recorrido){
+            recorrido = recorridoMasCorto;
+            i = idDelMasCorto;
+            cout << "la distancia entre " << random << " y " << i << " es " << recorrido;
+        } 
+    }
+    int aux;
+    aux = camino[random];
+    camino[random] = camino [idDelMasCorto];
+    camino[idDelMasCorto] = aux;
+
+
+    cout<<"MUTADO: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+    cout<<endl;
 }
 
 
@@ -193,13 +231,13 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
     
     
-    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
+    int corte = rand() % (numCities)+1; //Gen a partir del cual se va a intercambiar
     cout << "El corte es: " << corte << endl;
-    for(int i = 0; i < corte; i++){
+    for(int i = 1; i < corte; i++){
         camino[i] = c1.camino[i];
         //cout << camino [i] << endl;
     }
-    for (int i = corte; i < numCities+1; i++){
+    for (int i = corte; i < numCities; i++){
         camino[i] = c2.camino[i];
         if (!esValido(i)){
             camino[i] = c1.camino[i];
@@ -712,7 +750,7 @@ void Poblacion::addCams(int num){
 //muta el caminante de la pos num
 void Poblacion::mutar(int num){
 
-    caminantes[num].mutar(numCities);
+    caminantes[num].mutar(dist,numCities);
 
 
 }
@@ -756,7 +794,7 @@ void Poblacion::seleccionar()
     
 
     //MODO1 (RULETA)
-    /*
+    
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
@@ -777,9 +815,10 @@ void Poblacion::seleccionar()
     bool elegido;
 
 
-    for(int tirada = 0; tirada<n;){
+    for(int tirada = 0; tirada<numCamOrig;){
         
         bola= totalCasillas*drand48();
+        cout<<bola<<endl;
         //Recorrer para comprobar resultado
         elegido=false;
         i=0;
@@ -787,7 +826,7 @@ void Poblacion::seleccionar()
 
             if(casillaCam[i]>=bola){
                 
-                //cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
+                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
                 tirada++;
                 elegido=true;
@@ -797,7 +836,7 @@ void Poblacion::seleccionar()
     }
     cout<<"Metodo de seleccion por ruleta(1)"<<endl;
     
-    */
+    
    
    //MODO2 (RANDOM)
     /*
@@ -813,7 +852,7 @@ void Poblacion::seleccionar()
 
     cout<<"Seleccionar version random(2)\n";
     */
-   
+   /*
    //MODO 3 (TORNEO)
     int nVeces=4; //Numero de torneos
     int k=numCam/nVeces; //Numero de participantes en cada torneo
@@ -898,7 +937,7 @@ void Poblacion::seleccionar()
             j++;               
         }
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
-    
+    */
     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
@@ -907,4 +946,9 @@ void Poblacion::seleccionar()
     }
     numCam=numCamOrig;
     
+}
+
+void Poblacion::calcMejorCam(string salida, double &fit){
+    
+
 }

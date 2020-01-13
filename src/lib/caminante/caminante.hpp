@@ -59,8 +59,10 @@ public:
 
     bool esValido(int numCities);
 
+    int ciudadIni();
+
     //Función de mutar.
-    void mutar(const int numCities);
+    void mutar(int **dist,const int numCities);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
@@ -69,6 +71,7 @@ public:
 
     //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
     bool esValido(int *camino, const int numCities);
+    
 };
 
 
@@ -162,6 +165,7 @@ public:
     //selecciona la poblacion y la deja en numCamOrig caminantes
     void seleccionar();
     void seleccionar_v2();
+    void calcMejorCam(string salida, double &fit);
 };
 
 #endif //!CAMINANTE_Y_POBLACION
