@@ -170,9 +170,10 @@ for(int i=1;i<numCities+1;i++) {
     caminoArtif[i] = camino[i];
 }
 
+int random = rand();
 for (int i = 1; i < numCities; i++)
 {
-    int avanza = (i + rand())%(numCities-1)+1;
+    int avanza = (i + random)%(numCities-1)+1;
     while(ciuds[avanza]) avanza = (avanza+1)% (numCities-1) +1;
     camino[i] = caminoArtif[avanza];
     ciuds[avanza] = true;
