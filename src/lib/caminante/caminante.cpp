@@ -832,12 +832,11 @@ void Poblacion::seleccionar()
                 
                 if(fit<=caminantes[p].MyFit() && !elegido[p]){
                     fit=caminantes[p].MyFit();
-                    cout<<"ha cambiado a-"<<p<<endl;
+                    
                     posicion=p;
                 }
 
             }
-            
             //cout << "hola" << endl;
             elegido[posicion]=true;
             cout<<"Va a guardar el"<<posicion<<endl;
