@@ -133,8 +133,8 @@ float Caminante::MyFit()
 
 //Función de mutar.
 void Caminante::mutar(const int numCities)
-{   
-    
+{
+   
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
