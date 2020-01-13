@@ -89,6 +89,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
                 {
                     ops[2] = 2;
                 }
+                 cout << "Versión seleccionar:  " << ops[2] << endl;
             }
         }
     }
