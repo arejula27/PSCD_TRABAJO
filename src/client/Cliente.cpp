@@ -377,6 +377,7 @@ int main(int argc, char const *argv[]){
     cout<<fichero<<endl;
     fichero="./sh07.txt";
     PobActual pa(gen);
+    cout<<"peta?"<<endl;
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
     cout<<"genera poblacion"<<endl;
 
