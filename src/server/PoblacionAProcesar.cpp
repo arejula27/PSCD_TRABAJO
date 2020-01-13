@@ -26,7 +26,6 @@ void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para 
 void PoblacionAProcesar::mutar(int id) {
     unique_lock<mutex> lck(mtx);
   
-  
 
     poblacion.mutar(id);
 }
@@ -37,6 +36,13 @@ void PoblacionAProcesar::seleccionar() {
     unique_lock<mutex> lck(mtx);
     poblacion.seleccionar();
 }
+
+void PoblacionAProcesar::seleccionar_v2()
+{
+    unique_lock<mutex> lck(mtx);
+    poblacion.seleccionar_v2();
+}
+
 
 
 // Devuelve la poblacion

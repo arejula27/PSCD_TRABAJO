@@ -82,6 +82,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
                 cout << "Versión seleccionar:  " << fDatos << endl;
                 if (buff == "v2")
                 {
+                    cout<<"si"<<endl;
                     ops[2] = 5;
                 }
                 else
@@ -139,7 +140,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
 	Socket socketServ[numServers];
-	for (int i = 0; i<numServers; i++){
+    cout << ops[2] << endl;
+    for (int i = 0; i<numServers; i++){
 		socketServ[i].ini(IPs[i],puerto);
 	}
      
@@ -177,7 +179,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		pobs[i].getMatrixFrom(personas);
 	}
 	*/
-	for (int i = 0; i < gen && !pa.finEjec(personas); i++){
+    
+    for (int i = 0; i < gen && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
@@ -195,9 +198,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                    msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
                }
 				socketServ[k].Send(server_fd[k],msg);
-				cout << "Mensaje enviado a servidor("<<k<<"),con operación("<< j<<") generación: "<<i+1<< endl;
+				cout << "Mensaje enviado a servidor("<<k<<"),con operación("<< ops[j]<<") generación: "<<i+1<< endl;
                 //cout<<msg<<endl;
-			}
+                
+            }
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
@@ -206,18 +210,18 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 //cout<<endl;
                 
                 pobs[k].descodificar(resp,UPGRADE_POB);
-                cout << endl;
+                /*cout << endl;
                 cout << k << endl;
-                cout << resp<< endl;
+                cout << resp<< endl;*/
                 
             }
 
 		}
 
 		personas.fusionar(serversAceptados,pobs);
-        cout << endl;
+       /* cout << endl;
         cout << "fusionar" << endl;
-        cout<<personas.codificar(UPGRADE_POB)<<endl;
+        cout<<personas.codificar(UPGRADE_POB)<<endl;*/
 
       
         pa.esperaEstadistico();
@@ -349,7 +353,10 @@ void controlEstadistico(PobActual &pa, Poblacion &persona, int SERVER_PORT, int 
 int main(int argc, char const *argv[]){
     srand(time(nullptr));
     srand48(time(NULL));
-
+    if(argc!=3){
+       cerr<< "introduzca fichero y ciudad inicial"<<endl;
+       exit(1);
+    }
     const string MENS_FIN("END OF SERVICE");
     int MAX_CONEXIONS_EST = 20;
 	int puertoServer;
@@ -360,14 +367,17 @@ int main(int argc, char const *argv[]){
     int ops[3]={0,1,2};
     string aux = argv[1];
     string fichero = "./" + aux;
+    cout << "lleho" << endl;
     int cities = stoi(&fichero[fichero.find_first_of("0123456789")]);
+    cout << "lleho" << endl;
     int ciudIni = stoi(argv[2]);
     #warning la ciudad a inicial se puede cambiar
     leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
 
-
+  
+    
     thread estadistico (&controlEstadistico,ref(pa),ref(proletariado),puertoCs, MAX_CONEXIONS_EST, gen);
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen,ops);
     estadistico.join();
