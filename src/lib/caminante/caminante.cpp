@@ -854,16 +854,16 @@ void Poblacion::seleccionar()
     //Torneo con los restantes
     numElegTor=0;
     while(numElegTor<lextra){   //Seleccion dentro de cada torneo
-            j=0;
+            j=k*nVeces;
             cout<<"ENTRA EN EL TORNEO AUXILIAR"<<endl;
-            if (!elegido[j+(k*nVeces)] && j+(k*nVeces)<numCam){ //Coger uno no elegido
+            if (!elegido[j] && j<numCam){ //Coger uno no elegido
                 
-                calcFit(caminantes[j+(k*nVeces)]);
-                fit=caminantes[j+(k*nVeces)].MyFit(); //Se compara su fit con el de todos
+                calcFit(caminantes[j]);
+                fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
                             
                 for(int p=j;p<numCam;p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                     calcFit(caminantes[p]);
-                    if(fit<caminantes[p].MyFit() && !elegido[p]){
+                    if(fit<=caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
                     }
