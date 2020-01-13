@@ -296,20 +296,23 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     dist= new int*[numCiuds];
     for(int i =0;i<numCiuds;i++){
         dist[i]= new int[i];
+        cout<<"aqui?"<<endl;
         sizeMatrix = sizeof(int)*(i);
     }
+
     numCities = numCiuds;
     
     
     
     for (int i = 0; i < numCam; i++)
     {
-  
         caminantes[i].ini(ciudIni, numCiuds);
     }
-    
+    cout<<"llega al fichero"<<endl;
     ifstream f1;
     f1.open(entrada);
+    cout<<"llega al fichero2"<<endl;
+
     if(f1.is_open()){
         char h[10000];
         do{

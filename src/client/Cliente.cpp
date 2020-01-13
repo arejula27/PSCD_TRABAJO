@@ -89,6 +89,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
                 {
                     ops[2] = 2;
                 }
+                 cout << "Versión seleccionar:  " << ops[2] << endl;
             }
         }
     }
@@ -375,9 +376,11 @@ int main(int argc, char const *argv[]){
     #warning la ciudad a inicial se puede cambiar
     leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
     cout<<fichero<<endl;
-    fichero="sh07.txt";
     PobActual pa(gen);
+    cout<<"peta?"<<endl;
+    cout<<numPersonas<<"--"<<ciudIni<<"--"<<cities<<"--"<<fichero<<endl;
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
+    cout<<"genera poblacion"<<endl;
 
   
     
