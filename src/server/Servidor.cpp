@@ -207,7 +207,7 @@ int main(int argc, char *argv[]) {
 					break;
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
-					exit(0);
+					
 					cout << "Numero de caminantes recibidos: " << n << endl;
 					procesoSeleccionar(ref(pAp));  
 					break;
