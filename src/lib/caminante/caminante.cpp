@@ -123,6 +123,7 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
         recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
     }
     fitness = 1.00000/recorrido;
+ 
 }
 
 //Devuelve el fitness del caminante.
@@ -147,7 +148,7 @@ void Caminante::mutar(const int numCities)
     }
     int j=0;
     int random;
-    srand (time(NULL));
+  
     for(int i=1; i<numCities; i++){
         random=rand()%(numCities-1);
         while(cogidos[random]) random = (random + 1)%(numCities-1);
@@ -203,7 +204,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
 
     
-    srand(time(NULL));
+   
 
    bool vect[numCities];
    for (int  i = 0; i < numCities; i++)
@@ -291,7 +292,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     }
     numCities = numCiuds;
     
-    srand(time(NULL));
+    
     
     for (int i = 0; i < numCam; i++)
     {
@@ -406,6 +407,7 @@ void Poblacion::setNumCamOrig(){
 //calculas el fit de un caminante y se lo guardas
 void Poblacion::calcFit(Caminante &caminate){
     caminate.calcMiFit(dist, numCities);
+
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
@@ -473,16 +475,23 @@ void Poblacion::fusionar(int n, Poblacion pobs[])
     int extra = numC * 20 / 100;
     maxCami = extra + 2 * numC;
 
-    
-
+    //cout << endl;
+   //cout << "antes" << endl;
+    //cout << (*this).codificar() << endl;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < pobs[i].getNumCam(); j++)
-        {
+        {  
+            // cout<<caminantes[idx].codificar()<<"   "<<pobs[i].caminantes[j].codificar()<<endl;
             caminantes[idx] = pobs[i].caminantes[j];
+           // cout << caminantes[idx].codificar() << endl;
             idx++;
         }
         }
+        //cout  << endl;
+        //cout << "despues"<< endl;
+       // cout<<(*this).codificar()<<endl;
+        //cout << pobs[i].getNumCam() << endl;
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
@@ -714,7 +723,7 @@ void Poblacion::seleccionar_v2()
     Caminante selected[numCamOrig];
     for (int tirada = 0; tirada < numCamOrig; tirada++)
     {
-        srand(time(nullptr));
+       
         random = rand() % (numCam);
         selected[tirada] = caminantes[random];
         cout << "seleccionado--" << random;
@@ -750,7 +759,7 @@ void Poblacion::seleccionar()
 
 
     for(int tirada = 0; tirada<n;){
-        srand48 (time(NULL));
+        
         bola= totalCasillas*drand48();
         //Recorrer para comprobar resultado
         elegido=false;
@@ -777,7 +786,7 @@ void Poblacion::seleccionar()
     //BUCLE DE ELEGIR 
 
     for(int tirada = 0; tirada<n;tirada++){
-        srand48 (time(NULL));
+       
         random = rand()%(numCam);
         selected[tirada]=caminantes[random];
         cout<<"seleccionado--"<<random;

@@ -212,15 +212,25 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
                 cout << "Mensaje recibido del servidor(" << k << "), generación: " << i + 1 << endl;
                 //cout<<resp<<endl;
-				pobs[k].descodificar(resp,UPGRADE_POB);
-
+                //cout<<endl;
+                
+                pobs[k].descodificar(resp,UPGRADE_POB);
+                cout << endl;
+                cout << k << endl;
+                cout << resp<< endl;
                 
             }
 
 		}
+
 		personas.fusionar(serversAceptados,pobs);
+        cout << endl;
+        cout << "fusionar" << endl;
+        cout<<personas.codificar(UPGRADE_POB)<<endl;
+
+      
         pa.esperaEstadistico();
-	}
+    }
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
 		#warning cambiar msg de finalizacion
@@ -346,7 +356,8 @@ void controlEstadistico(PobActual &pa, Poblacion &persona, int SERVER_PORT, int 
 
 
 int main(int argc, char const *argv[]){
-
+    srand(time(nullptr));
+    srand48(time(NULL));
 
     const string MENS_FIN("END OF SERVICE");
     int MAX_CONEXIONS_EST = 20;
