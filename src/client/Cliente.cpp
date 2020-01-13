@@ -19,7 +19,7 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
-void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCiudades, string IPs[], int &numPersonas, string &fDatos, int ops[]){
+void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IPs[], int &numPersonas, int ops[], const string fDatos){
     string buffer;
     ifstream f;
     f.open("cliente.config");
@@ -33,11 +33,6 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
             {
                 puertoCs = stoi(&buffer[strlen("PuertoCs:")]);
                 cout << "Puerto = " << puerto << endl;
-            }
-
-            else if(buffer.find("numCiudades:")==0){
-                numCiudades = stoi(&buffer[strlen("numCiudades:")]);
-                cout <<"numCiudades = "<<numCiudades<<endl;
             }
             else if (buffer.find("generaciones:") == 0)
             {
@@ -57,10 +52,6 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
             else if(buffer.find("numPersonas:")==0){
                 numPersonas = stoi(&buffer[strlen("numPersonas:")]);
                 cout <<"numPersonas = "<<numPersonas<<endl;
-            }
-            else if(buffer.find("Fichero de datos:")==0){
-                fDatos = (&buffer[strlen("Fichero de datos:")]);
-                cout <<"Fichero de datos: = "<<fDatos<<endl;
             }
             else if (buffer.find("Cruzar:") == 0)
             {
@@ -353,18 +344,18 @@ int main(int argc, char const *argv[]){
     int MAX_CONEXIONS_EST = 20;
 	int puertoServer;
     int numPersonas;
-    int cities;
     int numServers;
     int gen, puertoCs;
-    string fichero;
     string IPs[MAX_SERVERS];
     int ops[3]={0,1,2};
-    
-    
+    string aux = argv[1];
+    string fichero = "./" + aux;
+    int cities = stoi(&fichero[fichero.find_first_of("0123456789")]);
+    int ciudIni = stoi(argv[2]);
     #warning la ciudad a inicial se puede cambiar
-    leerconfig(numServers,puertoCs,gen,puertoServer, cities, IPs, numPersonas, fichero,ops);
+    leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
     PobActual pa(gen);
-    Poblacion proletariado(numPersonas,3,cities,fichero);
+    Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
 
 
     thread estadistico (&controlEstadistico,ref(pa),ref(proletariado),puertoCs, MAX_CONEXIONS_EST, gen);
