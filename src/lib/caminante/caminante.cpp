@@ -307,7 +307,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
   
         caminantes[i].ini(ciudIni, numCiuds);
     }
-    
+    cout<<"llega al fichero"<<endl;
     ifstream f1;
     f1.open(entrada);
     if(f1.is_open()){
