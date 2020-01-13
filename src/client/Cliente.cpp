@@ -374,7 +374,7 @@ int main(int argc, char const *argv[]){
     #warning la ciudad a inicial se puede cambiar
     leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
     cout<<fichero<<endl;
-    fichero="sh07.txt";
+    fichero="./sh07.txt";
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
 
