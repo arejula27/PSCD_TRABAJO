@@ -219,6 +219,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 
 		}
 		personas.fusionar(serversAceptados,pobs);
+        cout<<personas.codificar()<<endl;
         pa.esperaEstadistico();
 	}
 	//mando mensaje de finalizacion
