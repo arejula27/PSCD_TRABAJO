@@ -150,7 +150,6 @@ int main(int argc, char *argv[]) {
 			switch(operacion) {
 				case 0:		// Cruzar
 					cout<<"Cruzando población"<<endl;
-					pob.setNumCamOrig();
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {

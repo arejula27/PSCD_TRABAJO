@@ -81,7 +81,6 @@ private:
     int **dist;
     int numCam;
     Caminante *caminantes;
-    int numCamOrig;
     
 
 public:
@@ -100,11 +99,7 @@ public:
     int getNumCities();
     
     int getNumCam();
-    int getNumCamOrig();
-
-    //Iguala numCamOrig al valor actual de numCam
-    void setNumCamOrig();
-        //calcula el fit de un caminante y cambia su propio fit
+    //calcula el fit de un caminante y cambia su propio fit
     void calcFit(Caminante &caminante);
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
