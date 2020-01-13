@@ -25,10 +25,9 @@ void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para 
 // funcion mutar   
 void PoblacionAProcesar::mutar(int id) {
     unique_lock<mutex> lck(mtx);
-    cout<<id<<endl;
-      static int cont =0;
-      cout<<"mutar: "<<cont<<endl;
-      cont++;
+  
+  
+
     poblacion.mutar(id);
 }
 
