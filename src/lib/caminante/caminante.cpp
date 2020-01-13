@@ -310,6 +310,8 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     cout<<"llega al fichero"<<endl;
     ifstream f1;
     f1.open(entrada);
+    cout<<"llega al fichero2"<<endl;
+
     if(f1.is_open()){
         char h[10000];
         do{
