@@ -373,6 +373,8 @@ int main(int argc, char const *argv[]){
     int ciudIni = stoi(argv[2]);
     #warning la ciudad a inicial se puede cambiar
     leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
+    cout<<fichero<<endl;
+    fichero="sh07.txt";
     PobActual pa(gen);
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
 
