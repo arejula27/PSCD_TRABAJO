@@ -707,10 +707,24 @@ void Poblacion::cruzar(int p1,int p2){
     caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
 }*/
+void Poblacion::seleccionar_v2()
+{
+    int random;
+    //BUCLE DE ELEGIR
+    Caminante selected[numCamOrig];
+    for (int tirada = 0; tirada < numCamOrig; tirada++)
+    {
+        srand(time(nullptr));
+        random = rand() % (numCam);
+        selected[tirada] = caminantes[random];
+        cout << "seleccionado--" << random;
+    }
+}
 
-void Poblacion::seleccionar(){
+void Poblacion::seleccionar()
+{
 
-     Caminante selected[numCamOrig];
+    Caminante selected[numCamOrig];
     
 
     //MODO1 (RULETA)
@@ -798,11 +812,12 @@ void Poblacion::seleccionar(){
         
         while(numElegTor<l){   //Seleccion dentro de cada torneo
             j=0;
+           // cout<<"hola"<<endl;
             if (!elegido[j+(k*i)])   //Coger uno no elegido
             {
             calcFit(caminantes[j+(k*i)]);
             fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
-                        
+           // cout << "hola" << endl;
             for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                 calcFit(caminantes[p]);
                 if(fit<caminantes[p].MyFit() && !elegido[p]){
@@ -810,7 +825,7 @@ void Poblacion::seleccionar(){
                     posicion=p;
                 }
             }
-            
+            //cout << "hola" << endl;
             elegido[posicion]=true;
             selected[numElegidos]=caminantes[posicion];
             numElegTor++;

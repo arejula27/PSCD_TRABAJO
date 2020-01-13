@@ -91,6 +91,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
                 cout << "Versión seleccionar:  " << fDatos << endl;
                 if (buff == "v2")
                 {
+                    ops[2] = 5;
                 }
                 else
                 {
@@ -116,14 +117,14 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, int &numCi
 void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     ofstream f("salida.csv");
     pa.esperaGA();
-    f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
+    f << "ID poblacion" << ";" << "Mejor Fitness" << ";" << "Fitness Medio" << endl;
     int i = 0;
     double mejorFit,media;
     while (i<MAX_GENS){
         double porcentaje = personas.stats(0.8,mejorFit,media);
         //calcEstadisticas(personas,i+1,pa,mejorFit,media);
-        f << i+1 << "," << mejorFit << "," << media << endl;
-        string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
+        f << i+1 << ";" << mejorFit << ";" << media << endl;
+        string info = to_string(i+1) + ";" + to_string(mejorFit) + ";" + to_string(media); 
         pa.guardarDatos(info);
 
         pa.esperaGA();
