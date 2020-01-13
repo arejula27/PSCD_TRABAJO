@@ -32,7 +32,7 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
         }
     }
     else {    // proceso extra
-        for(int i=0; i<extra; i++) {
+        for(int i=0; i < extra; i++) {
             bool puede = false;
             while(!puede) {
                 int aleatorio = 0 + (rand() % static_cast<int>(n - 0 + 1));

@@ -196,15 +196,15 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
     cout << "El corte es: " << corte << endl;
     for(int i = 0; i < corte; i++){
-        camino[i] = c2 .camino[i];
-        cout << camino [i] << endl;
+        camino[i] = c1.camino[i];
+        //cout << camino [i] << endl;
     }
     for (int i = corte; i < numCities+1; i++){
         camino[i] = c2.camino[i];
         if (!esValido(i)){
             camino[i] = c1.camino[i];
         } 
-        cout << camino [i] << endl;
+        //cout << camino [i] << endl;
     }
  
      

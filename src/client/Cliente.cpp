@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
+const int MESSAGE_SIZE = 100000; //mensajes de no más 100000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
 
 void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IPs[], int &numPersonas, int ops[], const string fDatos){
@@ -369,21 +369,15 @@ int main(int argc, char const *argv[]){
     int ops[3]={0,1,2};
     string aux = argv[1];
     string fichero = "./" + aux;
-    cout << "lleho" << endl;
     int cities = stoi(&fichero[fichero.find_first_of("0123456789")]);
-    cout << "lleho" << endl;
     int ciudIni = stoi(argv[2]);
     #warning la ciudad a inicial se puede cambiar
     leerconfig(numServers,puertoCs,gen,puertoServer, IPs, numPersonas, ops, fichero);
     cout<<fichero<<endl;
     PobActual pa(gen);
-    cout<<"peta?"<<endl;
     cout<<numPersonas<<"--"<<ciudIni<<"--"<<cities<<"--"<<fichero<<endl;
     Poblacion proletariado(numPersonas,ciudIni,cities,fichero);
-    cout<<"genera poblacion"<<endl;
 
-  
-    
     thread estadistico (&controlEstadistico,ref(pa),ref(proletariado),puertoCs, MAX_CONEXIONS_EST, gen);
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen,ops);
     estadistico.join();
