@@ -238,6 +238,7 @@ void sacarPantIsDivYFus(){
           return false;
      }
      else if(!cityPosCorrect(txt,numCity)){
+         cout<<txt<<endl;
           return false;
 
      }
