@@ -754,6 +754,7 @@ int main()
     sacarPantIsDivYFus();
     sacarPantCamMut();
     sacarPantCamCruz();
+    cout << "Acaba 1 pueba"<< endl;
     sacarPantMutar();
     sacarPantCruzar();
     sacarPantSeleccion();
