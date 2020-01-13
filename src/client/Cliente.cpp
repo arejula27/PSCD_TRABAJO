@@ -113,7 +113,9 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     int i = 0;
     double mejorFit,media;
     while (i<MAX_GENS){
+        cout<<"caa"<<endl;
         double porcentaje = personas.stats(0.8,mejorFit,media);
+        cout<<"capa"<<endl;
         //calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << ";" << mejorFit << ";" << media << endl;
         string info = to_string(i+1) + ";" + to_string(mejorFit) + ";" + to_string(media); 
@@ -210,21 +212,24 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 cout<<endl;*/
                 
                 pobs[k].descodificar(resp,UPGRADE_POB);
-                /*cout << endl;
-                cout << k << endl;
-                cout << resp<< endl;*/
+                
+                //cout << endl;
+                //cout << k << endl;
+                cout << resp<< endl;
                 
             }
 
 		}
-
+        
 		personas.fusionar(serversAceptados,pobs);
+        
        /* cout << endl;
         cout << "fusionar" << endl;
         cout<<personas.codificar(UPGRADE_POB)<<endl;*/
 
-      
+        cout<<"si"<<endl;
         pa.esperaEstadistico();
+        cout<<"sii"<<endl;
     }
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){

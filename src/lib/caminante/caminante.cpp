@@ -429,6 +429,8 @@ double Poblacion::stats(double fit,double &mejorFit,double &media){
     int idMejorFit = 0;
     for (int i = 0; i < numCam; i++)
     {
+        cout<<i<<endl;
+        cout<<caminantes[i].codificar()<<endl;
         calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit)
         { //si el fit es mayor que el umbral suma
@@ -907,7 +909,15 @@ void Poblacion::seleccionar()
         }*/
 
         //MODO TORNEO RANDOM
-        for(int i =0;i<numCamOrig;i++)
+        for(int i =0;i<numCamOrig;i++){
+            int rnd1=rand()%numCam;
+            int rnd2 =rand()%numCam;
+            cout<<"c1"<<caminantes[rnd1].codificar()<<endl;
+            cout<<"c2"<<caminantes[rnd2].codificar()<<endl;
+            selected[i]=(caminantes[rnd1].MyFit()>caminantes[rnd2].MyFit())?caminantes[rnd1]:caminantes[rnd2];
+            cout<<selected[i].codificar()<<endl;
+
+        }
     
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
