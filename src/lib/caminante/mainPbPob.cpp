@@ -238,7 +238,6 @@ void sacarPantIsDivYFus(){
           return false;
      }
      else if(!cityPosCorrect(txt,numCity)){
-         cout<<txt<<endl;
           return false;
 
      }
@@ -743,6 +742,7 @@ void sacarPantCamCruz()
         cout << error(ERROR, "Fallo en cruzar Caminante") << endl;
     }
 }
+
 int main()
 {
 
@@ -760,3 +760,37 @@ int main()
 
     return 0;
  }
+
+
+
+//PRUEBA PARA MUTAR
+/*
+int main(int argc, char const *argv[]){
+    srand(time(nullptr));
+    srand48(time(NULL));
+    if(argc!=3){
+       cerr<< "introduzca fichero y ciudad inicial"<<endl;
+       exit(1);
+    }
+    const string MENS_FIN("END OF SERVICE");
+    int MAX_CONEXIONS_EST = 20;
+	int puertoServer;
+    int numPersonas = 100;
+    string IPs[2];
+    int ops[3]={0,1,2};
+    string aux = argv[1];
+    string fichero = "./" + aux;
+    int cities = stoi(&fichero[fichero.find_first_of("0123456789")]);
+    int ciudIni = stoi(argv[2]);
+    
+    Poblacion proletariado(10,ciudIni,cities,fichero);
+    Poblacion pob(10,ciudIni,cities,fichero);
+    cout<<proletariado.codificar()<<endl;
+    for(int i=0;i<10;i++){
+        proletariado.mutar(1);
+    }
+    cout<<proletariado.codificar()<<endl;
+    
+    return 0;
+}
+*/
