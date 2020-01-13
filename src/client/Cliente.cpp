@@ -82,7 +82,6 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
                 cout << "Versión seleccionar:  " << fDatos << endl;
                 if (buff == "v2")
                 {
-                    cout<<"si"<<endl;
                     ops[2] = 5;
                 }
                 else
@@ -179,35 +178,30 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		pobs[i].getMatrixFrom(personas);
 	}
 	*/
-    
-    for (int i = 0; i < gen && !pa.finEjec(personas); i++){
+    //&& !pa.finEjec(personas)
+    for (int i = 0; i < gen ; i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
 			// 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
+            if(j==2){
+                for(int t = 0; t < serversAceptados; t++) pobs[t].calcFit();
+            }
 			for(int k = 0; k < serversAceptados; k++){
                // cout << pobs[i].getNumCam() <<" ?22" <<endl;
 
                 string msg;
-               if(i==0&&j==0){
-                    msg = to_string(ops[j]) + "," + to_string(personas.getNumCities()) + ":" + personas.codificarMatriz() + pobs[k].codificar(UPGRADE_POB);
-               }
-               else{
-                   msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
-               }
+                msg = to_string(ops[j]) + "," + to_string(personas.getNumCities()) + ":" + pobs[k].codificar(UPGRADE_POB);
 				socketServ[k].Send(server_fd[k],msg);
 				cout << "Mensaje enviado a servidor("<<k<<"),con operación("<< ops[j]<<") generación: "<<i+1<< endl;
-                //cout<<msg<<endl;
                 
             }
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
                 cout << "Mensaje recibido del servidor(" << k << "),con operación(" << ops[j] << ") generación: " << i + 1 << endl;
-                /*cout<<resp<<endl;
-                cout<<endl;*/
                 
                 pobs[k].descodificar(resp,UPGRADE_POB);
                 /*cout << endl;

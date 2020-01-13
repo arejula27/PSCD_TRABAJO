@@ -112,7 +112,7 @@ public:
 
 
     //calcula el fit de un caminante y cambia su propio fit
-    void calcFit(Caminante &caminante);
+    void calcFit();
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
     //media de fitness de los caminates

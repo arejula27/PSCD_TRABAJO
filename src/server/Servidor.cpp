@@ -68,7 +68,7 @@ void procesoSeleccionarv2(PoblacionAProcesar &pAp)
 
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
-    srand(time(NULL));
+    srand(time(nullptr));
 	int r;
     char MENS_FIN[]="END OF SERVICE";
     
@@ -131,14 +131,7 @@ int main(int argc, char *argv[]) {
 			out = true; 
 		} else {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
-			if(primera_vez) {	//primera vez
-				primera_vez = false;
-				pob.descodificar(&buffer[2],ALL_POB);
-			}
-			else {		//actualizar
-				pob.descodificar(&buffer[2],UPGRADE_POB);
-				
-			}
+			pob.descodificar(&buffer[2],UPGRADE_POB);
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
@@ -236,7 +229,7 @@ int main(int argc, char *argv[]) {
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 			cout  << pob.getNumCam() << " caminantes actualmente" << endl;
-			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
+			string nuevaSubPoblacion = to_string(pob.getNumCities()) + ":" + pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
             // Send, enviar nueva sub-poblacion al cliente
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);

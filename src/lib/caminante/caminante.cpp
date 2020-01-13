@@ -135,11 +135,11 @@ double Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-    
-    
+   
+
     //MODO1
-/*
-cout <<"ant: " <<(*this).codificar() << endl;
+
+
 int genes[numCities - 1];
 bool cogidos[numCities - 1];
 //Almacenamos los genes intercambiables para no perder ninguno
@@ -157,30 +157,6 @@ for (int i = 0; i < numCities - 1; i++)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
-    
-*/
-   //MODO2
-    
-//cout <<"ant: " <<(*this).codificar() << endl;
-
-int caminoArtif[numCities+1];
-for(int i=1;i<numCities+1;i++) {
-    caminoArtif[i] = camino[i];
-}
-
-int random = rand();
-for (int i = 1; i < numCities; i++)
-{
-    int avanza = (i + random)%(numCities-1)+1;
-    camino[i] = caminoArtif[avanza];
-    if (camino[i] == camino[0])
-    {
-        //cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
-        exit(2);
-        }
-    }
-
-    //cout << "desp: "<<(*this).codificar() << endl;
 }
 
 
@@ -189,31 +165,8 @@ for (int i = 1; i < numCities; i++)
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
     
-    /*
-    
-    int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
-    for(int i=0; i<corte; i++){
-        camino[i] = c1.camino[i];
-    }
-    for (int i=corte; i<numCities; i++){
-        camino[i] = c2.camino[i];
-        if (!esValido(i)){
-            camino[i] = c1.camino[i];
-        }
-    }
- 
-    */    
-
-    //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
-    //se elige un gen cualquiera no repetido
-
-
-    
-   
-
-   bool vect[numCities];
+    bool vect[numCities];
    for (int  i = 0; i < numCities; i++)
    {
        vect[i]=false;
@@ -236,13 +189,10 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
        camino[i] = num;
       
-       //camino[i] = (c1.camino[i] + c2.camino[i]) % (numCities);
+    
 
-       /* while(!esValido(i+1)){
-            camino[i]=(camino[i]+1)%(numCities);
-        }*/
+    
     }
-
     
 }
 
@@ -270,7 +220,7 @@ bool Caminante::esValido(int numCities){
 
 
 Poblacion::Poblacion(){
-    numCities = 0;
+    numCities = -1;
     numCam = 0;
     dist=nullptr;
     caminantes=nullptr;
@@ -408,8 +358,10 @@ void Poblacion::setNumCamOrig(){
 }
 
 //calculas el fit de un caminante y se lo guardas
-void Poblacion::calcFit(Caminante &caminate){
-    caminate.calcMiFit(dist, numCities);
+void Poblacion::calcFit(){
+    for(int i=0;i<numCam;i++){
+        caminantes[i].calcMiFit(dist, numCities);
+    }
 
 }
 
@@ -419,7 +371,6 @@ void Poblacion::calcFit(Caminante &caminate){
 double Poblacion::stats(double fit,double &mejorFit,double &media){
     int cont = 0;
     for (int i = 0; i < numCam; i++){
-        calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
             cont++;
         }
@@ -441,9 +392,10 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     
     int sobr = numCam % n;
     int indx = 0;
+    int j=0;
     for (int i = 0; i < n; i++)
     {
-
+        
         //getMatrixFrom(*this);
         int numSub = (numCam / n);
         if (sobr > 0)
@@ -451,11 +403,14 @@ void Poblacion::dividir(int n, Poblacion pobs[])
             numSub++;
             sobr--;
         }
+        
         pobs[i].numCam = numSub;
-        pobs[i].maxCami=maxCami;
-
+        int extra = pobs[i].numCam * 20 / 100;
+        int maxCamiSub = extra + 2 * pobs[i].numCam;
+        pobs[i].maxCami=maxCamiSub;
+        pobs[i].getMatrixFrom((*this));
         if (pobs[i].caminantes == nullptr){
-            pobs[i].caminantes = new Caminante[maxCami];
+            pobs[i].caminantes = new Caminante[pobs[i].maxCami];
         }
         for (int j = 0; j < numSub; j++)
         {
@@ -526,7 +481,6 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     int fil = 1;
     
     int aux = 0;
-  
     avance++;
     while (MiMatriz[avance] != ')')
     {
@@ -636,14 +590,20 @@ void Poblacion::descodificar(string msg, int flg)
 
     else if (flg == UPGRADE_POB)
     {
-
-        numCam = stoi(msg);
-      
+        numCities = stoi(msg);
+        while (msg[inx] != ':') inx++;
+        inx++;
+        numCam = stoi(&msg[inx]);
+        while (msg[inx] != ':') inx++;
+        inx++;
+        int extra = numCam * 20 / 100;
+        maxCami = extra + 2 * numCam;
+        assert(numCam<=maxCami);
+        if (caminantes == nullptr) caminantes = new Caminante[maxCami];
         assert(numCam<=maxCami);
        
-        while (msg[inx++] != ':');
+        
         //descodificar todos los viajeros
-  
       
         for (int i = 0; i < numCam; i++)
         {
@@ -658,27 +618,39 @@ void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
 
-    if (dist != nullptr)
+    /*if (dist != nullptr)
     {
         for (int i = 1; i < numCities; i++)
         {
             delete[] dist[i];
         }
     }
-    delete [] dist;
+    delete [] dist;*/
    
-    dist = new int *[numCities];
-    for (int i = 0; i < numCities; i++)
-    {
-        
+    if (dist == nullptr){
+        dist = new int *[numCities];
+        for (int i = 0; i < numCities; i++)
         dist[i] = new int[i];
-        
-        if(i>0)memcpy(dist[i],pob.dist[i],sizeof(dist[i]));
-        
-        sizeMatrix = sizeof(int) * (i);
+
     }
-    
+        
+        
+        
+            
+        for (int i = 0; i < numCities; i++){
+
+            for (int j = 0; j < i; j++)
+            {
+                dist[i][j]=pob.dist[i][j];
+            }
+            
+        
+            sizeMatrix = sizeof(int) * (i);
+        }
+        
 }
+    
+
 
 Caminante Poblacion::getCaminante(int id) {
   
@@ -721,36 +693,15 @@ void Poblacion::cruzar(int p1,int p2){
 }*/
 void Poblacion::seleccionar_v2()
 {
-    int random;
-    //BUCLE DE ELEGIR
-    Caminante selected[numCamOrig];
-    for (int tirada = 0; tirada < numCamOrig; tirada++)
-    {
-       
-        random = rand() % (numCam);
-        selected[tirada] = caminantes[random];
-        cout << "seleccionado--" << random;
-    }
-    numCam=numCamOrig;
-}
-
-void Poblacion::seleccionar()
-{
-
-    Caminante selected[numCamOrig];
-    
-
     //MODO1 (RULETA)
-    /*
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
     double bola; 
-
+    Caminante selected[numCamOrig];
     
 
     for(int i=0; i<numCam ; i++){
-        calcFit(caminantes[i]);
         fit=caminantes[i].MyFit();
         //cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=fit+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
@@ -762,9 +713,9 @@ void Poblacion::seleccionar()
     bool elegido;
 
 
-    for(int tirada = 0; tirada<n;){
+    for(int tirada = 0; tirada<numCamOrig;){
         
-        bola= totalCasillas*drand48();
+        bola= totalCasillas*rand();
         //Recorrer para comprobar resultado
         elegido=false;
         i=0;
@@ -781,116 +732,20 @@ void Poblacion::seleccionar()
         }
     }
     cout<<"Metodo de seleccion por ruleta(1)"<<endl;
-    
-    */
-   
-   //MODO2 (RANDOM)
-    /*
-    int random;
-    //BUCLE DE ELEGIR 
+}
 
-    for(int tirada = 0; tirada<n;tirada++){
-       
-        random = rand()%(numCam);
-        selected[tirada]=caminantes[random];
-        cout<<"seleccionado--"<<random;
+void Poblacion::seleccionar()
+{
+    Caminante selected[numCamOrig];
+
+    for(int i=0;i<numCamOrig;i++){
+        int rnd1=rand()%numCam;
+        int rnd2=rand()%numCam;
+        selected[i]=(caminantes[rnd1].MyFit()>caminantes[rnd2].MyFit())?caminantes[rnd1]:caminantes[rnd2];
     }
 
-    cout<<"Seleccionar version random(2)\n";
-    */
-   
-   //MODO 3 (TORNEO)
-    int nVeces=4; //Numero de torneos
-    int k=numCam/nVeces; //Numero de participantes en cada torneo
-    int l=numCamOrig/nVeces; //elegidos en cada torneo
-
-    
-    int lextra=numCamOrig%nVeces;
-
-    cout<<"part="<<k<<" -- eleg="<<l<<endl;
-    double fit;
-    bool elegido[numCam];
-    int posicion;
-    int numElegTor; //numero de elegidos en el torneo actual
-    int j;
-     for(int i=0; i<numCam ; i++){
-        elegido[i]=false;
-    }
-    int numElegidos=0;
-   
-
-    for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
-        numElegTor=0;
-        cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]----"<<l<<endl;
-        j=k*i;
-        while(numElegTor<l){   //Seleccion dentro de cada torneo
-            
-           // cout<<"hola"<<endl;
-            if (!elegido[j])   //Coger uno no elegido
-            {
-            calcFit(caminantes[j]);
-            fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
-           // cout << "hola" << endl;
-            for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
-                calcFit(caminantes[p]);
-                
-                if(fit<=caminantes[p].MyFit() && !elegido[p]){
-                    fit=caminantes[p].MyFit();
-                    
-                    posicion=p;
-                }
-
-            }
-            //cout << "hola" << endl;
-            elegido[posicion]=true;
-            cout<<"Va a guardar el"<<posicion<<endl;
-            selected[numElegidos]=caminantes[posicion];
-            numElegTor++;
-            numElegidos++;
-
-            }
-            cout<<j<<"-";
-            j++;               
-        }
-
-    }
-
-    //Torneo con los restantes
-    numElegTor=0;
-    while(numElegTor<lextra){   //Seleccion dentro de cada torneo
-            j=k*nVeces;
-            cout<<"ENTRA EN EL TORNEO AUXILIAR"<<endl;
-            if (!elegido[j] && j<numCam){ //Coger uno no elegido
-                
-                calcFit(caminantes[j]);
-                fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
-                            
-                for(int p=j;p<numCam;p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
-                    calcFit(caminantes[p]);
-                    if(fit<=caminantes[p].MyFit() && !elegido[p]){
-                        fit=caminantes[p].MyFit();
-                        posicion=p;
-                    }
-                }
-                
-                elegido[posicion]=true;
-                cout<<"Va a guardar el"<<posicion<<endl;
-                selected[numElegidos]=caminantes[posicion];
-                numElegTor++;
-                numElegidos++;
-
-            }
-            j++;               
-        }
-    
-    //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
-    
     for(int i=0; i<numCamOrig; i++){
-        
-        caminantes[i]= selected[i];
-        //caminantes[i].calcMiFit;
-
-    }
+        caminantes[i]=selected[i];
+    } 
     numCam=numCamOrig;
-    
 }
