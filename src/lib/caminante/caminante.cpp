@@ -164,14 +164,14 @@ for (int i = 0; i < numCities - 1; i++)
 //cout <<"ant: " <<(*this).codificar() << endl;
 
 int caminoArtif[numCities+1];
-for(int i=1;i<numCities+1;i++) {
+for(int i=1;i<numCities;i++) {
     caminoArtif[i] = camino[i];
 }
 
 int random = rand();
 for (int i = 1; i < numCities; i++)
 {
-    int avanza = (i + random)%(numCities-1)+1;
+    int avanza = (i + random)%(numCities);
     camino[i] = caminoArtif[avanza];
     if (camino[i] == camino[0])
     {
@@ -677,25 +677,24 @@ void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
 
-    if (dist != nullptr)
+    if (dist == nullptr)
     {
-        for (int i = 1; i < numCities; i++)
-        {
-            delete[] dist[i];
-        }
-    }
-    delete [] dist;
-   
-    dist = new int *[numCities];
+        dist = new int *[numCities];
     for (int i = 0; i < numCities; i++)
     {
-        
         dist[i] = new int[i];
-        
-        if(i>0)memcpy(dist[i],pob.dist[i],sizeof(dist[i]));
-        
         sizeMatrix = sizeof(int) * (i);
     }
+    }
+    for(int i =0;i<numCities;i++){
+        for(int j=0;j<i;j++){
+
+            dist[i][j]=pob.dist[i][j];
+        }
+    }
+   
+   
+   
     
 }
 
@@ -819,7 +818,7 @@ void Poblacion::seleccionar()
     */
    
    //MODO 3 (TORNEO)
-    int nVeces=4; //Numero de torneos
+    /*int nVeces=4; //Numero de torneos
     int k=numCam/nVeces; //Numero de participantes en cada torneo
     int l=numCamOrig/nVeces; //elegidos en cada torneo
 
@@ -845,30 +844,34 @@ void Poblacion::seleccionar()
         while(numElegTor<l){   //Seleccion dentro de cada torneo
             
            // cout<<"hola"<<endl;
-            if (!elegido[j])   //Coger uno no elegido
-            {
-            calcFit(caminantes[j]);
-            fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
-           // cout << "hola" << endl;
-            for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
-                calcFit(caminantes[p]);
-                
-                if(fit<=caminantes[p].MyFit() && !elegido[p]){
-                    fit=caminantes[p].MyFit();
-                    
+        cout<<j<<endl;
+            if (!elegido[j]){ //Si no esta elegido el partticipante
+                calcFit(caminantes[j]);
+                cout<<j<<endl;
+                fit=caminantes[j].MyFit();
+                cout<<"beep"<<endl;
+                for (int p = j; p < k * (i + 1); p++)
+                { //Elige un participante cuyo fit es el mayor de los no elegidos
+                    calcFit(caminantes[p]);
+                    cout<<p<<endl;
                     posicion=p;
+                    if (fit <= caminantes[p].MyFit() && !elegido[p])
+                    {
+                        cout<<"beep"<<endl;
+                        fit = caminantes[p].MyFit();
+                        posicion = p;
+                    }
+                    cout<<"beep"<<endl;
                 }
+                cout << "hola" << endl;
+                elegido[posicion] = true;
+                //cout << "Va a guardar el" << posicion << endl;
+                selected[numElegidos] = caminantes[posicion];
+                numElegTor++;
+                numElegidos++;
 
             }
-            //cout << "hola" << endl;
-            elegido[posicion]=true;
-            cout<<"Va a guardar el"<<posicion<<endl;
-            selected[numElegidos]=caminantes[posicion];
-            numElegTor++;
-            numElegidos++;
-
-            }
-            cout<<j<<"-";
+            
             j++;               
         }
 
@@ -899,8 +902,12 @@ void Poblacion::seleccionar()
                 numElegidos++;
 
             }
-            j++;               
-        }
+            j++;  
+                         
+        }*/
+
+        //MODO TORNEO RANDOM
+        for(int i =0;i<numCamOrig;i++)
     
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
@@ -911,5 +918,6 @@ void Poblacion::seleccionar()
 
     }
     numCam=numCamOrig;
+    cout<<"El torneo es cojonudo"<<endl;
     
 }
