@@ -142,15 +142,16 @@ int main(int argc, char *argv[]) {
 			int extra = n*PORCENTAJE_EXTRA;
 			int div_n = n/(NUM_PROCESOS_MAX-1);
 			int resto = n%(NUM_PROCESOS_MAX-1);
-			cout << "Numero de caminantes recibidos: " << n << endl;
-			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
-			cout << "Numero de caminantes extra: " << extra << endl;
+			
 			thread proceso[NUM_PROCESOS_MAX];
 			int id = 0;
 			int comienzo=0;
 			switch(operacion) {
 				case 0:		// Cruzar
 					cout<<"Cruzando población"<<endl;
+					cout << "Numero de caminantes recibidos: " << n << endl;
+					cout << "Numero de iteraciones de 4 procesos: " << div_n << endl;
+					cout << "Numero de caminantes en proceso extra: " << extra << endl;
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {
@@ -174,6 +175,9 @@ int main(int argc, char *argv[]) {
 					break;
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
+					cout << "Numero de caminantes recibidos: " << n << endl;
+					cout << "Numero de iteraciones de 4 procesos: " << div_n << endl;
+					cout << "Numero de caminantes en proceso extra: " << extra << endl;
 					// Mutar caminantes reptartido en 5 procesos
 					pAp.setNumCamOrig();
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
@@ -197,6 +201,7 @@ int main(int argc, char *argv[]) {
 					break;
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
+					cout << "Numero de caminantes recibidos: " << n << endl;
 					procesoSeleccionar(ref(pAp));  
 					break;
 				default:	// Operacion incorrecta
