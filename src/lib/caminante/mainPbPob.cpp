@@ -565,12 +565,12 @@ void sacarPantCruzar()
 bool tryselec()
 {
     int idx = 0;
-    int numCam = 220;
+    int numCam = 70;
     int ciudadIni = 0;
     int numCiuds = 12;
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
-    int n=100;
+    int n=22;
     pob.seleccionar(n);
     cout<<pob.getNumCam()<<endl;
     string txt = pob.codificar();

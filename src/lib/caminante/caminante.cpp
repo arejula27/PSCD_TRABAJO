@@ -709,9 +709,9 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }*/
 
-void Poblacion::seleccionar(int n){
+void Poblacion::seleccionar(){
 
-     Caminante selected[n];
+     Caminante selected[numCamOrig];
     
 
     //MODO1 (RULETA)
@@ -776,7 +776,11 @@ void Poblacion::seleccionar(int n){
    //MODO 3 (TORNEO)
     int nVeces=4; //Numero de torneos
     int k=numCam/nVeces; //Numero de participantes en cada torneo
-    int l=n/nVeces; //elegidos en cada torneo
+    int l=numCamOrig/nVeces; //elegidos en cada torneo
+
+    
+    int lextra=numCamOrig%nVeces;
+
     cout<<"part="<<k<<" -- eleg="<<l<<endl;
     double fit;
     bool elegido[numCam];
@@ -818,16 +822,42 @@ void Poblacion::seleccionar(int n){
         }
 
     }
+
+    //Torneo con los restantes
+    numElegTor=0;
+    while(numElegTor<lextra){   //Seleccion dentro de cada torneo
+            j=0;
+            if (!elegido[j+(k*nVeces)] && j+(k*nVeces)<numCam){ //Coger uno no elegido
+                
+                calcFit(caminantes[j+(k*nVeces)]);
+                fit=caminantes[j+(k*nVeces)].MyFit(); //Se compara su fit con el de todos
+                            
+                for(int p=j;p<numCam;p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                    calcFit(caminantes[p]);
+                    if(fit<caminantes[p].MyFit() && !elegido[p]){
+                        fit=caminantes[p].MyFit();
+                        posicion=p;
+                    }
+                }
+                
+                elegido[posicion]=true;
+                selected[numElegidos]=caminantes[posicion];
+                numElegTor++;
+                numElegidos++;
+
+            }
+            j++;               
+        }
     
     //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
     
-    for(int i=0; i<n; i++){
+    for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
         //caminantes[i].calcMiFit;
 
     }
 
-    numCam=n;
+    numCam=numCamOrig;
     
 }

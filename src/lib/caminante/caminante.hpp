@@ -157,7 +157,8 @@ public:
     //se inserta la parte centra de un padre en el otro y viceversa
     void cruzar2(int p1, int p2);
 
-    void seleccionar(int n);
+    //selecciona la poblacion y la deja en numCamOrig caminantes
+    void seleccionar();
 };
 
 #endif //!CAMINANTE_Y_POBLACION
