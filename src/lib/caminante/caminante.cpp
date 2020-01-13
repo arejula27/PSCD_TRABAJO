@@ -883,7 +883,6 @@ void Poblacion::seleccionar()
         //caminantes[i].calcMiFit;
 
     }
-
     numCam=numCamOrig;
     
 }
