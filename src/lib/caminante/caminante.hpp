@@ -86,6 +86,8 @@ private:
     int numCam;
     int numCamOrig;
     Caminante *caminantes;
+    string caminoMejorFit;
+    double mejorFitEver;
     
 
 public:
@@ -106,6 +108,8 @@ public:
     int getNumCam();
 
     int getNumCamOrig();
+
+    void MejorCamino();
 
     //Iguala numCamOrig al valor actual de numCam
     void setNumCamOrig();

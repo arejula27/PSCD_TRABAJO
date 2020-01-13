@@ -232,6 +232,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		string fin = "END OF SERVICE";
 		socketServ[i].Send(server_fd[i],fin);
 	}
+    personas.MejorCamino();
 
     // Cerramos el socket
     for (int i = 0; i < serversAceptados; i++){

@@ -271,6 +271,7 @@ bool Caminante::esValido(int numCities){
 
 Poblacion::Poblacion(){
     numCities = 0;
+    mejorFitEver = 0.0;
     numCam = 0;
     dist=nullptr;
     caminantes=nullptr;
@@ -281,6 +282,7 @@ Poblacion::Poblacion(){
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
+    mejorFitEver = 0.0;
     //inicializar numCam
     int extra=numCamis*20/100;
     maxCami=extra+2*numCamis;
@@ -354,6 +356,7 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 
 Poblacion::Poblacion(string data)
 {
+    mejorFitEver=0.0;
 
     int inx = 0;
     numCities = stoi(&data[inx]);
@@ -413,26 +416,42 @@ void Poblacion::calcFit(Caminante &caminate){
 
 }
 
+
+void Poblacion::MejorCamino(){
+    cout<< caminoMejorFit<<endl;;
+}
+
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminates
 double Poblacion::stats(double fit,double &mejorFit,double &media){
     int cont = 0;
-    for (int i = 0; i < numCam; i++){
+    int idMejorFit = 0;
+    for (int i = 0; i < numCam; i++)
+    {
         calcFit(caminantes[i]); // Calcula el fit
-        if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
+        if (caminantes[i].MyFit() >= fit)
+        { //si el fit es mayor que el umbral suma
             cont++;
         }
         //Calculo del mejor fit
-        if (caminantes[i].MyFit() >= mejorFit){
+        if (caminantes[i].MyFit() >= mejorFit)
+        {
             mejorFit = caminantes[i].MyFit();
+            idMejorFit = i;
         }
         //calculo de la media
         media += caminantes[i].MyFit();
     }
-    media = media/numCam;
+    if (mejorFit > mejorFitEver)
+    {
+        mejorFitEver = mejorFit;
+        caminoMejorFit = caminantes[idMejorFit].codificar();
+    }
+
+    media = media / numCam;
     //Devuelve el porcentaje
-    return (cont*100)/numCam;
+    return (cont * 100) / numCam;
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
