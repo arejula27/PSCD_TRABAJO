@@ -829,13 +829,15 @@ void Poblacion::seleccionar()
            // cout << "hola" << endl;
             for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                 calcFit(caminantes[p]);
-                cout<<"compara el fit de ="<<p<<endl;
-                if(fit<caminantes[p].MyFit() && !elegido[p]){
+                
+                if(fit<=caminantes[p].MyFit() && !elegido[p]){
                     fit=caminantes[p].MyFit();
+                    cout<<"ha cambiado a-"<<p<<endl;
                     posicion=p;
                 }
 
             }
+            
             //cout << "hola" << endl;
             elegido[posicion]=true;
             cout<<"Va a guardar el"<<posicion<<endl;
