@@ -159,9 +159,17 @@ void Caminante::mutar(const int numCities)
    //MODO2
 
     int random=rand()%(numCities-1)+1;
-    
+    cout << "vemos las citis" << endl;
+
+    cout << (*this).codificar()<< endl;
+    for (int i = 0; i < numCities; i++)
+    {
+        cout << camino[i]<<endl;
+    }
+
+    cout << "las cambiamos" << endl;
     for(int i=1; i<numCities; i++){
-        
+      
         camino[i]=1+(camino[i]+random)%(numCities-1);
         
     }
@@ -196,18 +204,43 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
     //se elige un gen cualquiera no repetido
 
-
+    cout<<numCities<<endl;
+    
     srand(time(NULL));
-  
-    
-    
-        
-    for(int i=1; i<numCities; i++){
-        camino[i]=(c1.camino[i]+c2.camino[i])%(numCities);
-        while(!esValido(i+1)){
+
+   bool vect[numCities];
+   for (int  i = 0; i < numCities; i++)
+   {
+       vect[i]=false;
+   }
+   vect[c2.camino[numCities]]=true;
+   camino[0] = c2.camino[numCities];
+   camino[numCities] = c2.camino[numCities];
+
+   for (int i = 1; i < numCities; i++)
+   {
+
+       int num = (c1.camino[i] + c2.camino[i]) % (numCities);
+       while (vect[num])
+       {
+
+           num++;
+           num = num % numCities;
+       }
+       vect[num] = true;
+
+       camino[i] = num;
+       cout << "en " << i << " tenemos " << num << endl;
+       //camino[i] = (c1.camino[i] + c2.camino[i]) % (numCities);
+
+       /* while(!esValido(i+1)){
             camino[i]=(camino[i]+1)%(numCities);
-        }
+        }*/
     }
+    cout << "vemos las citis" << endl;
+
+    cout << (*this).codificar() << endl;
+
 }
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin

@@ -168,6 +168,8 @@ int main(int argc, char *argv[]) {
 					}
 					
 					r=n; //Almacena padres
+					
+					
 					break;
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;

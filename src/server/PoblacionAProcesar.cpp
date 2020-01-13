@@ -15,6 +15,8 @@ PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 // funcion cruzar
 void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para llamar a cruzar
     unique_lock<mutex> lck(mtx);
+  
+    
     poblacion.cruzar(id,id2);
 
 }
@@ -22,6 +24,11 @@ void PoblacionAProcesar::cruzar(int id, int id2) {     // Poner parametros para 
 //------------------------------------------------------------------------------------------------
 // funcion mutar   
 void PoblacionAProcesar::mutar(int id) {
+    unique_lock<mutex> lck(mtx);
+    cout<<id<<endl;
+      static int cont =0;
+      cout<<"mutar: "<<cont<<endl;
+      cont++;
     poblacion.mutar(id);
 }
 
