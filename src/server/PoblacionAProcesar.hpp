@@ -32,10 +32,9 @@ public:
 
 	void mutar(int id);
 
-	void seleccionar();  
-	
-	void setNumCamOrig();
+	void seleccionar();
 
+	void setNumCamOrig();
 
 	// Devuelve la poblacion
 	Poblacion getPoblacion();

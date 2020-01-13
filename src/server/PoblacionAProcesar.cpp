@@ -46,6 +46,7 @@ Poblacion PoblacionAProcesar::getPoblacion() {
 
 //Guarda el numCam actual en numCamOrig de la poblacion
 void PoblacionAProcesar::setNumCamOrig() {
-    
+    cout<<"Ahora hay"<<poblacion.getNumCam()<<"caminantes"<<endl;
     poblacion.setNumCamOrig();
+    cout<<"Deberia reducir a "<<poblacion.getNumCamOrig()<<"caminantes"<<endl;
 }

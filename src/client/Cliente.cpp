@@ -82,6 +82,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
                 cout << "Versión seleccionar:  " << fDatos << endl;
                 if (buff == "v2")
                 {
+                    ops[2] = 5;
                 }
                 else
                 {
@@ -107,14 +108,14 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto,  string IP
 void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     ofstream f("salida.csv");
     pa.esperaGA();
-    f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
+    f << "ID poblacion" << ";" << "Mejor Fitness" << ";" << "Fitness Medio" << endl;
     int i = 0;
     double mejorFit,media;
     while (i<MAX_GENS){
         double porcentaje = personas.stats(0.8,mejorFit,media);
         //calcEstadisticas(personas,i+1,pa,mejorFit,media);
-        f << i+1 << "," << mejorFit << "," << media << endl;
-        string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
+        f << i+1 << ";" << mejorFit << ";" << media << endl;
+        string info = to_string(i+1) + ";" + to_string(mejorFit) + ";" + to_string(media); 
         pa.guardarDatos(info);
 
         pa.esperaGA();
@@ -194,7 +195,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                    msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
                }
 				socketServ[k].Send(server_fd[k],msg);
-				cout << "Mensaje enviado a servidor("<<k<<"), generación: "<<i+1<< endl;
+				cout << "Mensaje enviado a servidor("<<k<<"),con operación("<< j<<") generación: "<<i+1<< endl;
                 //cout<<msg<<endl;
 			}
 			for(int k = 0; k < serversAceptados; k++){
