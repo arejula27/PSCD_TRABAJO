@@ -794,6 +794,7 @@ void Poblacion::seleccionar(){
 
      for (int i = 0; i < nVeces; i++)
      { //Bucle para cada torneo
+     
          numElegTor = 0;
          cout << "----INICIO TORNEO " << i << "----[" << k * i << "-" << k * (i + 1) << "]----" << l << endl;
 
