@@ -837,7 +837,6 @@ void Poblacion::seleccionar()
                             
                 for(int p=j;p<numCam;p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                     calcFit(caminantes[p]);
-                    cout<<"Mirando el caminante--"<<p<<endl;
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
