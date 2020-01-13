@@ -64,7 +64,16 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
     }
     avance++;
 }
+int Poblacion::getNumCamOrig()
+{
+    return numCamOrig;
+}
 
+//Iguala numCamOrig al valor actual de numCam
+void Poblacion::setNumCamOrig()
+{
+    numCamOrig = numCam;
+}
 //Devuelve el camino del caminante según la cadena <MiCamino>, que tendrá de formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 string Caminante::codificar()
@@ -133,8 +142,43 @@ float Caminante::MyFit()
 
 //Función de mutar.
 void Caminante::mutar(const int numCities)
-{   
-    
+{
+    cout << "ORIGINAL: ";
+    for (int i = 0; i < numCities + 1; i++)
+    {
+        cout << camino[i] << "-";
+    }
+    cout << endl;
+
+    //MODO1
+
+    int genes[numCities - 1];
+    bool cogidos[numCities - 1];
+    //Almacenamos los genes intercambiables para no perder ninguno
+    for (int i = 0; i < numCities - 1; i++)
+    {
+        genes[i] = camino[i + 1];
+        cogidos[i] = false;
+    }
+    int j = 0;
+    int random;
+
+    for (int i = 1; i < numCities; i++)
+    {
+        random = rand() % (numCities - 1);
+        while (cogidos[random])
+            random = (random + 1) % (numCities - 1);
+        camino[i] = genes[random]; //Elige un gen entre todos los almacenados
+        cogidos[random] = true;
+    }
+
+    //cout << "desp: "<<(*this).codificar() << endl;
+    cout << "MUTADO: ";
+    for (int i = 0; i < numCities + 1; i++)
+    {
+        cout << camino[i] << "-";
+    }
+    cout << endl;
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
@@ -584,5 +628,18 @@ void Poblacion::cruzar(int p1,int p2){
 }
 
 void Poblacion::seleccionar(){
-    numCam = 10;
+    Caminante selected[numCamOrig];
+
+    for (int i = 0; i < numCamOrig; i++)
+    {
+        int rnd1 = rand() % numCam;
+        int rnd2 = rand() % numCam;
+        selected[i] = (caminantes[rnd1].MyFit() > caminantes[rnd2].MyFit()) ? caminantes[rnd1] : caminantes[rnd2];
+    }
+
+    for (int i = 0; i < numCamOrig; i++)
+    {
+        caminantes[i] = selected[i];
+    }
+    numCam = numCamOrig;
 }
