@@ -135,16 +135,18 @@ double Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-
+    
+    
     //MODO1
-
-    /*
-    int genes[numCities-1];
-    bool cogidos[numCities-1];
-    //Almacenamos los genes intercambiables para no perder ninguno
-    for(int i=0; i<numCities-1; i++){
-        genes[i]=camino[i+1];
-        cogidos[i]=false;
+/*
+cout <<"ant: " <<(*this).codificar() << endl;
+int genes[numCities - 1];
+bool cogidos[numCities - 1];
+//Almacenamos los genes intercambiables para no perder ninguno
+for (int i = 0; i < numCities - 1; i++)
+{
+    genes[i] = camino[i + 1];
+    cogidos[i] = false;
     }
     int j=0;
     int random;
@@ -155,25 +157,34 @@ void Caminante::mutar(const int numCities)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
-    */
-
+    
+*/
    //MODO2
-
-    int random=rand()%(numCities-1)+1;
-  
-
-  
     
+//cout <<"ant: " <<(*this).codificar() << endl;
+int random = rand() % numCities ;
 
 
-    for(int i=1; i<numCities; i++){
-      
-        camino[i]=(camino[i]+random)%(numCities);
-        
+for (int i = 1; i < numCities; i++)
+{
+   // cout << "ponemos "<<i << endl;
+
+    int avanza = (i + random);
+    if(avanza>=12){
+        avanza = avanza%12+1;
     }
-    
-    
 
+    
+    camino[i] = camino[avanza];
+    //cout << camino[i] << endl;
+    if (camino[i] == camino[0])
+    {
+        //cout<<i<<" ran "<<random<<" av "<<avanza<<endl;
+        exit(2);
+        }
+    }
+
+    //cout << "desp: "<<(*this).codificar() << endl;
 }
 
 
@@ -235,12 +246,8 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
             camino[i]=(camino[i]+1)%(numCities);
         }*/
     }
+
     
-    
-
-
-
-
 }
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
@@ -728,6 +735,7 @@ void Poblacion::seleccionar_v2()
         selected[tirada] = caminantes[random];
         cout << "seleccionado--" << random;
     }
+    numCam=numCamOrig;
 }
 
 void Poblacion::seleccionar()

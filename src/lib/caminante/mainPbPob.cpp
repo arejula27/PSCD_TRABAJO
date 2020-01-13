@@ -238,6 +238,7 @@ void sacarPantIsDivYFus(){
           return false;
      }
      else if(!cityPosCorrect(txt,numCity)){
+         cout<<txt<<endl;
           return false;
 
      }
@@ -571,7 +572,7 @@ bool tryselec()
     string entrada = "./../entradas/uk12.txt";
     Poblacion pob(numCam, ciudadIni, numCiuds, entrada);
     int n=22;
-    pob.seleccionar(n);
+    pob.seleccionar();
     cout<<pob.getNumCam()<<endl;
     string txt = pob.codificar();
     bool res = false;
