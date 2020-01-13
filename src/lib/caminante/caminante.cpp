@@ -844,7 +844,6 @@ void Poblacion::seleccionar(){
                 selected[numElegidos]=caminantes[posicion];
                 numElegTor++;
                 numElegidos++;
-
             }
             j++;               
         }
