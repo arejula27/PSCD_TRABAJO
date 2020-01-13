@@ -180,7 +180,8 @@ int main(int argc, char *argv[]) {
 					cout << "Numero de iteraciones de 4 procesos: " << div_n << endl;
 					cout << "Numero de caminantes en proceso extra: " << extra << endl;
 					// Mutar caminantes reptartido en 5 procesos
-					pAp.setNumCamOrig();
+					
+					
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 
 					
