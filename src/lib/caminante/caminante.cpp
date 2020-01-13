@@ -169,7 +169,8 @@ for(int i=1;i<numCities+1;i++) {
 }
 
 int random = rand();
-for (int i = 1; i < numCities; i++)
+cout <<"copia el vector de ciudades" ;
+for (int i = 1; i < numCities -1; i++)
 {
     int avanza = (i + random)%(numCities-1)+1;
     camino[i] = caminoArtif[avanza];
@@ -191,64 +192,68 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 {
     //Modo 1: antes los genes anteriores a camino[corte] son los de c1 y los posteriores los de c2
     
-    /*
     
     int corte = rand() % numCities; //Gen a partir del cual se va a intercambiar
-    for(int i=0; i<corte; i++){
-        camino[i] = c1.camino[i];
+    cout << "El corte es: " << corte << endl;
+    for(int i = 0; i < corte; i++){
+        camino[i] = c2 .camino[i];
+        cout << camino [i] << endl;
     }
-    for (int i=corte; i<numCities; i++){
+    for (int i = corte; i < numCities+1; i++){
         camino[i] = c2.camino[i];
         if (!esValido(i)){
             camino[i] = c1.camino[i];
-        }
+        } 
+        cout << camino [i] << endl;
     }
  
-    */    
+     
 
     //Modo 2: cada gen se elige aleatoriamente entre c1 y c2. En caso de estar repetido
     //se elige un gen cualquiera no repetido
 
 
     
-   
-
+   /*
+   cout << "El numero de ciudades es: " << numCities << endl;
    bool vect[numCities];
    for (int  i = 0; i < numCities; i++)
    {
        vect[i]=false;
    }
-   vect[c2.camino[numCities]]=true;
+   vect[c2.camino[numCities]] = true;
    camino[0] = c2.camino[numCities];
    camino[numCities] = c2.camino[numCities];
-
-   for (int i = 1; i < numCities; i++)
+   cout << camino[0] << endl;
+   for (int i = 1; i < numCities - 1; i++)
    {
 
        int num = (c1.camino[i] + c2.camino[i]) % (numCities);
        while (vect[num])
        {
-
            num++;
            num = num % numCities;
        }
        vect[num] = true;
 
        camino[i] = num;
+       cout << camino[i] << endl;
       
        //camino[i] = (c1.camino[i] + c2.camino[i]) % (numCities);
 
        /* while(!esValido(i+1)){
             camino[i]=(camino[i]+1)%(numCities);
         }*/
-    }
+    /*}
+    cout << camino[numCities] << endl;
+    */
 
     
 }
 
 //Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int numCities){
-    bool valido=true;
+    bool valido = true;
     int j=1;
     if(camino[1]==0) valido=false;
     while(j<numCities-1 && valido){
@@ -302,9 +307,11 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
   
         caminantes[i].ini(ciudIni, numCiuds);
     }
-    
+    cout<<"llega al fichero"<<endl;
     ifstream f1;
     f1.open(entrada);
+    cout<<"llega al fichero2"<<endl;
+
     if(f1.is_open()){
         char h[10000];
         do{

@@ -96,7 +96,7 @@ ${CLI}B.o: ${CLI}B.cpp
 #-----------------------------------------------------------
 pobtest: ${POBTEST}.cpp ${CAM}.o 
 
-	${CC}  ${POBTEST}.cpp ${CAM}.o ${TESTPOBFLG}  -o ${BUILD}/pobTest
+	${CC}  ${POBTEST}.cpp ${CAM}.o ${TESTPOBFLG}  -o pobTest
 
 #-----------------------------------------------------------	
 #---------------------------------------------------------
