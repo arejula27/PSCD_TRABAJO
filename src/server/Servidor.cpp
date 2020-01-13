@@ -63,7 +63,7 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 void procesoSeleccionarv2(PoblacionAProcesar &pAp)
 {
 
-	pAp.seleccionar_v2();
+	pAp.seleccionar();
 }
 
 //-------------------------------------------------------------
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
 				case 5: // Seleccionar
 					cout << "Seleccionando población" << endl;
 					cout << "Numero de caminantes recibidos: " << n << endl;
-					procesoSeleccionarv2(ref(pAp));
+					procesoSeleccionar(ref(pAp));
 					break;
 				default:	// Operacion incorrecta
 					cout << "ERROR en operacion recibida" << endl;

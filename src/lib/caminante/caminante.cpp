@@ -707,19 +707,6 @@ void Poblacion::cruzar(int p1,int p2){
     caminantes[numCam].cruzar2(caminantes[p1],caminantes[p2], numCities);
     numCam+=1;
 }*/
-void Poblacion::seleccionar_v2()
-{
-    int random;
-    //BUCLE DE ELEGIR
-    Caminante selected[numCamOrig];
-    for (int tirada = 0; tirada < numCamOrig; tirada++)
-    {
-        srand(time(nullptr));
-        random = rand() % (numCam);
-        selected[tirada] = caminantes[random];
-        cout << "seleccionado--" << random;
-    }
-}
 
 void Poblacion::seleccionar()
 {
@@ -819,6 +806,7 @@ void Poblacion::seleccionar()
             fit=caminantes[j+(k*i)].MyFit(); //Se compara su fit con el de todos
            // cout << "hola" << endl;
             for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
+                cout<<"Mirando el caminante--"<<p<<endl;
                 calcFit(caminantes[p]);
                 if(fit<caminantes[p].MyFit() && !elegido[p]){
                     fit=caminantes[p].MyFit();
@@ -827,6 +815,7 @@ void Poblacion::seleccionar()
             }
             //cout << "hola" << endl;
             elegido[posicion]=true;
+            cout<<"Va a guardar el"<<posicion<<endl;
             selected[numElegidos]=caminantes[posicion];
             numElegTor++;
             numElegidos++;
@@ -841,6 +830,7 @@ void Poblacion::seleccionar()
     numElegTor=0;
     while(numElegTor<lextra){   //Seleccion dentro de cada torneo
             j=0;
+            cout<<"ENTRA EN EL TORNEO AUXILIAR"<<endl;
             if (!elegido[j+(k*nVeces)] && j+(k*nVeces)<numCam){ //Coger uno no elegido
                 
                 calcFit(caminantes[j+(k*nVeces)]);
@@ -848,6 +838,7 @@ void Poblacion::seleccionar()
                             
                 for(int p=j;p<numCam;p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                     calcFit(caminantes[p]);
+                    cout<<"Mirando el caminante--"<<p<<endl;
                     if(fit<caminantes[p].MyFit() && !elegido[p]){
                         fit=caminantes[p].MyFit();
                         posicion=p;
@@ -855,6 +846,7 @@ void Poblacion::seleccionar()
                 }
                 
                 elegido[posicion]=true;
+                cout<<"Va a guardar el"<<posicion<<endl;
                 selected[numElegidos]=caminantes[posicion];
                 numElegTor++;
                 numElegidos++;
