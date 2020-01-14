@@ -79,6 +79,8 @@ class Poblacion
     friend Caminante;
   
 private:
+    double mejorFitEver;
+    string caminoMejorFit;
     int maxCami;
     int sizeMatrix;
     int numCities;
@@ -157,6 +159,7 @@ public:
 
     //Selecciona numCamOrig caminantes por el metodo del torneo
     void seleccionar_v2();
+    void mejCam();
     
 };
 

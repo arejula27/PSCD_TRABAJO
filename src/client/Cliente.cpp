@@ -396,6 +396,7 @@ int main(int argc, char const *argv[]){
     thread GAcontrol (&controlGenetico,numServers, puertoServer,ref(proletariado),ref(pa), IPs,gen,ops);
     estadistico.join();
     GAcontrol.join();
+    proletariado.mejCam();
     cout<<"FIN DE SERVICIO, MIRAR salida.csv PARA VER EL HISTÓRICO"<<endl;
     return 0;
 }
