@@ -60,7 +60,7 @@ public:
     float MyFit();
 
     //Función de mutar.
-    void mutar(const int numCities);
+    void mutar(const int numCities,float media);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
@@ -154,7 +154,8 @@ public:
     void cruzar(int p1, int p2);
 
     void seleccionar();
-    
+    float media();
+
 };
 
 #endif //!CAMINANTE_Y_POBLACION

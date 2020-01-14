@@ -142,7 +142,7 @@ float Caminante::MyFit()
 }
 
 //Función de mutar.
-void Caminante::mutar(const int numCities)
+void Caminante::mutar(const int numCities,float media)
 {
     //cout<<endl;
     /*cout<<"ORIGINAL: ";
@@ -152,47 +152,43 @@ void Caminante::mutar(const int numCities)
     */
     //MODO1
 
-
-    int genes[numCities - 1];
-    bool cogidos[numCities - 1];
-    //Almacenamos los genes intercambiables para no perder ninguno
-    for (int i = 0; i < numCities - 1; i++)
+    if (fitness>media)
     {
-        genes[i] = camino[i + 1];
-        cogidos[i] = false;
-    }
-    int j=0;
-    int random;
-  
-    for(int i=1; i<numCities; i++){
-        random=rand()%(numCities-1);
-        while(cogidos[random]) random = (random + 1)%(numCities-1);
-        camino[i]=genes[random];//Elige un gen entre todos los almacenados
-        cogidos[random] = true;
-    }
-    //cout<<endl;
-    /*
-    cout<<"  MUTADO: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<camino[i]<<"-";
-    }
-    cout<<endl;
-    */
-}
-int findFirstFree(bool usado[], int numCities){
-    cout << "Uso findFirstFree "<< numCities << endl;
-        for(int i = 0; i<numCities;i++)
+        int genes[numCities - 1];
+        bool cogidos[numCities - 1];
+        //Almacenamos los genes intercambiables para no perder ninguno
+        for (int i = 0; i < numCities - 1; i++)
         {
-            if (usado[i]==false){
-                cout << i << endl;
-                return i;
-            }  
+            genes[i] = camino[i + 1];
+            cogidos[i] = false;
         }
+        int j=0;
+        int random;
+    
+        for(int i=1; i<numCities; i++){
+            random=rand()%(numCities-1);
+            while(cogidos[random]) random = (random + 1)%(numCities-1);
+            camino[i]=genes[random];//Elige un gen entre todos los almacenados
+            cogidos[random] = true;
+        }
+        //cout<<endl;
+        /*
+        cout<<"  MUTADO: ";
+        for(int i=0; i<numCities+1;i++){
+            cout<<camino[i]<<"-";
+        }
+        cout<<endl;
+        */
+    }
 }
+
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {   
-
+     for(int i = 0; i <= numCities; i++){
+        camino[i] = c1.camino[i];
+    }
+/*
 cout << "El padre es: " ;
     for (int i = 0; i <= numCities; i++)
     {
@@ -219,8 +215,8 @@ cout << "El padre es: " ;
     }    
     cout << endl;*/
     //cout <<  "\t\t" <<camino[0] << " | ";
-    camino[numCities] = c1.camino[numCities];
-    for(int i = 1; i < corte; i++){
+  /*  camino[numCities] = c1.camino[numCities];
+    for(int i = 1; i < ; i++){
         camino[i] = c1.camino[i];
         usado[camino[i]] = true;
         /*for (int i = 0; i < numCities; i++){
@@ -228,8 +224,8 @@ cout << "El padre es: " ;
         }   
         cout << endl;*/
         //cout << camino [i]<< " | ";
-    }
-    for (int i = corte; i < numCities; i++){
+   // }
+ /*   for (int i = corte; i < numCities; i++){
         camino[i] = c2.camino[i];
         if ((usado[camino[i]]==false)){
             cout<<"pilla el padre\n";
@@ -251,7 +247,7 @@ cout << "El padre es: " ;
        cout << camino[i] << " | ";
     }
     cout << endl;
-
+*/
  //MARCOS
  /*
  cout<<"PADRE: ";
@@ -505,6 +501,17 @@ float Poblacion::stats(float fit,float &mejorFit,float &media){
     media = media/numCam;
     //Devuelve el porcentaje
     return (cont*100)/numCam;
+}
+
+float Poblacion::media() {
+    float media;
+    for (int i = 0; i < numCam; i++){
+        //calculo de la media
+        media += caminantes[i].MyFit();
+    }
+    return media = media/numCam;
+
+
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
@@ -826,7 +833,7 @@ void Poblacion::addCams(int num){
 void Poblacion::mutar(int num){
     
 
-    caminantes[num].mutar(numCities);
+    caminantes[num].mutar(numCities,media());
 
 
 }
