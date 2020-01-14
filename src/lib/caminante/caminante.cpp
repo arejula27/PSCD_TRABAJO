@@ -139,11 +139,9 @@ float Caminante::MyFit()
     return fitness;
 }
 
-//Función de mutar.
+//Muta el caminante reordenando los genes intermedios.
 void Caminante::mutar(const int numCities)
 {
-
-    //MODO1
     int genes[numCities - 1];
     bool cogidos[numCities - 1];
     //Almacenamos los genes intercambiables para no perder ninguno
@@ -156,14 +154,14 @@ void Caminante::mutar(const int numCities)
     int random;
 
     for(int i=1; i<numCities; i++){
-        random=rand()%(numCities-1);
+        random=rand()%(numCities-1); //Random entre 0 y 11
         while(cogidos[random]) random = (random + 1)%(numCities-1);
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
   
 }
-
+//Muta con el mismo algoritmo que mutar() pero solo si el fitness del caminante es más bajo que media
 void Caminante::mutar_v2(const int numCities, float media)
 {
 
@@ -171,7 +169,7 @@ void Caminante::mutar_v2(const int numCities, float media)
     {
         int genes[numCities - 1];
         bool cogidos[numCities - 1];
-        //Almacenamos los genes intercambiables para no perder ninguno
+        //Almacenamos los genes intercambiables
         for (int i = 0; i < numCities - 1; i++)
         {
             genes[i] = camino[i + 1];
@@ -182,7 +180,7 @@ void Caminante::mutar_v2(const int numCities, float media)
 
         for (int i = 1; i < numCities; i++)
         {
-            random = rand() % (numCities - 1);
+            random = rand() % (numCities - 1); //Random entre 0 y 11
             while (cogidos[random])
                 random = (random + 1) % (numCities - 1);
             camino[i] = genes[random]; //Elige un gen entre todos los almacenados
@@ -195,12 +193,15 @@ void Caminante::mutar_v2(const int numCities, float media)
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {   
     bool elegido[numCities];
-    camino[0]=c1.camino[0];
+    camino[0]=c1.camino[0]; 
+    camino[numCities]=camino[0];
     for (int i = 0; i < numCities; i++)
     {   
         elegido[i]=false;
     }
     elegido[camino[0]]=true;
+    //Calcula cada gen como la suma de los genes de sus padres módulo numCities
+    //En caso de estar ya elegido se elige el siguiente no elegido
     for (int  i = 1; i < numCities; i++)
     {
         camino[i]=(c1.camino[i]+c2.camino[i])%numCities;
@@ -209,7 +210,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         }
         elegido[camino[i]]=true;   
     }
-    camino[numCities]=camino[0];
+    
 }
 
 
@@ -384,9 +385,8 @@ void Poblacion::calcFit(Caminante &caminate){
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
-//tambien por mejorFit devuelve el fitness del mejor caminante y por media la
-//media de fitness de los caminantes
-////Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la media de fitness de los caminantes
+//Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
     int idMejor=0;

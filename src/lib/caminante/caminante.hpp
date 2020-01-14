@@ -59,10 +59,10 @@ public:
     //Devuelve el fitness del caminante.
     float MyFit();
 
-    //Función de mutar.
+    //Muta el caminante reordenando los genes intermedios.
     void mutar(const int numCities);
 
-    //Función de mutar.
+    //Muta con el mismo algoritmo que mutar() pero solo si el fitness del caminante es más bajo que media
     void mutar_v2(const int numCities, float media);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
