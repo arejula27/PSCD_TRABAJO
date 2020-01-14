@@ -8,8 +8,6 @@
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	poblacion = poblacion_;
-   // cout << poblacion.codificar(UPGRADE_POB)<< endl;
-   // cout << "enCon" << endl;
 }
 
 
