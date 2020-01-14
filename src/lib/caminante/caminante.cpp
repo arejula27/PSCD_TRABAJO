@@ -74,10 +74,10 @@ string Caminante::codificar()
   
     string MiCamino = to_string(inicio) + ',';
     int i = 1;
-    cout << "beep" << endl;
+    //cout << "beep" << endl;
     while (camino[i] != inicio)
     {
-        cout <<"inicio"<<inicio<< " ct " << i <<" "<< camino[i] <<endl;
+        //cout <<"inicio"<<inicio<< " ct " << i <<" "<< camino[i] <<endl;
         MiCamino += to_string(camino[i]) + ',';
         if(i==12)exit(0);
         i++;
@@ -137,12 +137,12 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-    cout<<endl;
-    cout<<"ORIGINAL: ";
+    //cout<<endl;
+    /*cout<<"ORIGINAL: ";
     for(int i=0; i<numCities+1;i++){
         cout<<camino[i]<<"-";
     }
-
+    */
     //MODO1
 
 
@@ -163,33 +163,78 @@ void Caminante::mutar(const int numCities)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
-    cout<<endl;
+    //cout<<endl;
+    /*
     cout<<"  MUTADO: ";
     for(int i=0; i<numCities+1;i++){
         cout<<camino[i]<<"-";
     }
     cout<<endl;
+    */
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    static int cnt=0;
-    cout<<"cruzar:" <<cnt<<endl;
-    cnt++;
-    cout<<numCities<<endl;
-   for (int  i = 0; i <= numCities; i++)
-   {
-       camino[i]=c1.camino[i];
-       cout << camino[i]<<endl;
-   }
-
+    
+    cout << "El padre es: " ;
+    for (int i = 0; i <= numCities; i++)
+    {
+       cout << c1.camino[i] << " | ";
+    }
+    cout<< endl << "La madre es: " ;
+    for (int i = 0; i <= numCities; i++)
+    {
+       cout << c2.camino[i] << " | ";
+    }
+    cout << endl;
+    
+    int corte = rand() %(numCities)+1; //Gen a partir del cual se va a intercambiar
+    cout << "El corte es: " << corte << endl;
+    camino[0] = c1.camino[0];
+    //cout <<  "\t\t" <<camino[0] << " | ";
+    camino[numCities] = c1.camino[numCities];
+    for(int i = 1; i < corte; i++){
+        camino[i] = c1.camino[i];
+        //cout << camino [i]<< " | ";
+    }
+    for (int i = corte; i < numCities; i++){
+        camino[i] = c2.camino[i];
+        if (!esValido(i)){
+            cout<<"pilla el padre\n";
+            camino[i] = c1.camino[i];
+        } 
+        //cout << camino[i] << " | ";
+    }
+     cout << "El hijo  es: " ;
+    for (int i = 0; i <= numCities; i++)
+    {
+       cout << camino[i] << " | ";
+    }
+    cout<<endl;
+   
    
 }
 
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(int *camino,const int numCities){
-    return true;
+bool Caminante::esValido(const int numGen){
+    bool valido = true;
+    int j=1;
+    
+    while(j<numGen-1 && valido){
+        for(int i = j+1; i<=numGen ; i++){
+            if(camino[j]==camino[i]){
+                cout<<"No era valido:";
+                for(int i=0;i<=numGen;i++){
+                cout<<camino[i]<<"|";
+                }
+                cout<<camino[j]<<"----"<<camino[i]<<endl;
+                valido = false;
+            }
+        }
+        j++;
+    }
+    return valido;
 }
 
 
@@ -509,9 +554,9 @@ string Poblacion::codificar(int flg)
     case UPGRADE_POB:
         msg = to_string(numCam) + ":";
         for (int i = 0; i < numCam; i++)
-        {cout<<i<<endl;
+        {//cout<<i<<endl;
             msg += caminantes[i].codificar();
-            cout << i << endl;
+            //cout << i << endl;
         }
 
         break;
@@ -524,13 +569,13 @@ string Poblacion::codificar(int flg)
             msg = to_string(numCities);
             break;
     }
-    cout << msg << endl;
+    //cout << msg << endl;
     return msg;
 }
 
 void Poblacion::descodificar(string msg, int flg)
 {
-    cout<<msg<<endl;
+    //cout<<msg<<endl;
     int inx = 0;
     if (flg == ALL_POB)
     {
@@ -586,7 +631,7 @@ void Poblacion::descodificar(string msg, int flg)
                 caminantes = new Caminante[maxCami];
         }
         
-        cout << "numcam " << numCam <<" max "<< maxCami<< endl;
+        //cout << "numcam " << numCam <<" max "<< maxCami<< endl;
         assert(numCam<=maxCami);
        
         while (msg[inx++] != ':');
@@ -703,9 +748,7 @@ void Poblacion::seleccionar(){
     
 
     for(int i=0; i<numCam ; i++){
-        calcFit(caminantes[i]);
         fit=caminantes[i].MyFit();
-        //cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i]=fit+totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas=fit+totalCasillas; //Se aumenta el tamaño de la ruleta
         //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
@@ -714,7 +757,7 @@ void Poblacion::seleccionar(){
     int i;
     bool elegido;
 
-
+    //cout<<"El juego comenzara en pocos segundos\n";
     for(int tirada = 0; tirada<numCamOrig;){
         
         bola= totalCasillas*drand48();
@@ -725,7 +768,7 @@ void Poblacion::seleccionar(){
 
             if(casillaCam[i]>=bola){
                 
-                cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
+                //cout<<"En el turno "<<tirada<<" ha caido en la casilla "<<casillaCam[i]<<"--caminante["<<i<<"]"<<endl;
                 selected[tirada]=caminantes[i];
                 tirada++;
                 elegido=true;
@@ -847,6 +890,7 @@ void Poblacion::seleccionar(){
     }
     //cout<<codificar()<<endl;
     numCam=numCamOrig;
+    cout<<"Seleccionar acaba"<<endl;
     
     
    
