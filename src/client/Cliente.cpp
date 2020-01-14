@@ -18,6 +18,8 @@ using namespace std;
 
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
+const int MAX_MSG_SIZE = 30000;
+const string FIN_MSG_RECIBIDO = "*";
 
 void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs[], int &numPersonas, int ops[]){
     string buffer;
@@ -173,7 +175,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	}
 	cout <<"Servidores aceptados:"<< serversAceptados << endl;
 	Poblacion pobs[serversAceptados];
-    
+    int tamMsg, numPaquetes, tamLastPaquete, iterMsg;
+    string msgPartido;
 
     /*
 	for (int i = 0; i < serversAceptados; i++){
@@ -200,28 +203,47 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                // cout << pobs[i].getNumCam() <<" ?22" <<endl;
                 if(prim){
                   
-                  string nc = personas.codificar(NCIT);
-                  socketServ[k].Send(server_fd[k], nc);
-                  cout<<"Mando matriz--------------------------"<<endl;
+                    string nc = personas.codificar(NCIT);
+                    socketServ[k].Send(server_fd[k],nc);
+                    cout<<"Mando matriz--------------------------"<<endl;
                 }
                 string msg;
               
-                msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
-               
-				socketServ[k].Send(server_fd[k],msg);
+                msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB) + "*";
+                
+                tamMsg = msg.length();
+                numPaquetes = tamMsg / MAX_MSG_SIZE;
+                tamLastPaquete = tamMsg % MAX_MSG_SIZE;
+                iterMsg = 0;
+                while(numPaquetes >= 0){
+                    msgPartido = &msg[iterMsg];
+                    msgPartido.resize(MAX_MSG_SIZE);
+                    iterMsg += MAX_MSG_SIZE;
+                    socketServ[k].Send(server_fd[k],msgPartido);
+                    numPaquetes--;
+                }
+
+                
+				
 				cout << "Mensaje enviado a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
                 //cout<<msg<<endl;
                 cout << "si "<< endl;
             }
             prim = false;
+            string aux;
             for(int k = 0; k < serversAceptados; k++){
-				string resp;
-				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
+				string resp = "";
+		        do{
+			        string buffer = "";
+			        int rcv_bytes = socketServ[k].Recv(server_fd[k],buffer,MESSAGE_SIZE);
+			        resp += buffer;
+			        aux = buffer.back();
+		        }while(aux != FIN_MSG_RECIBIDO);
                 cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
-                cout << "llega" << endl;
+                cout <<resp<< endl;
                 pobs[k].descodificar(resp,UPGRADE_POB);
                 //cout << resp << endl;
-                        }
+            }
 
 		}
 
@@ -232,7 +254,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
 		#warning cambiar msg de finalizacion
-		string fin = "END OF SERVICE";
+		string fin = "END OF SERVICE*";
 		socketServ[i].Send(server_fd[i],fin);
 	}
 

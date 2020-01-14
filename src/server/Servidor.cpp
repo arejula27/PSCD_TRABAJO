@@ -16,7 +16,8 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
-
+const int MAX_MSG_SIZE = 30000;
+const string FIN_MSG_RECIBIDO = "*";
 //-------------------------------------------------------------
 void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
     if(j != 4) {
@@ -67,7 +68,7 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 int main(int argc, char *argv[]) {
     srand(time(NULL));
 	int r;
-    char MENS_FIN[]="END OF SERVICE";
+    char MENS_FIN[]="END OF SERVICE*";
     
     if(argc != 2) {    // Comprobar que se introduce el puerto de escucha
         cout << "Introduce un puerto (Por ejemplo: ./Servidor 2000)" << endl;
@@ -111,25 +112,31 @@ int main(int argc, char *argv[]) {
 	string buffer;  // Almacena el mensaje
 	bool out = false; // Inicialmente no salir del bucle
 	bool primera_vez = true;
+	string aux, msg;
 	Poblacion pob;
 	int gen=0;
 	cout<<"Va a recibir los datos--";
+	
 	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
 	cout << "Va a descodificar--";
 	pob.descodificar(buffer,NCIT);
 	cout << "Ha descodificado" << endl;
 	while (!out) {
 		// Recibimos la peticion del cliente
-		buffer = "";
-		 rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-		 
-		 if (rcv_bytes == -1)
-		 {
-			 string mensError(strerror(errno));
-			 cerr << "Error al recibir datos: " + mensError + "\n";
-			 socket.Close(client_fd);
-			 socket.Close(socket_fd);
-		}
+		msg = "";
+		do{
+			buffer = "";
+			int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+			if (rcv_bytes == -1)
+			{
+				 string mensError(strerror(errno));
+				 cerr << "Error al recibir datos: " + mensError + "\n";
+				 socket.Close(client_fd);
+				 socket.Close(socket_fd);
+			}
+			msg += buffer;
+			aux = buffer.back();
+		}while(aux != FIN_MSG_RECIBIDO);
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
 			out = true; 
@@ -137,9 +144,9 @@ int main(int argc, char *argv[]) {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 				//actualizar
 
-			//cout << &buffer[2] << endl;
+			//cout << &msg[2] << endl;
 			cout << "Va a descodificar2" << endl;
-			pob.descodificar(&buffer[2], UPGRADE_POB);
+			pob.descodificar(&msg[2], UPGRADE_POB);
 			
 
 
@@ -149,7 +156,7 @@ int main(int argc, char *argv[]) {
 			//cout << "si" << endl;
 
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = stoi(buffer); // Coger la operacion a realizar
+			int operacion = stoi(msg); // Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);  // Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();	  // Obtener numero de caminantes
 			int extra = n * PORCENTAJE_EXTRA;
@@ -218,7 +225,7 @@ int main(int argc, char *argv[]) {
 			default: // Operacion incorrecta
 				cout << "ERROR en operacion recibida" << endl;
 				// Enviar mensaje de error de operacion
-				string errorMsg = "ERROR-OP";
+				string errorMsg = "ERROR-OP*";
 				int send_bytes = socket.Send(client_fd, errorMsg);
 				if (send_bytes == -1)
 				{
@@ -231,18 +238,29 @@ int main(int argc, char *argv[]) {
 			}
 
 			
-			
+			int tamMsg, numPaquetes, tamLastPaquete, iterMsg;
+    		string msgPartido;
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
 			cout  << pob.getNumCam() << " son los caminantes que va a enviar" << endl;
-			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
+			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB) + "*";	//generar cadena resultado
 			//cout<<"a"<<endl;
-			
-            // Send, enviar nueva sub-poblacion al cliente
+			// Send, enviar nueva sub-poblacion al cliente
 			cout<<"ENVIO------\n";
-			cout<<nuevaSubPoblacion<<endl;
-            int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
+			//cout<<nuevaSubPoblacion<<endl;
+			tamMsg = nuevaSubPoblacion.length();
+            numPaquetes = tamMsg / MAX_MSG_SIZE;
+            tamLastPaquete = tamMsg % MAX_MSG_SIZE;
+            iterMsg = 0;
+            while(numPaquetes >= 0){
+                    msgPartido = &nuevaSubPoblacion[iterMsg];
+                    msgPartido.resize(MAX_MSG_SIZE);
+                    iterMsg += MAX_MSG_SIZE;
+                    socket.Send(client_fd,msgPartido);
+                    numPaquetes--;
+            }
+            
             /*
 			if(send_bytes == -1) {
                 string mensError(strerror(errno));
