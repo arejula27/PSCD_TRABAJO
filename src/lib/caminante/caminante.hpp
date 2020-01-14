@@ -86,7 +86,8 @@ private:
     int numCam;
     int numCamOrig;
     Caminante *caminantes;
-    
+    string caminoMejorFit;
+    double mejorFitEver;
 
 public:
     //constructo predeterminado

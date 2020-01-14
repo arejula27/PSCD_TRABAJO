@@ -179,37 +179,70 @@ void Caminante::mutar(const int numCities)
     cout<<endl;
     */
 }
+int findFirstFree(bool usado[], int numCities){
+    cout << "Uso findFirstFree "<< numCities << endl;
+        for(int i = 0; i<numCities;i++)
+        {
+            if (usado[i]==false){
+                cout << i << endl;
+                return i;
+            }  
+        }
+}
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
-{
-    
-    cout << "El padre es: " ;
+{   
+
+cout << "El padre es: " ;
     for (int i = 0; i <= numCities; i++)
     {
-       cout << c1.camino[i] << " | ";
+       cout << c1.camino[i] << "|";
     }
     cout<< endl << "La madre es: " ;
     for (int i = 0; i <= numCities; i++)
     {
-       cout << c2.camino[i] << " | ";
+       cout << c2.camino[i] << "|";
     }
     cout << endl;
-    
-    int corte = rand() %(numCities)+1; //Gen a partir del cual se va a intercambiar
+    bool usado[numCities];
+    for (int i = 0; i < numCities; i++){
+        usado[i] = false;
+        cout << usado[i] << "|";
+    }
+    cout << endl;
+    int corte = (rand() %(numCities-1))+1; //Gen a partir del cual se va a intercambiar
     cout << "El corte es: " << corte << endl;
     camino[0] = c1.camino[0];
+    usado[camino[0]] = true;
+    /*for (int i = 0; i < numCities; i++){
+        cout << usado[i] << "|";
+    }    
+    cout << endl;*/
     //cout <<  "\t\t" <<camino[0] << " | ";
     camino[numCities] = c1.camino[numCities];
     for(int i = 1; i < corte; i++){
         camino[i] = c1.camino[i];
+        usado[camino[i]] = true;
+        /*for (int i = 0; i < numCities; i++){
+            cout << usado[i] << "|";
+        }   
+        cout << endl;*/
         //cout << camino [i]<< " | ";
     }
     for (int i = corte; i < numCities; i++){
         camino[i] = c2.camino[i];
-        if (!esValido(i)){
+        if ((usado[camino[i]]==false)){
             cout<<"pilla el padre\n";
-            camino[i] = c1.camino[i];
-        } 
+            camino[i] = c2.camino[i];
+        }else if (usado[camino[i]] == true){
+            int id = findFirstFree(usado,numCities);
+            camino[i] = id;
+            usado[camino[i]] = true;
+            for (int i = 0; i < numCities; i++){
+                cout << usado[i] << "|";
+            }    
+            cout << endl;
+        }
         //cout << camino[i] << " | ";
     }
      cout << "El hijo  es: " ;
@@ -217,9 +250,52 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
     {
        cout << camino[i] << " | ";
     }
+    cout << endl;
+
+ //MARCOS
+ /*
+ cout<<"PADRE: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<c1.camino[0]<<"|";
+    }
     cout<<endl;
+    cout<<"MADRE: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<c2.camino[0]<<"|";
+    }
+    cout<<endl;
+    bool elegido[numCities];
+    //cout<<"adre"<<endl;
+    for (int i = 0; i < numCities; i++)
+    {   
+        if(i==c1.camino[0]){
+            elegido[i]=true;
+        }
+        else    elegido[i]=false;
+        //cout<<i<<"-";
+    }
+    //cout<<"paki"<<endl;
+    for (int  i = 1; i < numCities; i++)
+    {
+        camino[i]=(c1.camino[i]+c2.camino[i])%numCities;
+        //cout<<"En el gen ("<<i<<") ha intentado poner "<<camino[i]<<endl;
+        while(elegido[camino[i]]){
+           camino[i]=(camino[i]+1)%numCities;
+           //cout<<"chorpresa: "<<camino[i]<<endl;
+    
+        }
+        elegido[camino[i]]=true;
+        //cout<<"Ha elegido el "<<camino[i]<<endl;
+
    
-   
+    }
+    cout<<" HIJO: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[0]<<"|";
+    }
+    cout<<endl;
+    cout<<endl;
+*/
 }
 
 
@@ -408,6 +484,7 @@ void Poblacion::calcFit(Caminante &caminate){
 //media de fitness de los caminates
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
+    int idMejor = 0;
     for (int i = 0; i < numCam; i++){
         calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
@@ -416,9 +493,14 @@ float Poblacion::stats(float fit,float &mejorFit,float &media){
         //Calculo del mejor fit
         if (caminantes[i].MyFit() >= mejorFit){
             mejorFit = caminantes[i].MyFit();
+            idMejor = i;
         }
         //calculo de la media
         media += caminantes[i].MyFit();
+    }
+    if (mejorFit > mejorFitEver){
+    mejorFitEver = mejorFit;
+    caminoMejorFit = caminantes[idMejor].codificar();
     }
     media = media/numCam;
     //Devuelve el porcentaje
