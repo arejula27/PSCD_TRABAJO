@@ -433,7 +433,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 //UPGRADE_POB=> "numCam:[caminante]*"
 string Poblacion::codificar(int flg)
 {
-    string msg;
+    string msg="";
     switch (flg)
     {
     case ALL_POB:
@@ -456,6 +456,9 @@ string Poblacion::codificar(int flg)
         }
 
         break;
+        case MATRX:
+            msg = to_string(numCities) + ":";
+            msg += codificarMatriz();
     }
     return msg;
 }
@@ -522,30 +525,45 @@ void Poblacion::descodificar(string msg, int flg)
         }
       
     }
+    else if (flg == MATRX)
+    {
+
+        numCities = stoi(msg);
+        
+        if(dist==nullptr){
+            dist = new int *[numCities];
+            for (int i = 0; i < numCities; i++)
+            {
+                dist[i] = new int[i];
+                sizeMatrix = sizeof(int) * (i);
+            }
+        }
+        int avz=0;
+        descodificarMatriz(&msg[msg.find('(')+1],avz);
+        
+    }
 }
 
 void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
 
-    if (dist != nullptr)
+    if (dist == nullptr)
     {
-        for (int i = 1; i < numCities; i++)
+        dist = new int *[numCities];
+        for (int i = 0; i < numCities; i++)
         {
-            delete[] dist[i];
+            dist[i] = new int[i];
+            sizeMatrix = sizeof(int) * (i);
         }
     }
-    delete [] dist;
-   
-    dist = new int *[numCities];
     for (int i = 0; i < numCities; i++)
     {
+        for (int j = 0; j < i; j++)
+        {
+            dist[i][j]=pob.dist[i][j];
+        }
         
-        dist[i] = new int[i];
-        
-        if(i>0)memcpy(dist[i],pob.dist[i],sizeof(dist[i]));
-        
-        sizeMatrix = sizeof(int) * (i);
     }
     
 }
