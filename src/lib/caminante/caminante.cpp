@@ -21,7 +21,7 @@ Caminante::~Caminante()
 {
 }
 
-
+//Devuelve true si y sólo si <c> es un dígito ([0-9])
  bool isDigit(char c){
      bool res = true;
      if (c<'0') res =false;
@@ -30,35 +30,35 @@ Caminante::~Caminante()
  }
 
 
-//Guarda en caminante el camino según la cadena <MiCamino>, que tendrá de formato:
+//Actualiza camino del caminante según la cadena <MiCamino>, que tendrá el formato:
 // "NumCiud1,NumCiud2,NumCiud3, ...., NumCiudN:fitness;"
 //Y actualiza <avance> con el número de letras entre "NumCiud1" y "fitness;", todo incluido.
 void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 {
     
-    int i = 0;
-    while (MiCamino[avance] != ':')
+    int i = 0;  //Iterador ciudades
+    while (MiCamino[avance] != ':')         //Hasta que (Todas las ciudades guardadas) i=max
     {
         
-        while (!isDigit(MiCamino[avance]))
+        while (!isDigit(MiCamino[avance]))      //Saltamos ","
         {
             avance++;
         }
    
-        camino[i] = stoi(&MiCamino[avance]);
+        camino[i] = stoi(&MiCamino[avance]);    //Guardamos la ciudad en camino[i]
 
-        while (isDigit(MiCamino[avance]))
+        while (isDigit(MiCamino[avance]))       //Saltamos Ciud i
         {
             avance++;
         }
-        i++;
+        i++;            //Una ciudad más guardada
         
-    }
+    }   //Todas las ciudades guardadas.
+    
+    camino[i] = camino[0];      //Última ciudad recorrida siempre = a la primera.
+    avance++;   //Saltando ":"
    
-    camino[i] = camino[0];
-    avance++;
-   
-    fitness= stof(&MiCamino[avance]);
+    fitness= stof(&MiCamino[avance]);   //Guardando el fitness del caminante
     while (MiCamino[avance] != ';')
     {
         avance++;
@@ -71,47 +71,47 @@ void Caminante::desCodificar(const string MiCamino, int &avance,int max)
 string Caminante::codificar()
 {
   
-    int inicio = camino[0];
+    int inicio = camino[0];     //Guardamos la primera ciudad.
   
-    string MiCamino = to_string(inicio) + ',';
+    string MiCamino = to_string(inicio) + ',';      //String que se devolverá.
     int i = 1;
   
-    while (camino[i] != inicio)
+    while (camino[i] != inicio)         //Hasta llegar a la última ciudad recorrida por el caminante (igual a la de inicio).
     {
         
         MiCamino += to_string(camino[i]) + ',';
-        i++;
+        i++;                            //Guardamos caminantes según el formato
     }
     MiCamino += to_string(inicio);
    
-    MiCamino += ':' + to_string(fitness) + ';';
+    MiCamino += ':' + to_string(fitness) + ';';     //":Fitness;"
     
     return MiCamino;
 }
 
-//Inicializa el caminante de forma aleatoria partiendo de <inicio> con <max> número de ciudades.
+//Actualiza el caminante con un camino aleatorio partiendo de <inicio> con <max> número de ciudades.
 void Caminante::ini(int inicio, int max)
 {
     int aux;
   
-    bool recorridos[max];
+    bool recorridos[max];               //Vector indicativo de si se ha recorrito la ciudad (iter)
     for (int i = 0; i < max; i++)
     {
         recorridos[i] = false;
     }
-    recorridos[inicio] = true;
+    recorridos[inicio] = true;          //La primera ciudad es <inicio>
     camino[0] = inicio;
     for (int i = 1; i < max; i++)
     {
-        aux = rand() % max;
-        while (recorridos[aux])
+        aux = rand() % max;         //Ciudad aleatoria.
+        while (recorridos[aux])     
         {
-            aux = (aux + 1) % max;
+            aux = (aux + 1) % max;      //Si ya se ha recorrido se intenta con la siguiente, así hasta encontrar una sin recorrer.
         }
         recorridos[aux] = true;
         camino[i] = aux;
     }
-    camino[max] = inicio;
+    camino[max] = inicio;       //Última ciudad a recorrer siempre es la primera.
 }
 
 int getValorMatriz(int **mtr,int i,int j){
@@ -119,13 +119,16 @@ int getValorMatriz(int **mtr,int i,int j){
     return (i>j)?mtr[i][j]:mtr[j][i];
 }
 
+//Pre: dist es un puntero a una matriz con las distancias entre las ciudades que recorre el caminante.
+//Post: Calcula el fitness del caminante según las ciudades que recorre.
+//      fitness = 1000/(Distancia total recorrida)
 void Caminante::calcMiFit(int **dist, int numCiuds)
 {
     int recorrido = 0;
 
     for(int i = 0; i<numCiuds; i++)
-    {
-        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);;
+    {                               //Obtiene la distancia que recorre de la matriz
+        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
     }
     fitness = 1000.00000/recorrido;
 }
@@ -201,27 +204,30 @@ Poblacion::Poblacion(){
     
 }
 
-//le indicas cuantos caminantes va a haber y la entrada donde estan los datos
+//Inicializa la población con <numCamis> caminantes, los cuales empiezan su camino en
+//<ciudIni> y recorren <numCiuds> ciudades. 
+//Y almacena en la población la matriz de distancias para <numCiuds> ciudades almacenada en el
+//fichero <entrada>.
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
-    maxCami=2*numCamis;
-    caminantes=new Caminante[maxCami];
+    maxCami=2*numCamis;                 //Se crearán numCam caminantes más en cruzar.
+    caminantes=new Caminante[maxCami];  //Vector dinámico de caminantes
     numCam=numCamis;
     //rellenar la matriz
     //inicializar numCities
-    dist= new int*[numCiuds];
+    dist= new int*[numCiuds]; //Guarda espacio para una matriz diagonal para <numCiuds> ciudades.
     for(int i =0;i<numCiuds;i++){
         dist[i]= new int[i];
         sizeMatrix = sizeof(int)*(i);
     }
-    numCities = numCiuds;
+    numCities = numCiuds;     //Guarda en la población el número de ciudades que hay.
     
     srand(time(NULL));
     
     for (int i = 0; i < numCam; i++)
     {
   
-        caminantes[i].ini(ciudIni, numCiuds);
+        caminantes[i].ini(ciudIni, numCiuds);       //Inicializa todos sus caminantes.
     }
     
     ifstream f1;
@@ -272,11 +278,13 @@ Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
     f1.close();
 }
 
-
+//Inicializa una población y actualiza sus datos con el string <data> que ha sido devuelto por otra población
+//con la función codificar(), que sigue el formato:
+//"(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)numCam:Cam1,Cam2, ... , CamN;"
 Poblacion::Poblacion(string data)
 {
 
-    int inx = 0;
+    int inx = 0;            //Iterador para recorrer <data>
     numCities = stoi(&data[inx]);
     
 
@@ -288,17 +296,16 @@ Poblacion::Poblacion(string data)
         sizeMatrix = sizeof(int) * (i);
     }
 
-    descodificarMatriz(data, inx);
+    descodificarMatriz(data, inx);      //Descodifica y guarda la matriz.
 
     numCam = stoi(&data[inx]);
     //int extra = numCam * 20 / 100;
     maxCami = 2 * numCam;
     caminantes = new Caminante[maxCami];
     while (data[inx++] != ':');
-    //descodificar todos los viajeros
     for (int i = 0; i < numCam; i++)
     {
-        int avz = 0;
+        int avz = 0;                //Descodifica y guarda los caminantes.
         caminantes[i].desCodificar(&data[inx], avz,numCities);
         inx += avz;
     }
@@ -310,40 +317,48 @@ Poblacion::~Poblacion()
 {
 }
 
+//Devuelve el número de ciudades en la población.
 int Poblacion::getNumCities(){
     return numCities;
 }
 
+//Devuelve el número de caminantes en la población
 int Poblacion::getNumCam(){
     return numCam;
 }
 
-
+//Devuelve el número de caminantes original de la población (porque si se ha ejecutado
+//cruzar el número de caminantes de la población sería el doble del numero de caminantes que tenía 
+//inicialmente, es decir, <numCamOrig>)
 int Poblacion::getNumCamOrig(){
     return numCamOrig;
 }
 
+//Iguala a el número de caminantes actuales <numCamOrig>
 void Poblacion::setNumCamOrig(){
     numCamOrig=numCam;
 }
-//calculas el fit de un caminante y se lo guardas
+//Se calcula el fit de todos los caminantes de la población y se actualizan con este.
 void Poblacion::calcFit(){
     for (int  i = 0; i < numCam ; i++)
     {
         if(numCities==0){
-            exit(1);}
+            exit(1);}               //<numCam> llamadas a calcMiFit con la matriz de distancias almacenada en la población.
         caminantes[i].calcMiFit(dist, numCities);
     }
     
    
 }
+
+//Calcula el fit del caminante <caminate> con la matriz de distancias de la población.
 void Poblacion::calcFit(Caminante &caminate){
     caminate.calcMiFit(dist, numCities);
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
-//media de fitness de los caminates
+//media de fitness de los caminantes
+////Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
     int idMejor=0;
@@ -370,13 +385,15 @@ float Poblacion::stats(float fit,float &mejorFit,float &media){
     return (cont*100)/numCam;
 }
 
+//Devuelve el mejor caminante que ha habido en la población.
 void Poblacion::mejCam(){
 
     cout<<"El mejor camino logrado es:"<<endl;
     cout<<caminoMejorFit<<endl;
 }
 
-//divide la poblacion en n subpoblaciones y las devuelve en array
+//Actualiza el vector de Poblacion <pobs> de tamaño n la poblacion dividida en n subpoblaciones 
+//guardándolas en el array, además se guarda en cada subpoblación la matriz de distancias
 void Poblacion::dividir(int n, Poblacion pobs[])
 {
     
@@ -384,26 +401,26 @@ void Poblacion::dividir(int n, Poblacion pobs[])
     int indx = 0;
     for (int i = 0; i < n; i++)
     {
-        pobs[i].numCities=numCities;
+        pobs[i].numCities=numCities;        //Actualiza el valor de numCities de las tres poblaciones.
 
-        pobs[i].getMatrixFrom((*this));
-        int numSub = (numCam / n);
+        pobs[i].getMatrixFrom((*this));     //Copia la matriz de distancias.
+        int numSub = (numCam / n);          //Número de caminantes por subpoblación
         if (sobr > 0)
         {
             numSub++;
             sobr--;
         }
         pobs[i].numCam = numSub;
-        
-        pobs[i].maxCami=maxCami;
+                                    //Da a cada subpoblación sus valores de numCam y maxCami.
+        pobs[i].maxCami= pobs[i].numCam * 2;        
 
         if (pobs[i].caminantes == nullptr){
-            pobs[i].caminantes = new Caminante[maxCami];
+            pobs[i].caminantes = new Caminante[maxCami];    //Inicializa los vectores de los caminantes.
         }
         for (int j = 0; j < numSub; j++)
         {
     
-            pobs[i].caminantes[j] = caminantes[j + indx];
+            pobs[i].caminantes[j] = caminantes[j + indx];     //Iguala los caminantes de cada subpoblación con aquellos que le corresponden.
         }
         indx += numSub;
     }
@@ -454,7 +471,7 @@ string Poblacion::codificarMatriz()
 }
 
 //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
-// "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;)"
+// "(dist10;dist20,dist21;, ... , ;distn0,distn1, ... , distn(n-2), distn(n-1);)"
 //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
 void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 {
