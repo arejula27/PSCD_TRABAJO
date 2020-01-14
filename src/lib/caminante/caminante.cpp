@@ -123,15 +123,15 @@ int getValorMatriz(int **mtr,int i,int j){
 void Caminante::calcMiFit(int **dist, int numCiuds)
 {
     int recorrido = 0;
-    cout<<numCiuds<<endl;
+    
 
     for(int i = 0; i<numCiuds; i++)
     {
-        cout << i<< endl;
+        
         recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
-        cout << "val MAtr " << getValorMatriz(dist, camino[i], camino[i + 1]) << endl;
+        
     }
-    cout<<"rec "<<recorrido<<" cit " <<numCiuds<<endl;
+    
     fitness = 1.00000/recorrido;
 }
 
@@ -152,8 +152,9 @@ void Caminante::mutar(const int numCities,float media)
     */
     //MODO1
 
-    if (fitness>media)
+    if (fitness<media)
     {
+        cout<<"ERA PEOR QUE LA MEDIA--"<<media<<endl;
         int genes[numCities - 1];
         bool cogidos[numCities - 1];
         //Almacenamos los genes intercambiables para no perder ninguno
@@ -171,14 +172,10 @@ void Caminante::mutar(const int numCities,float media)
             camino[i]=genes[random];//Elige un gen entre todos los almacenados
             cogidos[random] = true;
         }
-        //cout<<endl;
-        /*
-        cout<<"  MUTADO: ";
-        for(int i=0; i<numCities+1;i++){
-            cout<<camino[i]<<"-";
-        }
-        cout<<endl;
-        */
+        
+    }
+    else{
+        cout<<"Era mejor que la media\n";
     }
 }
 
@@ -188,132 +185,6 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
      for(int i = 0; i <= numCities; i++){
         camino[i] = c1.camino[i];
     }
-/*
-cout << "El padre es: " ;
-    for (int i = 0; i <= numCities; i++)
-    {
-       cout << c1.camino[i] << "|";
-    }
-    cout<< endl << "La madre es: " ;
-    for (int i = 0; i <= numCities; i++)
-    {
-       cout << c2.camino[i] << "|";
-    }
-    cout << endl;
-    bool usado[numCities];
-    for (int i = 0; i < numCities; i++){
-        usado[i] = false;
-        cout << usado[i] << "|";
-    }
-    cout << endl;
-    int corte = (rand() %(numCities-1))+1; //Gen a partir del cual se va a intercambiar
-    cout << "El corte es: " << corte << endl;
-    camino[0] = c1.camino[0];
-    usado[camino[0]] = true;
-    /*for (int i = 0; i < numCities; i++){
-        cout << usado[i] << "|";
-    }    
-    cout << endl;*/
-    //cout <<  "\t\t" <<camino[0] << " | ";
-  /*  camino[numCities] = c1.camino[numCities];
-    for(int i = 1; i < ; i++){
-        camino[i] = c1.camino[i];
-        usado[camino[i]] = true;
-        /*for (int i = 0; i < numCities; i++){
-            cout << usado[i] << "|";
-        }   
-        cout << endl;*/
-        //cout << camino [i]<< " | ";
-   // }
- /*   for (int i = corte; i < numCities; i++){
-        camino[i] = c2.camino[i];
-        if ((usado[camino[i]]==false)){
-            cout<<"pilla el padre\n";
-            camino[i] = c2.camino[i];
-        }else if (usado[camino[i]] == true){
-            int id = findFirstFree(usado,numCities);
-            camino[i] = id;
-            usado[camino[i]] = true;
-            for (int i = 0; i < numCities; i++){
-                cout << usado[i] << "|";
-            }    
-            cout << endl;
-        }
-        //cout << camino[i] << " | ";
-    }
-     cout << "El hijo  es: " ;
-    for (int i = 0; i <= numCities; i++)
-    {
-       cout << camino[i] << " | ";
-    }
-    cout << endl;
-*/
- //MARCOS
- /*
- cout<<"PADRE: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<c1.camino[0]<<"|";
-    }
-    cout<<endl;
-    cout<<"MADRE: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<c2.camino[0]<<"|";
-    }
-    cout<<endl;
-    bool elegido[numCities];
-    //cout<<"adre"<<endl;
-    for (int i = 0; i < numCities; i++)
-    {   
-        if(i==c1.camino[0]){
-            elegido[i]=true;
-        }
-        else    elegido[i]=false;
-        //cout<<i<<"-";
-    }
-    //cout<<"paki"<<endl;
-    for (int  i = 1; i < numCities; i++)
-    {
-        camino[i]=(c1.camino[i]+c2.camino[i])%numCities;
-        //cout<<"En el gen ("<<i<<") ha intentado poner "<<camino[i]<<endl;
-        while(elegido[camino[i]]){
-           camino[i]=(camino[i]+1)%numCities;
-           //cout<<"chorpresa: "<<camino[i]<<endl;
-    
-        }
-        elegido[camino[i]]=true;
-        //cout<<"Ha elegido el "<<camino[i]<<endl;
-
-   
-    }
-    cout<<" HIJO: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<camino[0]<<"|";
-    }
-    cout<<endl;
-    cout<<endl;
-*/
-}
-
-
-//Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(const int numGen){
-    bool valido = true;
-    int j=1;
-    
-    while(j<numGen-1 && valido){
-        for(int i = j+1; i<=numGen ; i++){
-            if(camino[j]==camino[i]){
-                cout<<"No era valido:";
-                for(int i=0;i<=numGen;i++){
-                cout<<camino[i]<<"|";
-                }
-                cout<<camino[j]<<"----"<<camino[i]<<endl;
-                valido = false;
-            }
-        }
-        j++;
-    }
-    return valido;
 }
 
 
@@ -721,10 +592,7 @@ void Poblacion::descodificar(string msg, int flg)
 
     else if (flg == UPGRADE_POB)
     {
-        //cout << msg << endl;
-        //cout << "sisi" << endl;
-        
-
+      
         static bool primer =true;
         numCam = stoi(msg);
         static int cnt=0;
@@ -738,7 +606,7 @@ void Poblacion::descodificar(string msg, int flg)
             if (caminantes == nullptr)
                 {
                     caminantes = new Caminante[maxCami];
-                    cout<<"//////////////TAF////////////////"<<endl;
+                    
                 }
                
         }
@@ -749,20 +617,15 @@ void Poblacion::descodificar(string msg, int flg)
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
 
-        cout << "//////////////TAF2////////////////" << endl;
-        cout << numCam<< endl;
+        
+        
         for (int i = 0; i < numCam; i++)
         {
             
             caminantes[i].desCodificar(msg, inx,numCities);
-            cout<<caminantes[i].MyFit()<<endl;
+            
         }
-        cout << "HOOOOOOOOOO" <<cnt<< endl;
-        cout << codificar(UPGRADE_POB) << endl;
-        //cout << "si" <<cnt<< endl<<endl;;
-        //if(cnt==2)exit(0);
-        //cout << "HOOOOOOOOOO" << cnt << endl;
-       // cout <<endl;
+       
     }
     else if (flg == MATRX)
     {

@@ -132,8 +132,7 @@ int main(int argc, char *argv[]) {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 				//actualizar
 
-			cout << &buffer[2] << endl;
-			cout << "sisi" << endl;
+			
 			pob.descodificar(&buffer[2], UPGRADE_POB);
 
 			//cout << pob.codificar(UPGRADE_POB) << endl;
@@ -157,9 +156,9 @@ int main(int argc, char *argv[]) {
 			switch (operacion)
 			{
 			case 0: // Cruzar
-				cout << "Cruzando población" << endl;
+				
 				pAp.setNumCamOrig();
-				cout << "SE HA GUARDADO " << pAp.getNumCamOrig() << endl;
+				
 				// Cruzar con 5 hilos
 				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
 				{
@@ -203,8 +202,6 @@ int main(int argc, char *argv[]) {
 				break;
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
-				cout << &buffer[2] << endl;
-				cout << "sisiNOOOO" << endl;
 				
 				procesoSeleccionar(ref(pAp));
 				break;
@@ -228,7 +225,7 @@ int main(int argc, char *argv[]) {
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
-			cout  << pob.getNumCam() << " caminantes actualmente" << endl;
+			
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
             // Send, enviar nueva sub-poblacion al cliente
