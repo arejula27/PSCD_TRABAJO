@@ -62,10 +62,10 @@ public:
     //Devuelve el fitness del caminante.
     float MyFit();
 
-    //Función de mutar.
+    //Muta el caminante reordenando los genes intermedios.
     void mutar(const int numCities);
 
-    //Función de mutar.
+    //Muta con el mismo algoritmo que mutar() pero solo si el fitness del caminante es más bajo que media
     void mutar_v2(const int numCities, float media);
 
     //Modifica el camino del caminante con los genes cruzados de sus padres.
@@ -182,10 +182,11 @@ public:
     //Aumenta en num el numero de caminantes posibles en la población
     void addCams(int num);
 
-    //muta el caminante de la pos num
-    void mutar(const int numCities);
+    //Muta el caminante que esta en caminantes[num]
+    void mutar(int num);
 
-    void mutar_v2(const int numCities);
+    //Muta el caminante que esta en caminantes[num] solo si su fit es menor que la media 
+    void mutar_v2(int num);
 
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
@@ -199,8 +200,12 @@ public:
 
     //Devuelve el mejor caminante que ha habido en la población.
     void mejCam();
+<<<<<<< HEAD
 
     //Devuelve la media de los fitness de los caminantes almacenados en la población.
+=======
+    //Devuelve la media de los fitness de los caminantes de la poblacion
+>>>>>>> d044105b8aa56a01690cfdc7ec52688413ebbf10
     float media();
 
     

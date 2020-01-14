@@ -139,11 +139,9 @@ float Caminante::MyFit()
     return fitness;
 }
 
-//Función de mutar.
+//Muta el caminante reordenando los genes intermedios.
 void Caminante::mutar(const int numCities)
 {
-
-    //MODO1
     int genes[numCities - 1];
     bool cogidos[numCities - 1];
     //Almacenamos los genes intercambiables para no perder ninguno
@@ -156,14 +154,14 @@ void Caminante::mutar(const int numCities)
     int random;
 
     for(int i=1; i<numCities; i++){
-        random=rand()%(numCities-1);
+        random=rand()%(numCities-1); //Random entre 0 y 11
         while(cogidos[random]) random = (random + 1)%(numCities-1);
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
   
 }
-
+//Muta con el mismo algoritmo que mutar() pero solo si el fitness del caminante es más bajo que media
 void Caminante::mutar_v2(const int numCities, float media)
 {
 
@@ -171,7 +169,7 @@ void Caminante::mutar_v2(const int numCities, float media)
     {
         int genes[numCities - 1];
         bool cogidos[numCities - 1];
-        //Almacenamos los genes intercambiables para no perder ninguno
+        //Almacenamos los genes intercambiables
         for (int i = 0; i < numCities - 1; i++)
         {
             genes[i] = camino[i + 1];
@@ -182,7 +180,7 @@ void Caminante::mutar_v2(const int numCities, float media)
 
         for (int i = 1; i < numCities; i++)
         {
-            random = rand() % (numCities - 1);
+            random = rand() % (numCities - 1); //Random entre 0 y 11
             while (cogidos[random])
                 random = (random + 1) % (numCities - 1);
             camino[i] = genes[random]; //Elige un gen entre todos los almacenados
@@ -195,12 +193,15 @@ void Caminante::mutar_v2(const int numCities, float media)
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {   
     bool elegido[numCities];
-    camino[0]=c1.camino[0];
+    camino[0]=c1.camino[0]; 
+    camino[numCities]=camino[0];
     for (int i = 0; i < numCities; i++)
     {   
         elegido[i]=false;
     }
     elegido[camino[0]]=true;
+    //Calcula cada gen como la suma de los genes de sus padres módulo numCities
+    //En caso de estar ya elegido se elige el siguiente no elegido
     for (int  i = 1; i < numCities; i++)
     {
         camino[i]=(c1.camino[i]+c2.camino[i])%numCities;
@@ -209,7 +210,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
         }
         elegido[camino[i]]=true;   
     }
-    camino[numCities]=camino[0];
+    
 }
 
 
@@ -385,8 +386,7 @@ void Poblacion::calcFit(Caminante &caminate){
 }
 
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
-//tambien por mejorFit devuelve el fitness del mejor caminante y por media la
-//media de fitness de los caminantes
+//tambien por mejorFit devuelve el fitness del mejor caminante y por media la media de fitness de los caminantes
 //Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
@@ -734,15 +734,16 @@ void Poblacion::addCams(int num){
 }
 
 
+<<<<<<< HEAD
+=======
+//Muta el caminante que esta en caminantes[num]
+>>>>>>> d044105b8aa56a01690cfdc7ec52688413ebbf10
 void Poblacion::mutar(int num){
-    
+
     caminantes[num].mutar(numCities);
-
-
 }
-
-void Poblacion::mutar_v2(int num)
-{
+//Muta el caminante que esta en caminantes[num] solo si su fit es menor que la media 
+void Poblacion::mutar_v2(int num){
 
     caminantes[num].mutar_v2(numCities, media());
 }
@@ -756,78 +757,75 @@ void Poblacion::cruzar(int p1,int p2){
     numCam+=1;
 }
 
+//Selecciona numCamOrig caminantes por el metodo de la ruleta
 void Poblacion::seleccionar(){
-    Caminante selected[numCamOrig];
-    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
-    double fit;
-    double totalCasillas = 0; //"Unidades" o casillas acumuladas en la ruleta
-    double bola;
 
-    for (int i = 0; i < numCam; i++)
+    Caminante selected[numCamOrig]; 
+    double casillaCam[numCam]; //Almacena el valor en el que acaba la casilla de cada caminante
+    double fit;
+    double totalCasillas = 0; //Tamaño o casillas en la ruleta
+    double bola; //Valor elegido en cada tirada
+
+    for (int i = 0; i < numCam; i++) //Inicializa la ruleta
     {
-  
         fit = caminantes[i].MyFit();
         casillaCam[i] = fit + totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas = fit + totalCasillas; //Se aumenta el tamaño de la ruleta
     }
+
     int i;
     bool elegido;
 
-    for (int tirada = 0; tirada < numCamOrig;)
+    for (int tirada = 0; tirada < numCamOrig;) //Se realizan tantas tiradas como caminantes a seleccionar
     {
 
-        bola = totalCasillas * drand48();
-        //Recorrer para comprobar resultado
-        elegido = false;
+        bola = totalCasillas * drand48(); //Genera un número aleatorio entre 0 y totalCasillas
+        elegido = false; 
         i = 0;
-        while (i < numCam && !elegido)
+        while (i < numCam && !elegido) //Se busca el caminante elegido
         {
-
-            if (casillaCam[i] >= bola)
+            if (casillaCam[i] >= bola) 
             {
                 selected[tirada] = caminantes[i];
                 tirada++;
-                elegido = true;
+                elegido = true; 
             }
             i++;
         }
     }
     
-    //BUCLE PARA COPIAR LOS ELEGIDOS DONDE CORRESPONDE
-    
-    
-    
-    
+    //Se copian los elegidos en la poblacion
     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
 
     }
-    numCam=numCamOrig;
+    numCam=numCamOrig; //Se actualiza el número de caminantes
     
 }
 
 
-//Seleccionar v2
+
+//Selecciona numCamOrig caminantes por el metodo del torneo
 void Poblacion::seleccionar_v2(){
 
     Caminante selected[numCamOrig];
 
     int nVeces=4; //Numero de torneos
     int k=numCam/nVeces; //Numero de participantes en cada torneo
-    int l=numCamOrig/nVeces; //elegidos en cada torneo
+    int l=numCamOrig/nVeces; //Elegidos en cada torneo
 
     
-    int lextra=numCamOrig%nVeces;
+    int lextra=numCamOrig%nVeces; //Elegidos en el torneo de los restantes
     double fit;
     bool elegido[numCam];
     int posicion;
-    int numElegTor; //numero de elegidos en el torneo actual
+    int numElegTor; //Número de elegidos en el torneo actual
     int j;
-     for(int i=0; i<numCam ; i++){
+    int numElegidos=0;
+    for(int i=0; i<numCam ; i++){
         elegido[i]=false;
     }
-    int numElegidos=0;
    
 
     for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
