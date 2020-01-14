@@ -22,3 +22,5 @@ make server
 cd src/server
 
 ./Servidor $1
+
+cd ../../

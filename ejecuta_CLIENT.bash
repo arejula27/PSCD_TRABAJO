@@ -21,3 +21,5 @@ make cliente
 cd src/client
 
 ./Cliente $1 $2   #Argumentos a pasarle
+
+cd ../../
