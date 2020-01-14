@@ -106,15 +106,18 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	cout << "Conexion establecida con el cliente: " << client_fd << endl;
+	cout << "Conexion establecida con el cliente "  << endl;
 
 	string buffer;  // Almacena el mensaje
 	bool out = false; // Inicialmente no salir del bucle
 	bool primera_vez = true;
 	Poblacion pob;
 	int gen=0;
+	cout<<"hola"<<endl;
 	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+	cout << "hola" << endl;
 	pob.descodificar(buffer,NCIT);
+	cout << "hola" << endl;
 	while (!out) {
 		// Recibimos la peticion del cliente
 		buffer = "";
