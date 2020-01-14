@@ -714,10 +714,61 @@ void Poblacion::cruzar(int p1,int p2){
 }
 
 void Poblacion::seleccionar(){
-    
-    numCam=numCamOrig;
-   
-    cout<<codificar(UPGRADE_POB)<<endl;
-    
-   
+    Caminante selected[numCamOrig];
+//TORNEO
+    /*for (int i = 0; i < numCamOrig; i++)
+    {
+        int rnd1 = rand() % numCam;
+        int rnd2 = rand() % numCam;
+        selected[i] = (caminantes[rnd1].MyFit() > caminantes[rnd2].MyFit()) ? caminantes[rnd1] : caminantes[rnd2];
+    }
+
+    for (int i = 0; i < numCamOrig; i++)
+    {
+        caminantes[i] = selected[i];
+    }*/
+
+    cout << "----RULETA----" << endl;
+    double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
+    double fit;
+    double totalCasillas = 0; //"Unidades" o casillas acumuladas en la ruleta
+    double bola;
+
+    for (int i = 0; i < numCam; i++)
+    {
+  
+        fit = caminantes[i].MyFit();
+        //cout<<"fit"<<i<<"---"<<prob;
+        casillaCam[i] = fit + totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
+        totalCasillas = fit + totalCasillas; //Se aumenta el tamaño de la ruleta
+        //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
+    }
+    cout<<"tras bucle fit"<<endl;
+    int i;
+    bool elegido;
+
+    for (int tirada = 0; tirada < numCamOrig;)
+    {
+
+        bola = totalCasillas * drand48();
+        cout<<bola<<endl;
+        //Recorrer para comprobar resultado
+        elegido = false;
+        i = 0;
+        while (i < numCam && !elegido)
+        {
+
+            if (casillaCam[i] >= bola)
+            {
+
+                cout << "En el turno " << tirada << " ha caido en la casilla " << casillaCam[i] << "--caminante[" << i << "]" << endl;
+                selected[tirada] = caminantes[i];
+                tirada++;
+                elegido = true;
+            }
+            i++;
+        }
+    }
+
+    numCam = numCamOrig;
 }
