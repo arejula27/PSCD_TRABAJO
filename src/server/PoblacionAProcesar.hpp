@@ -32,6 +32,8 @@ public:
 
 	void mutar(int id);
 
+	void mutar_v2(int id, float media);
+
 	void seleccionar();  
 	
 	void seleccionar_v2(); 
@@ -42,6 +44,8 @@ public:
 	void setNumCamOrig();
 
 	int getNumCamOrig();
+
+	float media();
 
 };
 

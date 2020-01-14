@@ -27,6 +27,14 @@ void PoblacionAProcesar::mutar(int id) {
 }
 
 //------------------------------------------------------------------------------------------------
+// funcion mutar
+void PoblacionAProcesar::mutar_v2(int id, float media)
+{
+    unique_lock<mutex> lck(mtx);
+    poblacion.mutar_v2(id);
+}
+
+//------------------------------------------------------------------------------------------------
 // funcion seleccionar
 void PoblacionAProcesar::seleccionar() {   
     unique_lock<mutex> lck(mtx);
@@ -56,6 +64,11 @@ int PoblacionAProcesar::getNumCamOrig(){
     
     return poblacion.getNumCamOrig();
     
+}
+
+float PoblacionAProcesar::media(){
+
+    return poblacion.media();
 }
 
 

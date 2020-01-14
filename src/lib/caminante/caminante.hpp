@@ -62,6 +62,9 @@ public:
     //Función de mutar.
     void mutar(const int numCities);
 
+    //Función de mutar.
+    void mutar_v2(const int numCities, float media);
+
     //Modifica el camino del caminante con los genes cruzados de sus padres.
     void cruzar(const Caminante &c1, const Caminante &c2, const int numCities);
 
@@ -150,6 +153,8 @@ public:
     //muta el caminante de la pos num
     void mutar(const int numCities);
 
+    void mutar_v2(const int numCities);
+
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
@@ -160,6 +165,9 @@ public:
     //Selecciona numCamOrig caminantes por el metodo del torneo
     void seleccionar_v2();
     void mejCam();
+
+    float media();
+
     
 };
 

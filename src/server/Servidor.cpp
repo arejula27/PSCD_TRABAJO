@@ -41,8 +41,26 @@ void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
 	}
 }
 
-void procesoSeleccionar(PoblacionAProcesar &pAp) {
-	
+void procesoMutar_v2(PoblacionAProcesar &pAp, int comienzo, int div_n, int r)
+{
+	float media=pAp.media();
+	for (int i = comienzo; i < comienzo + div_n; i++)
+	{
+		if (i < r)
+		{
+		}
+		else
+		{
+			pAp.mutar_v2(i,media);
+		}
+	}
+}
+
+
+	void
+	procesoSeleccionar(PoblacionAProcesar &pAp)
+{
+
 	pAp.seleccionar();
 	
 }
@@ -190,12 +208,39 @@ int main(int argc, char *argv[]) {
 						proceso[i].join();
 					}
 				break;
+
+			case 4: // Mutar V2
+				cout << "Mutando población" << endl;
+				// Mutar caminantes reptartido en 5 procesos
+
+				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
+				{
+					if (i == 0)
+					{
+						proceso[i] = thread(&procesoMutar_v2, ref(pAp), comienzo, div_n, r);
+					}
+					else
+					{
+						proceso[i] = thread(&procesoMutar_v2, ref(pAp), comienzo, div_n + resto, r);
+					}
+					comienzo += div_n;
+					
+				}
+				
+				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
+				{
+					proceso[i].join();
+				}
+
+				//procesoMutar(pAp, 0, n, 0);
+				break;
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
 				cout << "Va a seleccionar "<< endl;
 				
 				procesoSeleccionar(ref(pAp));
 				break;
+
 
 			case 5: // Seleccionar V2
 				cout << "Seleccionando población" << endl;

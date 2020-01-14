@@ -74,6 +74,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs
                 cout << "Versión mutar:  " << buff << endl;
                 if (buff == "v2")
                 {
+                    ops[1] = 4;
                 }
                 else
                 {
