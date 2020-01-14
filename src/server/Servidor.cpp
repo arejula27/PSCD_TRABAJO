@@ -111,10 +111,12 @@ int main(int argc, char *argv[]) {
 	bool primera_vez = true;
 	Poblacion pob;
 	int gen=0;
+	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+	pob.descodificar(buffer,NCIT);
 	while (!out) {
 		// Recibimos la peticion del cliente
 		buffer = "";
-		int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+		 rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
@@ -126,14 +128,10 @@ int main(int argc, char *argv[]) {
 			out = true; 
 		} else {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
-			if(primera_vez) {	//primera vez
-				primera_vez = false;
-				pob.descodificar(&buffer[2],ALL_POB);
-			}
-			else {		//actualizar
+				//actualizar
 				pob.descodificar(&buffer[2],UPGRADE_POB);
 				
-			}
+			
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(buffer);	// Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
@@ -151,7 +149,7 @@ int main(int argc, char *argv[]) {
 				case 0:		// Cruzar
 					cout<<"Cruzando población"<<endl;
 					pob.setNumCamOrig();
-					cout<<"SE HA GUARDADO "<<pob.getNumCamOrig<<endl;
+					cout<<"SE HA GUARDADO "<<pob.getNumCamOrig()<<endl;
 					// Cruzar con 5 hilos
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(resto>0) {

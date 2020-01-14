@@ -26,6 +26,7 @@ using namespace std;
 const int UPGRADE_POB =0;
 const int ALL_POB =1;
 const int MATRX =2;
+const int NCIT =4;
 
 
 
@@ -106,7 +107,9 @@ public:
 
     void setNumCamOrig();
     //calcula el fit de un caminante y cambia su propio fit
-    void calcFit(Caminante &caminante);
+    void calcFit();
+
+    void calcFit(Caminante &caminate);
     //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
     //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
     //media de fitness de los caminates
