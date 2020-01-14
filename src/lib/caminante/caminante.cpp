@@ -80,7 +80,6 @@ string Caminante::codificar()
     {
         
         MiCamino += to_string(camino[i]) + ',';
-        if(i==12)exit(0);
         i++;
     }
     MiCamino += to_string(inicio);
