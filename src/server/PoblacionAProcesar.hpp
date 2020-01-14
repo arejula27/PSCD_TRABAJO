@@ -36,6 +36,11 @@ public:
 	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
+
+	void setNumCamOrig();
+
+	int getNumCamOrig();
+
 };
 
 #endif

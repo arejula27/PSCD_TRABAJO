@@ -37,3 +37,16 @@ void PoblacionAProcesar::seleccionar() {
 Poblacion PoblacionAProcesar::getPoblacion() {
     return poblacion;
 }
+
+void PoblacionAProcesar::setNumCamOrig(){
+    poblacion.setNumCamOrig();
+    
+}
+
+int PoblacionAProcesar::getNumCamOrig(){
+    
+    return poblacion.getNumCamOrig();
+    
+}
+
+
