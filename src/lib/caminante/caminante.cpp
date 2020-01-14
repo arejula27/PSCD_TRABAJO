@@ -701,20 +701,6 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(){
     Caminante selected[numCamOrig];
-//TORNEO
-    /*for (int i = 0; i < numCamOrig; i++)
-    {
-        int rnd1 = rand() % numCam;
-        int rnd2 = rand() % numCam;
-        selected[i] = (caminantes[rnd1].MyFit() > caminantes[rnd2].MyFit()) ? caminantes[rnd1] : caminantes[rnd2];
-    }
-
-    for (int i = 0; i < numCamOrig; i++)
-    {
-        caminantes[i] = selected[i];
-    }*/
-
-    cout << "----RULETA----" << endl;
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas = 0; //"Unidades" o casillas acumuladas en la ruleta

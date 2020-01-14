@@ -108,7 +108,6 @@ int main(int argc, char *argv[]) {
 		msg = "";
 		do{
 			buffer = "";
-			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 			int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
 			if (rcv_bytes == -1)
 			{
@@ -218,7 +217,6 @@ int main(int argc, char *argv[]) {
 			cout  << pob.getNumCam() << " son los caminantes que va a enviar" << endl;
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB) + "*";	//generar cadena resultado
 			// Send, enviar nueva sub-poblacion al cliente
-			cout<<"ENVIO------\n";
 			tamMsg = nuevaSubPoblacion.length();
             numPaquetes = tamMsg / MAX_MSG_SIZE;
             tamLastPaquete = tamMsg % MAX_MSG_SIZE;
