@@ -150,10 +150,11 @@ public:
     //aumenta en num el numero de caminantes posibles en la población
     void addCams(int num);
 
-    //muta el caminante de la pos num
-    void mutar(const int numCities);
+    //Muta el caminante que esta en caminantes[num]
+    void mutar(int num);
 
-    void mutar_v2(const int numCities);
+    //Muta el caminante que esta en caminantes[num] solo si su fit es menor que la media 
+    void mutar_v2(int num);
 
     //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
     //población, para que funcione la población no puede tener CAM_MAX caminantes
@@ -165,7 +166,7 @@ public:
     //Selecciona numCamOrig caminantes por el metodo del torneo
     void seleccionar_v2();
     void mejCam();
-
+    //Devuelve la media de los fitness de los caminantes de la poblacion
     float media();
 
     
