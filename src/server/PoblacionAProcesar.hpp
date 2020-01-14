@@ -34,6 +34,8 @@ public:
 
 	void seleccionar();  
 	
+	void seleccionar_v2(); 
+	
 	// Devuelve la poblacion
 	Poblacion getPoblacion();
 

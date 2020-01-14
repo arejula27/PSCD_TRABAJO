@@ -86,6 +86,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs
                 cout << "Versión seleccionar:  " << buff<< endl;
                 if (buff == "v2")
                 {
+                    ops[2] = 5;
                 }
                 else
                 {
@@ -187,7 +188,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
             // 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
-            if(j==2){
+            if(j==2 ){
                 for(int t = 0; t < serversAceptados; t++){
                     
                     pobs[t].calcFit();
