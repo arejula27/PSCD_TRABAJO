@@ -112,13 +112,13 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs
 void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     ofstream f("salida.csv");
     pa.esperaGA();
-    f << "ID poblacion" << "," << "Mejor Fitness" << "," << "Fitness Medio" << endl;
+    f << "ID poblacion" << ";" << "Mejor Fitness" << ";" << "Fitness Medio" << endl;
     int i = 0;
     float mejorFit,media;
     while (i<MAX_GENS){
         float porcentaje = personas.stats(0.8,mejorFit,media);
-        f << i+1 << "," << mejorFit << "," << media << endl;
-        string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
+        f << i+1 << ";" << mejorFit << ";" << media << endl;
+        string info = to_string(i+1) + " ; " + to_string(mejorFit) + " ; " + to_string(media); 
         pa.guardarDatos(info);
 
         pa.esperaGA();
@@ -129,7 +129,6 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
 
 void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
     pa.syncro(ID);
-    #warning darle valor a fit para calcular el % IGUAL VAR GLOBAL
     float fit;
     float porcentaje = personas.stats(fit,mejorFit,media);
     pa.finProceso(ID);
