@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 				//actualizar
 
-			cout << &buffer[2] << endl;
+			//cout << &buffer[2] << endl;
 			cout << "Va a descodificar2" << endl;
 			pob.descodificar(&buffer[2], UPGRADE_POB);
 
@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
 				break;
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
-				cout << &buffer[2] << endl;
+				//cout << &buffer[2] << endl;
 				cout << "Va a seleccionar "<< endl;
 				
 				procesoSeleccionar(ref(pAp));
@@ -233,8 +233,9 @@ int main(int argc, char *argv[]) {
 
 			// Una vez termine pasar la poblacion del monitor a pob, para enviarlo
 			pob = pAp.getPoblacion();
-			cout  << pob.getNumCam() << " caminantes actualmente" << endl;
+			cout  << pob.getNumCam() << " son los caminantes que va a enviar" << endl;
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
+			//cout<<"a"<<endl;
 			
             // Send, enviar nueva sub-poblacion al cliente
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);

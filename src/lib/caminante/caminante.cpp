@@ -192,9 +192,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
 
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
-bool Caminante::esValido(int *camino,const int numCities){
-    return true;
-}
+
 
 
 
@@ -604,6 +602,7 @@ void Poblacion::descodificar(string msg, int flg)
                     caminantes = new Caminante[maxCami];
                    // cout<<"//////////////TAF////////////////"<<endl;
                 }
+            
                
         }
         
@@ -617,7 +616,7 @@ void Poblacion::descodificar(string msg, int flg)
       //  cout << numCam<< endl;
         for (int i = 0; i < numCam; i++)
         {
-            //cout<<"Va a descodificar el caminante: "<<i<<endl;
+            cout<<"Va a descodificar el caminante: "<<i<<endl;
             caminantes[i].desCodificar(msg, inx,numCities);
             //cout<<caminantes[i].MyFit()<<endl;
         }
