@@ -127,7 +127,7 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
     {
         recorrido += getValorMatriz(dist,camino[i],camino[i+1]);;
     }
-    fitness = 1.00000/recorrido;
+    fitness = 1000.00000/recorrido;
 }
 
 //Devuelve el fitness del caminante.
@@ -200,8 +200,8 @@ Poblacion::Poblacion(){
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
     //inicializar numCam
-    int extra=numCamis*20/100;
-    maxCami=extra+2*numCamis;
+    //int extra=numCamis*20/100;
+    maxCami=2*numCamis;
     caminantes=new Caminante[maxCami];
     numCam=numCamis;
     //rellenar la matriz
@@ -288,8 +288,8 @@ Poblacion::Poblacion(string data)
     descodificarMatriz(data, inx);
 
     numCam = stoi(&data[inx]);
-    int extra = numCam * 20 / 100;
-    maxCami = extra + 2 * numCam;
+    //int extra = numCam * 20 / 100;
+    maxCami = 2 * numCam;
     caminantes = new Caminante[maxCami];
     while (data[inx++] != ':');
     //descodificar todos los viajeros
@@ -403,8 +403,8 @@ void Poblacion::fusionar(int n, Poblacion pobs[])
     {
         numC += pobs[i].getNumCam();
     }
-    int extra = numC * 20 / 100;
-    maxCami = extra + 2 * numC;
+    //int extra = numC * 20 / 100;
+    maxCami = 2 * numC;
 
     
 
@@ -551,8 +551,8 @@ void Poblacion::descodificar(string msg, int flg)
         descodificarMatriz(msg, inx);
 
         numCam = stoi(&msg[inx]);
-        int extra = numCam * 20 / 100;
-        maxCami = extra + 2 * numCam;
+        //int extra = numCam * 20 / 100;
+        maxCami = 2 * numCam;
         
         assert(numCam<=maxCami);
         if (caminantes == nullptr)
@@ -580,8 +580,8 @@ void Poblacion::descodificar(string msg, int flg)
         if(primer){
            
             
-            int extra = numCam * 20 / 100;
-            maxCami = extra + 2 * numCam;
+            //int extra = numCam * 20 / 100;
+            maxCami = 2 * numCam;
             primer=false;
             if (caminantes == nullptr)
                 {
