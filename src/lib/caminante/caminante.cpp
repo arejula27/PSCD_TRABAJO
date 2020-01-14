@@ -170,34 +170,52 @@ void Caminante::mutar(const int numCities)
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {   
-    /*
-    int divido = (rand()%(numCities-1)+1);
-    camino[0] = c1.camino[0];
-    camino[numCities] = c1.camino[numCities];
-    for(int i = 1;i < divido;i++){
-        camino[i] = c1.camino[i];
-    }
-    for (int i = divido; i < numCities; i++)
-    {
-        //Compruebo que la ciudad que vamos a introducir no esta ya escrita si esta escrita se coloca la del caminante1 
-        for (int j=0; j < i;j++)
-        {
-            if (camino[j] == c2.camino[i]){
-                camino[i] = c1.camino[i];
-
-            }else{
-                camino[i] = c2.camino[i];
-            }
-        } 
-    }   
-    */
+    cout << "El padre es: " ;
     for (int i = 0; i <= numCities; i++)
     {
-        camino[i]=c1.camino[i];
+       cout << c1.camino[i] << " | ";
     }
+    cout<< endl << "La madre es: " ;
+    for (int i = 0; i <= numCities; i++)
+    {
+       cout << c2.camino[i] << " | ";
+    }
+    cout << endl;
     
-    
+    int corte = rand() %(numCities)+1; //Gen a partir del cual se va a intercambiar
+    cout << "El corte es: " << corte << endl;
+    camino[0] = c1.camino[0];
+    cout <<  "\t\t" <<camino[0] << " | ";
+    camino[numCities] = c1.camino[numCities];
+    for(int i = 1; i < corte; i++){
+        camino[i] = c1.camino[i];
+        cout << camino [i]<< " | ";
+    }
+    for (int i = corte; i < numCities; i++){
+        camino[i] = c2.camino[i];
+        if (!esValido(i)){
+            camino[i] = c1.camino[i];
+        } 
+        cout << camino[i] << " | ";
+    }
+    cout << camino[numCities]<<endl;
 }
+
+//Devuelve true si y scacaminominoolo si el camino no tiene ciudades repetidas salvo el inicio y fin
+bool Caminante::esValido(int numCities){
+    bool valido = true;
+    int j=1;
+    if(camino[1]==camino[0]) valido=false;
+    while(j < numCities && valido){
+        for(int i = j+1; i < numCities ; i++){
+            if(camino[j]==camino[i]) valido = false;
+            if(camino[i]==camino[0]) valido = false;
+        }
+        j++;
+    }
+    return valido;
+}
+
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
 bool Caminante::esValido(int *camino,const int numCities){
@@ -816,7 +834,7 @@ void Poblacion::seleccionar(){
     
     */
 
-    for(int i=0; i<numCamOrig; i++){
+     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
         
