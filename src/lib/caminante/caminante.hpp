@@ -154,8 +154,11 @@ public:
     //población, para que funcione la población no puede tener CAM_MAX caminantes
     void cruzar(int p1, int p2);
 
+    //Selecciona numCamOrig caminantes por el metodo de la ruleta
     void seleccionar();
 
+    //Selecciona numCamOrig caminantes por el metodo del torneo
+    void seleccionar_v2();
     void mejCam();
     
 };
