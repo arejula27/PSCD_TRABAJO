@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
     if(socket_fd == -1){
     	return socket_fd;
     }
+    cout<< "ID poblacion | Mejor Fitness | Fitness Medio" << endl;
     string mensaje;
     while (mensaje != MENS_FIN){
         mensaje = ("");
