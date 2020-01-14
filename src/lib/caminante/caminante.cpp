@@ -704,10 +704,7 @@ void Poblacion::cruzar(int p1,int p2){
 }
 
 void Poblacion::seleccionar(){
- 
-    
-    cout << "----RULETA----" << endl;
-    Caminante selected[numCam];
+    Caminante selected[numCamOrig];
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas = 0; //"Unidades" o casillas acumuladas en la ruleta

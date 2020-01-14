@@ -32,7 +32,9 @@ void PoblacionAProcesar::mutar(int id) {
 // funcion seleccionar
 void PoblacionAProcesar::seleccionar() {   
     unique_lock<mutex> lck(mtx);
-    cout << "llega" << endl;
+  
+   
+    
     poblacion.seleccionar();
 }
 
