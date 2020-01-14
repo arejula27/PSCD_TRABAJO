@@ -1,7 +1,9 @@
 //*****************************************************************
-// File:	PoblacionAprocesar.cpp
-// Date:	Diciembre 2019
+// File:   PoblacionAProcesar.cpp
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
 //*****************************************************************
+
 
 #include "PoblacionAProcesar.hpp"
 

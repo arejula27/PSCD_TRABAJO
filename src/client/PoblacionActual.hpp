@@ -1,3 +1,9 @@
+//*****************************************************************
+// File:   PoblacionActual.hpp
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
+//*****************************************************************
+
 #ifndef PoblacionActual
 #define PoblacionActual
 

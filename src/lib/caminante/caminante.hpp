@@ -1,7 +1,7 @@
 //*****************************************************************
-// File:   caminante.hpp
-// Author: Iñigo Arejula & Sergio Cartiel
-// Date:   Diciembre 2019/Enero 2020
+// File:   Caminante.hpp
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
 // Coms:   Especificación de las clases caminante y población
 //*****************************************************************
 

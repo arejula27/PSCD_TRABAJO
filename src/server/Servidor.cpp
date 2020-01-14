@@ -1,7 +1,9 @@
 //*****************************************************************
 // File:   Servidor.cpp
-// Date:   diciembre 2019
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
 //*****************************************************************
+
 
 #include <iostream>
 #include "Socket.hpp"

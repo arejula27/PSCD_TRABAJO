@@ -1,9 +1,7 @@
 //*****************************************************************
 // File:   Cliente.cpp
-// Author: PSCD-Unizar
-// Date:   noviembre 2015
-// Coms:   Ejemplo de cliente con comunicación síncrona mediante sockets
-//
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
 //*****************************************************************
 
 #include <iostream>
@@ -12,15 +10,15 @@
 #include <fstream>
 #include "Socket.hpp"
 #include "PoblacionActual.hpp"
-//#include "Monitorizacion.hpp"
 
 using namespace std;
 
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
-const int MAX_MSG_SIZE = 10000;
+const int MAX_MSG_SIZE = 10000; 
 const string FIN_MSG_RECIBIDO = "*";
 
+//Actualiza los parámetros de salida con los datos especificados en el fichero cliente.config
 void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs[], int &numPersonas, int ops[]){
     string buffer;
     ifstream f;
@@ -104,12 +102,9 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs
     f.close();
 }
 
-
-//He comentado esta funcion porque utilizaba dos funciones del monitor que gestionaban la 
-//concurrencia de los hilos pero como ya no lanzamos hilos es una gilipollez segur teniendola 
-// solo con invocar a stats en imprimirCSV es mejor.
-//Fdo: Aaron
-
+//Cada vez que llega una actualizacion de poblacion,es decir llega una poblacion tras haberle hecho una 
+// operacion geneticacalcula sus estadicticas, id de la poblacion, el mejor fitness de la poblacion y el 
+//fitness medio de la misma
 void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     ofstream f("salida.csv");
     pa.esperaGA();
@@ -127,6 +122,7 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     }
     f.close();
 }
+
 
 void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,float &media){
     pa.syncro(ID);

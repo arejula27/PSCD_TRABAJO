@@ -1,3 +1,10 @@
+//*****************************************************************
+// File:   PoblacionActual.cpp
+// Author: Íñigo Aréjula, Sergio Cartiel, Aaron Ibáñez, Héctor García y Marcos Hernando
+// Date:   Noviembre-Enero 2019
+//*****************************************************************
+
+
 #include "PoblacionActual.hpp"
 
 //n = numero de personas
