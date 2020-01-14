@@ -134,7 +134,38 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-   
+    cout<<endl;
+    cout<<"ORIGINAL: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+
+    //MODO1
+
+
+    int genes[numCities - 1];
+    bool cogidos[numCities - 1];
+    //Almacenamos los genes intercambiables para no perder ninguno
+    for (int i = 0; i < numCities - 1; i++)
+    {
+        genes[i] = camino[i + 1];
+        cogidos[i] = false;
+    }
+    int j=0;
+    int random;
+  
+    for(int i=1; i<numCities; i++){
+        random=rand()%(numCities-1);
+        while(cogidos[random]) random = (random + 1)%(numCities-1);
+        camino[i]=genes[random];//Elige un gen entre todos los almacenados
+        cogidos[random] = true;
+    }
+    cout<<endl;
+    cout<<"  MUTADO: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+    cout<<endl;
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
@@ -665,7 +696,6 @@ void Poblacion::seleccionar(){
     for(int tirada = 0; tirada<numCamOrig;){
         
         bola= totalCasillas*drand48();
-        cout<<bola<<endl;
         //Recorrer para comprobar resultado
         elegido=false;
         i=0;

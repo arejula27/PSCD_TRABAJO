@@ -173,6 +173,7 @@ int main(int argc, char *argv[]) {
 				case 1:		// Mutar
 					cout<<"Mutando población"<<endl;
 					// Mutar caminantes reptartido en 5 procesos
+					/*
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
@@ -185,6 +186,8 @@ int main(int argc, char *argv[]) {
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
 					}
+					*/
+					procesoMutar(pAp,0,n,0);
 					break;
 				case 2:		// Seleccionar
 					cout<<"Seleccionando población"<<endl;
