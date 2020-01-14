@@ -115,6 +115,7 @@ int main(int argc, char *argv[]) {
 	int gen=0;
 	cout<<"hola"<<endl;
 	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+	cout<<buffer<<endl;
 	cout << "hola" << endl;
 	pob.descodificar(buffer,NCIT);
 	cout << "hola" << endl;
@@ -122,6 +123,7 @@ int main(int argc, char *argv[]) {
 		// Recibimos la peticion del cliente
 		buffer = "";
 		 rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
+		 cout<<"Patata\n";
 		if(rcv_bytes == -1) {
 			string mensError(strerror(errno));
     		cerr << "Error al recibir datos: " + mensError + "\n";
@@ -135,9 +137,12 @@ int main(int argc, char *argv[]) {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 				//actualizar
 
-			cout << &buffer[2] << endl;
+			cout << buffer << endl;
 			cout << "sisi" << endl;
+			cout << &buffer[2] << endl;
 			pob.descodificar(&buffer[2], UPGRADE_POB);
+			
+
 
 			//cout << pob.codificar(UPGRADE_POB) << endl;
 			//cout << "POOOOOB" << endl;
@@ -235,6 +240,8 @@ int main(int argc, char *argv[]) {
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB);	//generar cadena resultado
 			
             // Send, enviar nueva sub-poblacion al cliente
+			cout<<"ENVIO------\n";
+			cout<<nuevaSubPoblacion<<endl;
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
             /*
 			if(send_bytes == -1) {

@@ -715,13 +715,8 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(){
     
-    numCam=100;
-   
+    numCam=numCamOrig;
     cout<<codificar(UPGRADE_POB)<<endl;
-    cout<<"sel"<<endl;
-  //  exit(0);
-    
-    
     
    
 }
