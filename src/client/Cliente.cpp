@@ -185,6 +185,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
             
+
             // 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
@@ -198,9 +199,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			for(int k = 0; k < serversAceptados; k++){
                // cout << pobs[i].getNumCam() <<" ?22" <<endl;
                 if(prim){
-                  prim = false;
+                  
                   string nc = personas.codificar(NCIT);
                   socketServ[k].Send(server_fd[k], nc);
+                  cout<<"Mando matriz--------------------------"<<endl;
                 }
                 string msg;
               
@@ -211,20 +213,21 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 cout<<msg<<endl;
                 cout << "si "<< endl;
             }
-			for(int k = 0; k < serversAceptados; k++){
+            prim = false;
+            for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
                 cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
-
+                cout << "llega" << endl;
                 pobs[k].descodificar(resp,UPGRADE_POB);
-                
-
-                
-            }
+                cout << resp << endl;
+                        }
 
 		}
+
 		personas.fusionar(serversAceptados,pobs);
         pa.esperaEstadistico();
+        
 	}
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){

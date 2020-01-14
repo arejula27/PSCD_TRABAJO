@@ -113,20 +113,22 @@ int main(int argc, char *argv[]) {
 	bool primera_vez = true;
 	Poblacion pob;
 	int gen=0;
-	cout<<"hola"<<endl;
+	cout<<"Va a recibir los datos--";
 	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-	cout << "hola" << endl;
+	cout << "Va a descodificar--";
 	pob.descodificar(buffer,NCIT);
-	cout << "hola" << endl;
+	cout << "Ha descodificado" << endl;
 	while (!out) {
 		// Recibimos la peticion del cliente
 		buffer = "";
 		 rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-		if(rcv_bytes == -1) {
-			string mensError(strerror(errno));
-    		cerr << "Error al recibir datos: " + mensError + "\n";
-			socket.Close(client_fd);
-			socket.Close(socket_fd);
+		 
+		 if (rcv_bytes == -1)
+		 {
+			 string mensError(strerror(errno));
+			 cerr << "Error al recibir datos: " + mensError + "\n";
+			 socket.Close(client_fd);
+			 socket.Close(socket_fd);
 		}
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
@@ -136,7 +138,7 @@ int main(int argc, char *argv[]) {
 				//actualizar
 
 			cout << &buffer[2] << endl;
-			cout << "sisi" << endl;
+			cout << "Va a descodificar2" << endl;
 			pob.descodificar(&buffer[2], UPGRADE_POB);
 
 			//cout << pob.codificar(UPGRADE_POB) << endl;
@@ -162,7 +164,7 @@ int main(int argc, char *argv[]) {
 			case 0: // Cruzar
 				cout << "Cruzando población" << endl;
 				pAp.setNumCamOrig();
-				cout << "SE HA GUARDADO " << pAp.getNumCamOrig() << endl;
+				cout << "Seleccionara: " << pAp.getNumCamOrig() << endl;
 				// Cruzar con 5 hilos
 				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
 				{
@@ -207,7 +209,7 @@ int main(int argc, char *argv[]) {
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
 				cout << &buffer[2] << endl;
-				cout << "sisiNOOOO" << endl;
+				cout << "Va a seleccionar "<< endl;
 				
 				procesoSeleccionar(ref(pAp));
 				break;

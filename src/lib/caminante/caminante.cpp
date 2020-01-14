@@ -126,11 +126,11 @@ void Caminante::calcMiFit(int **dist, int numCiuds)
 
     for(int i = 0; i<numCiuds; i++)
     {
-        cout << i<< endl;
+        //cout << i<< endl;
         recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
-        cout << "val MAtr " << getValorMatriz(dist, camino[i], camino[i + 1]) << endl;
+        //cout << "val MAtr " << getValorMatriz(dist, camino[i], camino[i + 1]) << endl;
     }
-    cout<<"rec "<<recorrido<<" cit " <<numCiuds<<endl;
+   // cout<<"rec "<<recorrido<<" cit " <<numCiuds<<endl;
     fitness = 1.00000/recorrido;
 }
 
@@ -602,7 +602,7 @@ void Poblacion::descodificar(string msg, int flg)
             if (caminantes == nullptr)
                 {
                     caminantes = new Caminante[maxCami];
-                    cout<<"//////////////TAF////////////////"<<endl;
+                   // cout<<"//////////////TAF////////////////"<<endl;
                 }
                
         }
@@ -613,16 +613,17 @@ void Poblacion::descodificar(string msg, int flg)
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
 
-        cout << "//////////////TAF2////////////////" << endl;
-        cout << numCam<< endl;
+      //  cout << "//////////////TAF2////////////////" << endl;
+      //  cout << numCam<< endl;
         for (int i = 0; i < numCam; i++)
         {
-            
+            //cout<<"Va a descodificar el caminante: "<<i<<endl;
             caminantes[i].desCodificar(msg, inx,numCities);
-            cout<<caminantes[i].MyFit()<<endl;
+            //cout<<caminantes[i].MyFit()<<endl;
         }
-        cout << "HOOOOOOOOOO" <<cnt<< endl;
-        cout << codificar(UPGRADE_POB) << endl;
+        cout<<"Ha descodificado bien\n";
+       // cout << "HOOOOOOOOOO" <<cnt<< endl;
+        //cout << codificar(UPGRADE_POB) << endl;
         //cout << "si" <<cnt<< endl<<endl;;
         //if(cnt==2)exit(0);
         //cout << "HOOOOOOOOOO" << cnt << endl;
@@ -715,7 +716,7 @@ void Poblacion::cruzar(int p1,int p2){
 
 void Poblacion::seleccionar(){
     
-    numCam=100;
+    numCam=numCamOrig;
    
     cout<<codificar(UPGRADE_POB)<<endl;
     cout<<"sel"<<endl;
