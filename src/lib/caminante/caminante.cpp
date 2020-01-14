@@ -333,7 +333,6 @@ void Poblacion::calcFit(){
     for (int  i = 0; i < numCam ; i++)
     {
         if(numCities==0){
-            cout<<"SE HA PUESTO a 0\n";
             exit(1);}
         caminantes[i].calcMiFit(dist, numCities);
     }
@@ -587,10 +586,6 @@ void Poblacion::descodificar(string msg, int flg)
 
     else if (flg == UPGRADE_POB)
     {
-        //cout << msg << endl;
-        //cout << "sisi" << endl;
-        
-
         static bool primer =true;
         numCam = stoi(msg);
         static int cnt=0;
@@ -759,15 +754,12 @@ void Poblacion::seleccionar_v2(){
 
     Caminante selected[numCamOrig];
 
-    cout<<"TORNEO"<<endl;
     int nVeces=4; //Numero de torneos
     int k=numCam/nVeces; //Numero de participantes en cada torneo
     int l=numCamOrig/nVeces; //elegidos en cada torneo
 
     
     int lextra=numCamOrig%nVeces;
-
-    cout<<"part="<<k<<" -- eleg="<<l<<endl;
     double fit;
     bool elegido[numCam];
     int posicion;
@@ -781,16 +773,12 @@ void Poblacion::seleccionar_v2(){
 
     for(int i=0;i<nVeces;i++){ //Bucle para cada torneo
         numElegTor=0;
-        cout<<"----INICIO TORNEO "<<i<<"----["<<k*i<<"-"<<k*(i+1)<<"]----"<<l<<endl;
         j=k*i;
         while(numElegTor<l){   //Seleccion dentro de cada torneo
-            
-            cout<<"hola"<<endl;
             if (!elegido[j])   //Coger uno no elegido
             {
             
             fit=caminantes[j].MyFit(); //Se compara su fit con el de todos
-            cout << "hola" << endl;
             for(int p=j;p<k*(i+1);p++){   //Elige un participante cuyo fit es el mayor de los no elegidos
                 
                 
@@ -801,15 +789,12 @@ void Poblacion::seleccionar_v2(){
                 }
 
             }
-            //cout << "hola" << endl;
             elegido[posicion]=true;
-            cout<<"Va a guardar el"<<posicion<<endl;
             selected[numElegidos]=caminantes[posicion];
             numElegTor++;
             numElegidos++;
 
             }
-            cout<<j<<"-";
             j++;               
         }
 
@@ -819,7 +804,6 @@ void Poblacion::seleccionar_v2(){
     numElegTor=0;
     while(numElegTor<lextra){   //Seleccion dentro de cada torneo
             j=k*nVeces;
-            cout<<"ENTRA EN EL TORNEO AUXILIAR"<<endl;
             if (!elegido[j] && j<numCam){ //Coger uno no elegido
                 
                 calcFit(caminantes[j]);
@@ -834,7 +818,6 @@ void Poblacion::seleccionar_v2(){
                 }
                 
                 elegido[posicion]=true;
-                cout<<"Va a guardar el"<<posicion<<endl;
                 selected[numElegidos]=caminantes[posicion];
                 numElegTor++;
                 numElegidos++;

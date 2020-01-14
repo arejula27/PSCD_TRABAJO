@@ -141,7 +141,6 @@ int main(int argc, char *argv[]) {
 			int resto = n % (NUM_PROCESOS_MAX);
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
-			//cout << "Numero de caminantes extra: " << extra << endl;
 			thread proceso[NUM_PROCESOS_MAX];
 			int id = 0;
 			int comienzo = 0;
@@ -178,7 +177,7 @@ int main(int argc, char *argv[]) {
 			case 1: // Mutar
 				cout << "Mutando población" << endl;
 				// Mutar caminantes reptartido en 5 procesos
-					/*
+					
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n,r);
@@ -193,8 +192,8 @@ int main(int argc, char *argv[]) {
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
 					}
-					*/
-				procesoMutar(pAp, 0, n, 0);
+					
+				//procesoMutar(pAp, 0, n, 0);
 				break;
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
