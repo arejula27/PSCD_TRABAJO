@@ -137,9 +137,38 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-    
-    
-   
+    cout<<endl;
+    cout<<"ORIGINAL: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+
+    //MODO1
+
+
+    int genes[numCities - 1];
+    bool cogidos[numCities - 1];
+    //Almacenamos los genes intercambiables para no perder ninguno
+    for (int i = 0; i < numCities - 1; i++)
+    {
+        genes[i] = camino[i + 1];
+        cogidos[i] = false;
+    }
+    int j=0;
+    int random;
+  
+    for(int i=1; i<numCities; i++){
+        random=rand()%(numCities-1);
+        while(cogidos[random]) random = (random + 1)%(numCities-1);
+        camino[i]=genes[random];//Elige un gen entre todos los almacenados
+        cogidos[random] = true;
+    }
+    cout<<endl;
+    cout<<"  MUTADO: ";
+    for(int i=0; i<numCities+1;i++){
+        cout<<camino[i]<<"-";
+    }
+    cout<<endl;
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
@@ -659,13 +688,13 @@ void Poblacion::cruzar(int p1,int p2){
 void Poblacion::seleccionar(){
     
     
-  /*  cout<<codificar()<<endl;
+    //cout<<codificar()<<endl;
     Caminante selected[numCamOrig];
 
     
 
     //MODO1 (RULETA)
-    
+    cout<<"----RULETA----"<<endl;
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
@@ -689,7 +718,6 @@ void Poblacion::seleccionar(){
     for(int tirada = 0; tirada<numCamOrig;){
         
         bola= totalCasillas*drand48();
-        cout<<bola<<endl;
         //Recorrer para comprobar resultado
         elegido=false;
         i=0;
@@ -705,7 +733,7 @@ void Poblacion::seleccionar(){
             i++;
         }
     }
-    cout<<"Metodo de seleccion por ruleta(1)"<<endl;
+    
     
     
    
@@ -810,14 +838,15 @@ void Poblacion::seleccionar(){
     
     */
 
-   /* for(int i=0; i<numCamOrig; i++){
+     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
+        
         //caminantes[i].calcMiFit;
 
     }
-    cout<<codificar()<<endl;*/
-    numCam=100;
+    //cout<<codificar()<<endl;
+    numCam=numCamOrig;
     
     
    
