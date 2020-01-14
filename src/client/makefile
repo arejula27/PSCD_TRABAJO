@@ -48,3 +48,4 @@ clean:
 	$(RM) ${MONITOR}.o
 	$(RM) ${CAM}.o
 	$(RM) ${CLIENTE}
+
