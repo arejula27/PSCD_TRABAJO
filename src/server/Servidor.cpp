@@ -15,11 +15,12 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
+const int MESSAGE_SIZE = 100000; //Máximo tamaño del buffer.
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
-const int MAX_MSG_SIZE = 10000;
-const string FIN_MSG_RECIBIDO = "*";
+const int MAX_MSG_SIZE = 10000;			//Máximo tamaño de los paquetes enviados.
+const string FIN_MSG_RECIBIDO = "*";    //Caracter usado para detectar el último paquete que se envía.
+
 //-------------------------------------------------------------
 void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j) {
     
@@ -138,13 +139,13 @@ int main(int argc, char *argv[]) {
 			if (rcv_bytes == -1)
 			{
 				 string mensError(strerror(errno));
-				 cerr << "Error al recibir datos: " + mensError + "\n";
+				 cerr << "Error al recibir datos: " + mensError + "\n";		//Recibo del mensaje por paquetes
 				 socket.Close(client_fd);
 				 socket.Close(socket_fd);
 			}
 			msg += buffer;
 			aux = buffer.back();
-		}while(buffer.find("*")==string::npos);
+		}while(buffer.find("*")==string::npos);		//Si está presente el caracter de finalización acaba.
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
 			out = true; 

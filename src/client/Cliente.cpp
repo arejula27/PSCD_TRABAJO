@@ -15,8 +15,8 @@ using namespace std;
 
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
-const int MAX_MSG_SIZE = 10000; 
-const string FIN_MSG_RECIBIDO = "*";
+const int MAX_MSG_SIZE = 10000;     //Máximo tamaño de los paquetes enviados.
+const string FIN_MSG_RECIBIDO = "*";    //Caracter usado para detectar el último paquete que se envía.
 
 //Actualiza los parámetros de salida con los datos especificados en el fichero cliente.config
 void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs[], int &numPersonas, int ops[]){
@@ -45,7 +45,7 @@ void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs
                 getline(f,buffer);
                 for(int i=0 ; buffer != "}" ; i++){
                     IPs[i] = buffer;
-                    numServers++;
+                    numServers++;                       
                     cout<<"IP "<<i+1<<" = "<<IPs[i]<<endl;
                     getline(f,buffer);
                 }
@@ -133,7 +133,7 @@ void calcEstadisticas(Poblacion& personas,int ID,PobActual &pa,float &mejorFit,f
 
 
 
-
+//Función que crea se conecta a servidores para solicitarles las operaciones seleccionar/cruzar/mutar en ese orden.
 void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual &pa, string IPs[],int gen,int ops[]){
 	// Creación del socket con el que se llevará a cabo
 	// la comunicación con el servidor.
@@ -195,7 +195,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 if(prim){
                   
                     string nc = personas.codificar(NCIT);
-                    socketServ[k].Send(server_fd[k],nc);
+                    socketServ[k].Send(server_fd[k],nc);        //Envía el número de ciudades.
                 }
                 string msg;
               
@@ -208,7 +208,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		cout << "Enviando mensaje a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
                 while(numPaquetes >= 0){
                     msgPartido = &msg[iterMsg];
-                    msgPartido.resize(MAX_MSG_SIZE);
+                    msgPartido.resize(MAX_MSG_SIZE);                //Envío por paquetes del mensaje.
                     iterMsg += msgPartido.length();
                     socketServ[k].Send(server_fd[k],msgPartido);
                     numPaquetes--;
@@ -227,7 +227,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			        buffer = "";
 			        int rcv_bytes = socketServ[k].Recv(server_fd[k],buffer,MESSAGE_SIZE);
 			        resp += buffer;
-			        aux = buffer.back();
+			        aux = buffer.back();                        //Recibo del mensaje dividido en paquetes.
 		        }while(buffer.find("*")==string::npos);
                 cout<<"Recibido"<<endl;
                 cout <<"Procesando nueva población..."<< endl;
@@ -257,7 +257,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 }
 
 
-//-------------------------------------------------------------
+//Servidor para clienteB (estadístico)
 void servCliente(Socket& soc, int client_fd, PobActual &pa) {
 	// Buffer para recibir el mensaje
     string buffer;
