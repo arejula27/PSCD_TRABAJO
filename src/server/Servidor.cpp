@@ -13,10 +13,10 @@
 
 using namespace std;
 
-const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
+const int MESSAGE_SIZE = 10000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
-const int MAX_MSG_SIZE = 30000;
+const int MAX_MSG_SIZE = 10000;
 const string FIN_MSG_RECIBIDO = "*";
 //-------------------------------------------------------------
 void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
@@ -132,17 +132,17 @@ int main(int argc, char *argv[]) {
 			}
 			msg += buffer;
 			aux = buffer.back();
-		}while(aux != FIN_MSG_RECIBIDO);
+		}while(buffer.find("*")==string::npos);
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
 			out = true; 
 		} else {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 			cout <<"Procesando nueva población..."<< endl;
-			pob.descodificar(&msg[2], UPGRADE_POB);
+			pob.descodificar(&msg[msg.find_first_of("0123456789")+2], UPGRADE_POB);
 
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = stoi(msg); // Coger la operacion a realizar
+			int operacion = stoi(&msg[msg.find_first_of("0123456789")]); // Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);  // Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();	  // Obtener numero de caminantes
 			int extra = n * PORCENTAJE_EXTRA;
