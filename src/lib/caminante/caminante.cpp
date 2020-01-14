@@ -635,13 +635,13 @@ void Poblacion::cruzar(int p1,int p2){
 void Poblacion::seleccionar(){
     
     
-    cout<<codificar()<<endl;
+    //cout<<codificar()<<endl;
     Caminante selected[numCamOrig];
 
     
 
     //MODO1 (RULETA)
-    
+    cout<<"----RULETA----"<<endl;
     double casillaCam[numCam]; //Almacena en prob[i] la longitud de su casilla
     double fit;
     double totalCasillas=0;  //"Unidades" o casillas acumuladas en la ruleta 
@@ -681,7 +681,7 @@ void Poblacion::seleccionar(){
             i++;
         }
     }
-    cout<<"Metodo de seleccion por ruleta(1)"<<endl;
+    
     
     
    
@@ -789,10 +789,11 @@ void Poblacion::seleccionar(){
     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
+        
         //caminantes[i].calcMiFit;
 
     }
-    cout<<codificar()<<endl;
+    //cout<<codificar()<<endl;
     numCam=numCamOrig;
     
     
