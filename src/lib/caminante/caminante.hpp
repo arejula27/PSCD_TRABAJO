@@ -79,6 +79,8 @@ class Poblacion
     friend Caminante;
   
 private:
+    double mejorFitEver;
+    string caminoMejorFit;
     int maxCami;
     int sizeMatrix;
     int numCities;
@@ -153,6 +155,8 @@ public:
     void cruzar(int p1, int p2);
 
     void seleccionar();
+
+    void mejCam();
     
 };
 

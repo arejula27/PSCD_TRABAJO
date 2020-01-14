@@ -344,6 +344,7 @@ void Poblacion::calcFit(Caminante &caminate){
 //media de fitness de los caminates
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
+    int idMejor=0;
     for (int i = 0; i < numCam; i++){
         calcFit(caminantes[i]); // Calcula el fit
         if (caminantes[i].MyFit() >= fit){ //si el fit es mayor que el umbral suma
@@ -352,13 +353,25 @@ float Poblacion::stats(float fit,float &mejorFit,float &media){
         //Calculo del mejor fit
         if (caminantes[i].MyFit() >= mejorFit){
             mejorFit = caminantes[i].MyFit();
+            idMejor=i;
         }
         //calculo de la media
         media += caminantes[i].MyFit();
     }
+    if(mejorFit>mejorFitEver){
+        mejorFitEver=mejorFit;
+        caminoMejorFit=caminantes[idMejor].codificar();
+    }
+    
     media = media/numCam;
     //Devuelve el porcentaje
     return (cont*100)/numCam;
+}
+
+void Poblacion::mejCam(){
+
+    cout<<"El mejor camino logrado es:"<<endl;
+    cout<<caminoMejorFit<<endl;
 }
 
 //divide la poblacion en n subpoblaciones y las devuelve en array
