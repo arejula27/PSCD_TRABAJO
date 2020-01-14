@@ -133,16 +133,31 @@ float Caminante::MyFit()
 
 //Función de mutar.
 void Caminante::mutar(const int numCities)
-{   
-    
+{
+   
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {
-    
-    for(int i =0;i<=numCities;i++){
+    int divido = (rand()%(numCities-1)+1);
+    camino[0] = c1.camino[0];
+    camino[numCities] = c1.camino[numCities];
+    for(int i = 1;i < divido;i++){
         camino[i] = c1.camino[i];
     }
+    for (int i = divido; i < numCities; i++)
+    {
+        //Compruebo que la ciudad que vamos a introducir no esta ya escrita si esta escrita se coloca la del caminante1 
+        for (int j=0; j < i;j++)
+        {
+            if (camino[j] == c2.camino[i]){
+                camino[i] = c1.camino[i];
+
+            }else{
+                camino[i] = c2.camino[i];
+            }
+        } 
+    }   
 }
 
 //Devuelve true si y solo si el camino no tiene ciudades repetidas salvo el inicio y fin
