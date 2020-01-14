@@ -160,6 +160,34 @@ void Caminante::mutar(const int numCities)
     }
   
 }
+
+void Caminante::mutar_v2(const int numCities, float media)
+{
+
+    if (fitness > media)
+    {
+        int genes[numCities - 1];
+        bool cogidos[numCities - 1];
+        //Almacenamos los genes intercambiables para no perder ninguno
+        for (int i = 0; i < numCities - 1; i++)
+        {
+            genes[i] = camino[i + 1];
+            cogidos[i] = false;
+        }
+        int j = 0;
+        int random;
+
+        for (int i = 1; i < numCities; i++)
+        {
+            random = rand() % (numCities - 1);
+            while (cogidos[random])
+                random = (random + 1) % (numCities - 1);
+            camino[i] = genes[random]; //Elige un gen entre todos los almacenados
+            cogidos[random] = true;
+        }
+        
+    }
+}
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
 {   
@@ -687,6 +715,12 @@ void Poblacion::mutar(int num){
 
 }
 
+void Poblacion::mutar_v2(int num)
+{
+
+    caminantes[num].mutar_v2(numCities, media());
+}
+
 //cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
 //población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
@@ -825,4 +859,15 @@ void Poblacion::seleccionar_v2(){
             }
             j++;               
         }
+}
+
+float Poblacion::media()
+{
+    float media;
+    for (int i = 0; i < numCam; i++)
+    {
+        //calculo de la media
+        media += caminantes[i].MyFit();
+    }
+    return media = media / numCam;
 }
