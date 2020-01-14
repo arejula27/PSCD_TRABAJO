@@ -140,6 +140,8 @@ int main(int argc, char *argv[]) {
 			//cout << &buffer[2] << endl;
 			cout << "Va a descodificar2" << endl;
 			pob.descodificar(&buffer[2], UPGRADE_POB);
+			
+
 
 			//cout << pob.codificar(UPGRADE_POB) << endl;
 			//cout << "POOOOOB" << endl;
@@ -238,6 +240,8 @@ int main(int argc, char *argv[]) {
 			//cout<<"a"<<endl;
 			
             // Send, enviar nueva sub-poblacion al cliente
+			cout<<"ENVIO------\n";
+			cout<<nuevaSubPoblacion<<endl;
             int send_bytes = socket.Send(client_fd, nuevaSubPoblacion);
             /*
 			if(send_bytes == -1) {

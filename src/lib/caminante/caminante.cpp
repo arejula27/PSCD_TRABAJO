@@ -718,10 +718,6 @@ void Poblacion::seleccionar(){
     numCam=numCamOrig;
    
     cout<<codificar(UPGRADE_POB)<<endl;
-    cout<<"sel"<<endl;
-  //  exit(0);
-    
-    
     
    
 }
