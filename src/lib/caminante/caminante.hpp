@@ -154,6 +154,8 @@ public:
     void cruzar(int p1, int p2);
 
     void seleccionar();
+
+    void seleccionar_v2();
     
 };
 
