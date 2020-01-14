@@ -156,6 +156,9 @@ public:
     void seleccionar();
     float media();
 
+
+    void seleccionar_v2();
+    
 };
 
 #endif //!CAMINANTE_Y_POBLACION
