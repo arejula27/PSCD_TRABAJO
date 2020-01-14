@@ -47,6 +47,12 @@ void procesoSeleccionar(PoblacionAProcesar &pAp) {
 	
 }
 
+void procesoSeleccionar_v2(PoblacionAProcesar &pAp) {
+	
+	pAp.seleccionar_v2();
+	
+}
+
 
 //-------------------------------------------------------------
 int main(int argc, char *argv[]) {
@@ -159,7 +165,9 @@ int main(int argc, char *argv[]) {
 						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n, n, i);
 						comienzo += div_n;
 					}
+					
 				}
+				
 				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
 				{
 					proceso[i].join();
@@ -170,16 +178,18 @@ int main(int argc, char *argv[]) {
 			case 1: // Mutar
 				cout << "Mutando población" << endl;
 				// Mutar caminantes reptartido en 5 procesos
-				/*
+					/*
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
-							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
-						}
-						else {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n,r);
 						}
+						else {
+							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
+						}
 						comienzo += div_n;
+						cout<<"-------------------------En el proceso "<<i<<"no ha petado\n";
 					}
+					cout<<"-------------los va a cerrar\n";
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
 					}
@@ -193,6 +203,16 @@ int main(int argc, char *argv[]) {
 				
 				procesoSeleccionar(ref(pAp));
 				break;
+
+			case 5: // Seleccionar V2
+				cout << "Seleccionando población" << endl;
+				//cout << &buffer[2] << endl;
+				cout << "Va a seleccionar v2 "<< endl;
+				
+				procesoSeleccionar_v2(ref(pAp));
+				break;
+
+
 			default: // Operacion incorrecta
 				cout << "ERROR en operacion recibida" << endl;
 				// Enviar mensaje de error de operacion
