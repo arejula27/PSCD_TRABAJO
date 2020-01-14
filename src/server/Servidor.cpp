@@ -16,11 +16,11 @@ using namespace std;
 const int MESSAGE_SIZE = 100000; //mensajes de no más 4000 caracteres //SE SUPONE QUE ERA 4001¿?¿?¿?¿?¿?¿?
 const int NUM_PROCESOS_MAX = 5;    //numero de procesos concurrente maximo
 const double PORCENTAJE_EXTRA = 0.2;    //numero de caminantes de más que vamos a crear
-const int MAX_MSG_SIZE = 30000;
+const int MAX_MSG_SIZE = 10000;
 const string FIN_MSG_RECIBIDO = "*";
 //-------------------------------------------------------------
-void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
-    if(j != 4) {
+void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j) {
+    
         for(int i=comienzo;i<comienzo+div_n;i++){
             if(i == div_n) {
                 pAp.cruzar(i,comienzo);
@@ -29,21 +29,7 @@ void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int 
                 pAp.cruzar(i,i+1);
             }
         }
-    }
-    else {    // proceso extra
-        for(int i=0; i<extra; i++) {
-            bool puede = false;
-            while(!puede) {
-                int aleatorio = 0 + (rand() % static_cast<int>(n - 0 + 1));
-                
-                int aleatorio2 = 0 + (rand() % static_cast<int>(n - 0 + 1));
-                if(aleatorio != aleatorio2) {
-                    puede = true;
-                    pAp.cruzar(aleatorio,aleatorio2);
-                }
-            }
-        }
-    }
+   
 }
 
 void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
@@ -128,6 +114,7 @@ int main(int argc, char *argv[]) {
 		msg = "";
 		do{
 			buffer = "";
+			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 			int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
 			if (rcv_bytes == -1)
 			{
@@ -138,28 +125,24 @@ int main(int argc, char *argv[]) {
 			}
 			msg += buffer;
 			aux = buffer.back();
-		}while(aux != FIN_MSG_RECIBIDO);
+		}while(buffer.find("*")==string::npos);
 		if (buffer == MENS_FIN) {	// Si recibimos "END OF SERVICE" se cierra la comunicacion
 			cout << "Recibido mensaje de finalización, listo para cerrar el servidor"<< endl;
 			out = true; 
 		} else {
-			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
+			cout << "Recibido"<< endl;
 			cout <<"Procesando nueva población..."<< endl;
-			cout<<msg<<endl;
-			cout<<&msg[2]<<endl;
-			
-			pob.descodificar(&msg[2], UPGRADE_POB);
-			cout<<"no peta descodificando"<<endl;
+			pob.descodificar(&msg[msg.find_first_of("0123456789")+2], UPGRADE_POB);
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = stoi(msg); // Coger la operacion a realizar
+			int operacion = stoi(&msg[msg.find_first_of("0123456789")]); // Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);  // Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();	  // Obtener numero de caminantes
-			int extra = n * PORCENTAJE_EXTRA;
-			int div_n = n / (NUM_PROCESOS_MAX - 1);
-			int resto = n % (NUM_PROCESOS_MAX - 1);
+			//int extra = n * PORCENTAJE_EXTRA;
+			int div_n = n / (NUM_PROCESOS_MAX);
+			int resto = n % (NUM_PROCESOS_MAX);
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
-			cout << "Numero de caminantes extra: " << extra << endl;
+			//cout << "Numero de caminantes extra: " << extra << endl;
 			thread proceso[NUM_PROCESOS_MAX];
 			int id = 0;
 			int comienzo = 0;
@@ -174,13 +157,13 @@ int main(int argc, char *argv[]) {
 				{
 					if (resto > 0)
 					{
-						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n + 1, n, i, extra);
+						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n + 1, n, i);
 						comienzo += div_n + 1;
 						resto--;
 					}
 					else
-					{ // hilo para cruzar los extra
-						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n, n, i, extra);
+					{ 
+						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n, n, i);
 						comienzo += div_n;
 					}
 					
@@ -260,6 +243,7 @@ int main(int argc, char *argv[]) {
             numPaquetes = tamMsg / MAX_MSG_SIZE;
             tamLastPaquete = tamMsg % MAX_MSG_SIZE;
             iterMsg = 0;
+	    cout << "Enviando mensaje al cliente" << endl;
             while(numPaquetes >= 0){
                     msgPartido = &nuevaSubPoblacion[iterMsg];
                     msgPartido.resize(MAX_MSG_SIZE);
@@ -277,7 +261,7 @@ int main(int argc, char *argv[]) {
                 exit(1);
             }
 			*/
-            cout << "Mensaje enviado al cliente" << endl;
+            cout << "Mensaje enviado" << endl;
         }
     }
 

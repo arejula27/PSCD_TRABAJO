@@ -18,7 +18,7 @@ using namespace std;
 
 const int MESSAGE_SIZE = 100000; //mensajes de no más 10000 caracteres
 const int MAX_SERVERS = 3; //El numero de servidores maximo que tenemos que lanzar
-const int MAX_MSG_SIZE = 30000;
+const int MAX_MSG_SIZE = 10000;
 const string FIN_MSG_RECIBIDO = "*";
 
 void leerconfig(int &numServers,int &puertoCs, int &gen, int &puerto, string IPs[], int &numPersonas, int ops[]){
@@ -209,6 +209,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 numPaquetes = tamMsg / MAX_MSG_SIZE;
                 tamLastPaquete = tamMsg % MAX_MSG_SIZE;
                 iterMsg = 0;
+		cout << "Enviando mensaje a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
                 while(numPaquetes >= 0){
                     msgPartido = &msg[iterMsg];
                     msgPartido.resize(MAX_MSG_SIZE);
@@ -216,24 +217,25 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                     socketServ[k].Send(server_fd[k],msgPartido);
                     numPaquetes--;
                 }
+		cout<< "Enviado"<<endl;
 
-                
-				
-				cout << "Mensaje enviado a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
             }
             prim = false;
             string aux;
+	    
             for(int k = 0; k < serversAceptados; k++){
-				string resp = "";
+		string resp = "";
+                string buffer;
+		cout << "Recibiendo mensaje del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
 		        do{
-			        string buffer = "";
+			        buffer = "";
 			        int rcv_bytes = socketServ[k].Recv(server_fd[k],buffer,MESSAGE_SIZE);
 			        resp += buffer;
 			        aux = buffer.back();
-		        }while(aux != FIN_MSG_RECIBIDO);
-                cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
+		        }while(buffer.find("*")==string::npos);
+                cout<<"Recibido"<<endl;
                 cout <<"Procesando nueva población..."<< endl;
-                pobs[k].descodificar(resp,UPGRADE_POB);
+                pobs[k].descodificar(&resp[resp.find_first_of("0123456789")],UPGRADE_POB);
             }
 
 		}

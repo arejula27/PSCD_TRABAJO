@@ -43,7 +43,7 @@ LDFLAGS=-pthread   # Flags linkado threads
 TESTPOBFLG= -I.  -I${LIB_CAM} -O2 -std=c++11   # Flags compilacion
 
 
-all: cliente server
+all: cliente server clienteB
 #----------------------------------------------------------------------------
 #Para gestionar opciones de compilación según la máquina: hendrix tiene sus manías
 #Descomentar la siguiente línea para compilar en hendrix
