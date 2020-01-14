@@ -116,7 +116,6 @@ void imprimirCSV (Poblacion &personas,PobActual &pa, int MAX_GENS){
     float mejorFit,media;
     while (i<MAX_GENS){
         float porcentaje = personas.stats(0.8,mejorFit,media);
-        //calcEstadisticas(personas,i+1,pa,mejorFit,media);
         f << i+1 << "," << mejorFit << "," << media << endl;
         string info = to_string(i+1) + " , " + to_string(mejorFit) + " , " + to_string(media); 
         pa.guardarDatos(info);
@@ -178,11 +177,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
     int tamMsg, numPaquetes, tamLastPaquete, iterMsg;
     string msgPartido;
 
-    /*
-	for (int i = 0; i < serversAceptados; i++){
-		pobs[i].getMatrixFrom(personas);
-	}
-	*/bool prim = true;
+    bool prim = true;
 	for (int i = 0; i < gen && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
@@ -200,12 +195,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 } 
             }
 			for(int k = 0; k < serversAceptados; k++){
-               // cout << pobs[i].getNumCam() <<" ?22" <<endl;
                 if(prim){
                   
                     string nc = personas.codificar(NCIT);
                     socketServ[k].Send(server_fd[k],nc);
-                    cout<<"Mando matriz--------------------------"<<endl;
                 }
                 string msg;
               
@@ -218,7 +211,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 while(numPaquetes >= 0){
                     msgPartido = &msg[iterMsg];
                     msgPartido.resize(MAX_MSG_SIZE);
-                    iterMsg += MAX_MSG_SIZE;
+                    iterMsg += msgPartido.length();
                     socketServ[k].Send(server_fd[k],msgPartido);
                     numPaquetes--;
                 }
@@ -226,8 +219,6 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 
 				
 				cout << "Mensaje enviado a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
-                //cout<<msg<<endl;
-                cout << "si "<< endl;
             }
             prim = false;
             string aux;
@@ -240,9 +231,8 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			        aux = buffer.back();
 		        }while(aux != FIN_MSG_RECIBIDO);
                 cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
-                cout <<resp<< endl;
+                cout <<"Procesando nueva población..."<< endl;
                 pobs[k].descodificar(resp,UPGRADE_POB);
-                //cout << resp << endl;
             }
 
 		}
@@ -253,7 +243,6 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	}
 	//mando mensaje de finalizacion
 	for (int i = 0; i < serversAceptados; i++){
-		#warning cambiar msg de finalizacion
 		string fin = "END OF SERVICE*";
 		socketServ[i].Send(server_fd[i],fin);
 	}
@@ -394,11 +383,8 @@ int main(int argc, char const *argv[]){
     int ops[3] = {0, 1, 2};
     string aux = argv[1];
     string fichero = "./" + aux;
-    cout << "lleho" << endl;
     int cities = stoi(&fichero[fichero.find_first_of("0123456789")]);
-    cout << "lleho" << endl;
     int ciudIni = stoi(argv[2]);
-#warning la ciudad a inicial se puede cambiar
     leerconfig(numServers, puertoCs, gen, puertoServer, IPs, numPersonas, ops);
     PobActual pa(gen);
     Poblacion proletariado(numPersonas, ciudIni, cities, fichero);

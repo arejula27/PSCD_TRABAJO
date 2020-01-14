@@ -122,15 +122,11 @@ int getValorMatriz(int **mtr,int i,int j){
 void Caminante::calcMiFit(int **dist, int numCiuds)
 {
     int recorrido = 0;
-    cout<<numCiuds<<endl;
 
     for(int i = 0; i<numCiuds; i++)
     {
-        //cout << i<< endl;
-        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);
-        //cout << "val MAtr " << getValorMatriz(dist, camino[i], camino[i + 1]) << endl;
+        recorrido += getValorMatriz(dist,camino[i],camino[i+1]);;
     }
-   // cout<<"rec "<<recorrido<<" cit " <<numCiuds<<endl;
     fitness = 1.00000/recorrido;
 }
 
@@ -143,11 +139,6 @@ float Caminante::MyFit()
 //Función de mutar.
 void Caminante::mutar(const int numCities)
 {
-    cout<<endl;
-    cout<<"ORIGINAL: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<camino[i]<<"-";
-    }
 
     //MODO1
 
@@ -169,12 +160,7 @@ void Caminante::mutar(const int numCities)
         camino[i]=genes[random];//Elige un gen entre todos los almacenados
         cogidos[random] = true;
     }
-    cout<<endl;
-    cout<<"  MUTADO: ";
-    for(int i=0; i<numCities+1;i++){
-        cout<<camino[i]<<"-";
-    }
-    cout<<endl;
+    
 }
 //Modifica el camino del caminante con los genes cruzados de sus padres.
 void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCities)
@@ -600,7 +586,6 @@ void Poblacion::descodificar(string msg, int flg)
             if (caminantes == nullptr)
                 {
                     caminantes = new Caminante[maxCami];
-                   // cout<<"//////////////TAF////////////////"<<endl;
                 }
             
                
@@ -611,22 +596,10 @@ void Poblacion::descodificar(string msg, int flg)
        
         while (msg[inx++] != ':');
         //descodificar todos los viajeros
-
-      //  cout << "//////////////TAF2////////////////" << endl;
-      //  cout << numCam<< endl;
         for (int i = 0; i < numCam; i++)
         {
-            cout<<"Va a descodificar el caminante: "<<i<<endl;
             caminantes[i].desCodificar(msg, inx,numCities);
-            //cout<<caminantes[i].MyFit()<<endl;
         }
-        cout<<"Ha descodificado bien\n";
-       // cout << "HOOOOOOOOOO" <<cnt<< endl;
-        //cout << codificar(UPGRADE_POB) << endl;
-        //cout << "si" <<cnt<< endl<<endl;;
-        //if(cnt==2)exit(0);
-        //cout << "HOOOOOOOOOO" << cnt << endl;
-       // cout <<endl;
     }
     else if (flg == MATRX)
     {
@@ -738,12 +711,9 @@ void Poblacion::seleccionar(){
     {
   
         fit = caminantes[i].MyFit();
-        //cout<<"fit"<<i<<"---"<<prob;
         casillaCam[i] = fit + totalCasillas; //La longitud/probabilidad de la casilla lo determina el fit
         totalCasillas = fit + totalCasillas; //Se aumenta el tamaño de la ruleta
-        //cout<<"/////"<<"fit acumulado:"<<totalCasillas<<endl;
     }
-    cout<<"tras bucle fit"<<endl;
     int i;
     bool elegido;
 
@@ -751,7 +721,6 @@ void Poblacion::seleccionar(){
     {
 
         bola = totalCasillas * drand48();
-        cout<<bola<<endl;
         //Recorrer para comprobar resultado
         elegido = false;
         i = 0;
@@ -760,8 +729,6 @@ void Poblacion::seleccionar(){
 
             if (casillaCam[i] >= bola)
             {
-
-                cout << "En el turno " << tirada << " ha caido en la casilla " << casillaCam[i] << "--caminante[" << i << "]" << endl;
                 selected[tirada] = caminantes[i];
                 tirada++;
                 elegido = true;

@@ -22,8 +22,6 @@ const string FIN_MSG_RECIBIDO = "*";
 void procesoCruzar(PoblacionAProcesar &pAp, int comienzo, int div_n, int n, int j, int extra) {
     if(j != 4) {
         for(int i=comienzo;i<comienzo+div_n;i++){
-            //int aleatorio = 0 + (rand() % static_cast<int>(1000000- 0 + 1));
-            //usleep(aleatorio);
             if(i == div_n) {
                 pAp.cruzar(i,comienzo);
             }
@@ -115,12 +113,10 @@ int main(int argc, char *argv[]) {
 	string aux, msg;
 	Poblacion pob;
 	int gen=0;
-	cout<<"Va a recibir los datos--";
 	
 	int rcv_bytes = socket.Recv(client_fd, buffer, MESSAGE_SIZE);
-	cout << "Va a descodificar--";
 	pob.descodificar(buffer,NCIT);
-	cout << "Ha descodificado" << endl;
+	cout<<"Recibido número de ciudades: "<<pob.getNumCities()<<endl;
 	while (!out) {
 		// Recibimos la peticion del cliente
 		msg = "";
@@ -142,18 +138,8 @@ int main(int argc, char *argv[]) {
 			out = true; 
 		} else {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
-				//actualizar
-
-			//cout << &msg[2] << endl;
-			cout << "Va a descodificar2" << endl;
+			cout <<"Procesando nueva población..."<< endl;
 			pob.descodificar(&msg[2], UPGRADE_POB);
-			
-
-
-			//cout << pob.codificar(UPGRADE_POB) << endl;
-			//cout << "POOOOOB" << endl;
-			//cout << buffer << endl;
-			//cout << "si" << endl;
 
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
 			int operacion = stoi(msg); // Coger la operacion a realizar
@@ -245,10 +231,8 @@ int main(int argc, char *argv[]) {
 			pob = pAp.getPoblacion();
 			cout  << pob.getNumCam() << " son los caminantes que va a enviar" << endl;
 			string nuevaSubPoblacion = pob.codificar(UPGRADE_POB) + "*";	//generar cadena resultado
-			//cout<<"a"<<endl;
 			// Send, enviar nueva sub-poblacion al cliente
 			cout<<"ENVIO------\n";
-			//cout<<nuevaSubPoblacion<<endl;
 			tamMsg = nuevaSubPoblacion.length();
             numPaquetes = tamMsg / MAX_MSG_SIZE;
             tamLastPaquete = tamMsg % MAX_MSG_SIZE;
@@ -256,7 +240,7 @@ int main(int argc, char *argv[]) {
             while(numPaquetes >= 0){
                     msgPartido = &nuevaSubPoblacion[iterMsg];
                     msgPartido.resize(MAX_MSG_SIZE);
-                    iterMsg += MAX_MSG_SIZE;
+                    iterMsg += msgPartido.length();
                     socket.Send(client_fd,msgPartido);
                     numPaquetes--;
             }
