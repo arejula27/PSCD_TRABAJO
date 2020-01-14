@@ -734,10 +734,7 @@ void Poblacion::addCams(int num){
 }
 
 
-<<<<<<< HEAD
-=======
 //Muta el caminante que esta en caminantes[num]
->>>>>>> d044105b8aa56a01690cfdc7ec52688413ebbf10
 void Poblacion::mutar(int num){
 
     caminantes[num].mutar(numCities);

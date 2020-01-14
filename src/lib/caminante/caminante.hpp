@@ -27,7 +27,7 @@ const int UPGRADE_POB =0;
 const int ALL_POB =1;
 const int MATRX =2;
 const int NCIT =4;
-const int MAX_NUM_CIUDADES = 400
+const int MAX_NUM_CIUDADES = 400;
 
 
 class Caminante
@@ -200,12 +200,8 @@ public:
 
     //Devuelve el mejor caminante que ha habido en la población.
     void mejCam();
-<<<<<<< HEAD
 
     //Devuelve la media de los fitness de los caminantes almacenados en la población.
-=======
-    //Devuelve la media de los fitness de los caminantes de la poblacion
->>>>>>> d044105b8aa56a01690cfdc7ec52688413ebbf10
     float media();
 
     
