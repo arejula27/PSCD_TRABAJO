@@ -8,6 +8,8 @@
 //----------------------------------------------------------
 PoblacionAProcesar::PoblacionAProcesar(Poblacion poblacion_) {
 	poblacion = poblacion_;
+   // cout << poblacion.codificar(UPGRADE_POB)<< endl;
+   // cout << "enCon" << endl;
 }
 
 
@@ -29,6 +31,10 @@ void PoblacionAProcesar::mutar(int id) {
 // funcion seleccionar
 void PoblacionAProcesar::seleccionar() {   
     unique_lock<mutex> lck(mtx);
+    cout << "llega" << endl;
+  
+   
+    
     poblacion.seleccionar();
 }
 

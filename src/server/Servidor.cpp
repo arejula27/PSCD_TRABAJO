@@ -57,7 +57,9 @@ void procesoMutar(PoblacionAProcesar &pAp, int comienzo, int div_n,int r) {
 }
 
 void procesoSeleccionar(PoblacionAProcesar &pAp) {
-    pAp.seleccionar();
+	
+	pAp.seleccionar();
+	
 }
 
 
@@ -129,49 +131,61 @@ int main(int argc, char *argv[]) {
 		} else {
 			cout << "Recibido mensaje " <<(gen)<<" generación "<<((gen++)/3+1)<< endl;
 				//actualizar
-				pob.descodificar(&buffer[2],UPGRADE_POB);
-				
-			
+
+			cout << &buffer[2] << endl;
+			cout << "sisi" << endl;
+			pob.descodificar(&buffer[2], UPGRADE_POB);
+
+			//cout << pob.codificar(UPGRADE_POB) << endl;
+			//cout << "POOOOOB" << endl;
+			//cout << buffer << endl;
+			//cout << "si" << endl;
+
 			// Operar con la sub-poblacion (seleccionar, cruzar y mutar)
-			int operacion = stoi(buffer);	// Coger la operacion a realizar
-			PoblacionAProcesar pAp(pob);	// Construir monitor con la sub-poblacion recibida
-			int n = pob.getNumCam();				// Obtener numero de caminantes
-			int extra = n*PORCENTAJE_EXTRA;
-			int div_n = n/(NUM_PROCESOS_MAX-1);
-			int resto = n%(NUM_PROCESOS_MAX-1);
+			int operacion = stoi(buffer); // Coger la operacion a realizar
+			PoblacionAProcesar pAp(pob);  // Construir monitor con la sub-poblacion recibida
+			int n = pob.getNumCam();	  // Obtener numero de caminantes
+			int extra = n * PORCENTAJE_EXTRA;
+			int div_n = n / (NUM_PROCESOS_MAX - 1);
+			int resto = n % (NUM_PROCESOS_MAX - 1);
 			cout << "Numero de caminantes recibidos: " << n << endl;
 			cout << "Numero de iteraciones de 5 procesos: " << div_n << endl;
 			cout << "Numero de caminantes extra: " << extra << endl;
 			thread proceso[NUM_PROCESOS_MAX];
 			int id = 0;
-			int comienzo=0;
-			switch(operacion) {
-				case 0:		// Cruzar
-					cout<<"Cruzando población"<<endl;
-					pAp.setNumCamOrig();
-					cout<<"SE HA GUARDADO "<<pAp.getNumCamOrig()<<endl;
-					// Cruzar con 5 hilos
-					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						if(resto>0) {
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n+1,n,i,extra);  
-							comienzo += div_n+1;
-							resto--;
-						}
-						else{	// hilo para cruzar los extra
-							proceso[i] = thread(&procesoCruzar,ref(pAp),comienzo,div_n,n,i,extra);
-							comienzo += div_n;
-						}
+			int comienzo = 0;
+			switch (operacion)
+			{
+			case 0: // Cruzar
+				cout << "Cruzando población" << endl;
+				pAp.setNumCamOrig();
+				cout << "SE HA GUARDADO " << pAp.getNumCamOrig() << endl;
+				// Cruzar con 5 hilos
+				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
+				{
+					if (resto > 0)
+					{
+						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n + 1, n, i, extra);
+						comienzo += div_n + 1;
+						resto--;
 					}
-					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
-						proceso[i].join();
+					else
+					{ // hilo para cruzar los extra
+						proceso[i] = thread(&procesoCruzar, ref(pAp), comienzo, div_n, n, i, extra);
+						comienzo += div_n;
 					}
-					
-					r=n; //Almacena padres
-					break;
-				case 1:		// Mutar
-					cout<<"Mutando población"<<endl;
-					// Mutar caminantes reptartido en 5 procesos
-					/*
+				}
+				for (int i = 0; i < NUM_PROCESOS_MAX; i++)
+				{
+					proceso[i].join();
+				}
+
+				r = n; //Almacena padres
+				break;
+			case 1: // Mutar
+				cout << "Mutando población" << endl;
+				// Mutar caminantes reptartido en 5 procesos
+				/*
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						if(i == 0) {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
@@ -185,23 +199,27 @@ int main(int argc, char *argv[]) {
 						proceso[i].join();
 					}
 					*/
-					procesoMutar(pAp,0,n,0);
-					break;
-				case 2:		// Seleccionar
-					cout<<"Seleccionando población"<<endl;
-					procesoSeleccionar(ref(pAp));  
-					break;
-				default:	// Operacion incorrecta
-					cout << "ERROR en operacion recibida" << endl;
-					// Enviar mensaje de error de operacion
-					string errorMsg = "ERROR-OP";
-					int send_bytes = socket.Send(client_fd,errorMsg);
-					if(send_bytes == -1) {
-						string mensError(strerror(errno));
-						cerr << "Error al enviar datos: " + mensError + "\n";
-						socket.Close(client_fd);
-						exit(1);
-					}
+				procesoMutar(pAp, 0, n, 0);
+				break;
+			case 2: // Seleccionar
+				cout << "Seleccionando población" << endl;
+				cout << &buffer[2] << endl;
+				cout << "sisiNOOOO" << endl;
+				
+				procesoSeleccionar(ref(pAp));
+				break;
+			default: // Operacion incorrecta
+				cout << "ERROR en operacion recibida" << endl;
+				// Enviar mensaje de error de operacion
+				string errorMsg = "ERROR-OP";
+				int send_bytes = socket.Send(client_fd, errorMsg);
+				if (send_bytes == -1)
+				{
+					string mensError(strerror(errno));
+					cerr << "Error al enviar datos: " + mensError + "\n";
+					socket.Close(client_fd);
+					exit(1);
+				}
 
 			}
 

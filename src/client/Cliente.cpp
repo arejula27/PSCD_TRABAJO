@@ -191,11 +191,16 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 		cout <<"Generación: "<< (i+1) << endl;
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
-			// 0 cruzar
+            
+            // 0 cruzar
 			// 1 mutar
 			// 2 seleccionar
             if(j==2){
-                for(int t = 0; t < serversAceptados; t++) pobs[t].calcFit();
+                for(int t = 0; t < serversAceptados; t++){
+                    
+                    pobs[t].calcFit();
+                    
+                } 
             }
 			for(int k = 0; k < serversAceptados; k++){
                // cout << pobs[i].getNumCam() <<" ?22" <<endl;
@@ -209,15 +214,17 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
                 msg = to_string(ops[j]) + "," + pobs[k].codificar(UPGRADE_POB);
                
 				socketServ[k].Send(server_fd[k],msg);
-				cout << "Mensaje enviado a servidor("<<k<<"), generación: "<<i+1<< endl;
-                //cout<<msg<<endl;
-			}
+				cout << "Mensaje enviado a servidor("<<k<<"), operacion("<<j<<") generación: "<<i+1<< endl;
+                cout<<msg<<endl;
+                cout << "si "<< endl;
+            }
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
-                cout << "Mensaje recibido del servidor(" << k << "), generación: " << i + 1 << endl;
-                //cout<<resp<<endl;
-				pobs[k].descodificar(resp,UPGRADE_POB);
+                cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
+
+                pobs[k].descodificar(resp,UPGRADE_POB);
+                
 
                 
             }
