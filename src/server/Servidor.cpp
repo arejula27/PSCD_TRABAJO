@@ -154,7 +154,6 @@ int main(int argc, char *argv[]) {
 			int operacion = stoi(&msg[msg.find_first_of("0123456789")]); // Coger la operacion a realizar
 			PoblacionAProcesar pAp(pob);  // Construir monitor con la sub-poblacion recibida
 			int n = pob.getNumCam();	  // Obtener numero de caminantes
-			//int extra = n * PORCENTAJE_EXTRA;
 			int div_n = n / (NUM_PROCESOS_MAX);
 			int resto = n % (NUM_PROCESOS_MAX);
 			cout << "Numero de caminantes recibidos: " << n << endl;
@@ -204,14 +203,10 @@ int main(int argc, char *argv[]) {
 							proceso[i] = thread(&procesoMutar,ref(pAp),comienzo,div_n+resto,r);
 						}
 						comienzo += div_n;
-						cout<<"-------------------------En el proceso "<<i<<"no ha petado\n";
 					}
-					cout<<"-------------los va a cerrar\n";
 					for(int i=0; i<NUM_PROCESOS_MAX; i++) {
 						proceso[i].join();
 					}
-					
-				//procesoMutar(pAp, 0, n, 0);
 				break;
 
 			case 4: // Mutar V2
@@ -241,7 +236,6 @@ int main(int argc, char *argv[]) {
 				break;
 			case 2: // Seleccionar
 				cout << "Seleccionando población" << endl;
-				//cout << &buffer[2] << endl;
 				cout << "Va a seleccionar "<< endl;
 				
 				procesoSeleccionar(ref(pAp));
@@ -250,8 +244,6 @@ int main(int argc, char *argv[]) {
 
 			case 5: // Seleccionar V2
 				cout << "Seleccionando población" << endl;
-				//cout << &buffer[2] << endl;
-				cout << "Va a seleccionar v2 "<< endl;
 				
 				procesoSeleccionar_v2(ref(pAp));
 				break;
@@ -293,16 +285,6 @@ int main(int argc, char *argv[]) {
                     socket.Send(client_fd,msgPartido);
                     numPaquetes--;
             }
-            
-            /*
-			if(send_bytes == -1) {
-                string mensError(strerror(errno));
-                cerr << "Error al enviar datos: " + mensError + "\n";
-                socket.Close(client_fd);
-                socket.Close(socket_fd);
-                exit(1);
-            }
-			*/
             cout << "Mensaje enviado" << endl;
         }
     }

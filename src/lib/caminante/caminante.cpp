@@ -232,8 +232,6 @@ Poblacion::Poblacion(){
 //le indicas cuantos caminantes va a haber y la entrada donde estan los datos
 Poblacion::Poblacion(int numCamis, int ciudIni, int numCiuds, string entrada)
 {
-    //inicializar numCam
-    //int extra=numCamis*20/100;
     maxCami=2*numCamis;
     caminantes=new Caminante[maxCami];
     numCam=numCamis;
@@ -448,7 +446,6 @@ void Poblacion::fusionar(int n, Poblacion pobs[])
     {
         numC += pobs[i].getNumCam();
     }
-    //int extra = numC * 20 / 100;
     maxCami = 2 * numC;
 
     
@@ -596,7 +593,6 @@ void Poblacion::descodificar(string msg, int flg)
         descodificarMatriz(msg, inx);
 
         numCam = stoi(&msg[inx]);
-        //int extra = numCam * 20 / 100;
         maxCami = 2 * numCam;
         
         assert(numCam<=maxCami);
@@ -619,9 +615,6 @@ void Poblacion::descodificar(string msg, int flg)
         static int cnt=0;
         cnt++;
         if(primer){
-           
-            
-            //int extra = numCam * 20 / 100;
             maxCami = 2 * numCam;
             primer=false;
             if (caminantes == nullptr)
@@ -777,7 +770,6 @@ void Poblacion::seleccionar(){
     for(int i=0; i<numCamOrig; i++){
         
         caminantes[i]= selected[i];
-        //caminantes[i].calcMiFit;
 
     }
     numCam=numCamOrig;

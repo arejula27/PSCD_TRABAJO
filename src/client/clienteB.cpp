@@ -33,7 +33,8 @@ void leerconfig(int &puerto, string &ipServer){
 }
 
 int main(int argc, char *argv[]) {
-
+    cout<<"GENERACIÓN    MEJOR FIT     MEDIA FIT"<<endl;
+    cout<<"-------------------------------------"<<endl;
     const string MENS_FIN("END OF SERVICE");
     // Dirección y número donde escucha el proceso servidor
     string SERVER_ADDRESS;
