@@ -222,7 +222,7 @@ void Caminante::cruzar(const Caminante &c1, const Caminante &c2, const int numCi
  * FUNCIONES POBLACIÓN
  * ********************************************/
 
-
+//Constructor por defecto
 Poblacion::Poblacion(){
     numCities = 0;
     numCam = 0;
@@ -327,7 +327,6 @@ Poblacion::Poblacion(string data)
     descodificarMatriz(data, inx);      //Descodifica y guarda la matriz.
 
     numCam = stoi(&data[inx]);
-    //int extra = numCam * 20 / 100;
     maxCami = 2 * numCam;
     caminantes = new Caminante[maxCami];
     while (data[inx++] != ':');
@@ -341,6 +340,7 @@ Poblacion::Poblacion(string data)
 
 }
 
+//Destructor
 Poblacion::~Poblacion()
 {
 }
@@ -366,6 +366,7 @@ int Poblacion::getNumCamOrig(){
 void Poblacion::setNumCamOrig(){
     numCamOrig=numCam;
 }
+
 //Se calcula el fit de todos los caminantes de la población y se actualizan con este.
 void Poblacion::calcFit(){
     for (int  i = 0; i < numCam ; i++)
@@ -386,7 +387,7 @@ void Poblacion::calcFit(Caminante &caminate){
 //Devuelve el porcentaje de caminantes que son mejores que el fit que le introducimos,
 //tambien por mejorFit devuelve el fitness del mejor caminante y por media la
 //media de fitness de los caminantes
-////Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
+//Si hay un caminante con mejor fit que <caminoMejorFit> se actualiza <caminoMejorFit> con este.
 float Poblacion::stats(float fit,float &mejorFit,float &media){
     int cont = 0;
     int idMejor=0;
@@ -455,13 +456,14 @@ void Poblacion::dividir(int n, Poblacion pobs[])
 
 }
 
+//Fusiona n poblaciones almacenadas en <pobs> guardando todos sus caminantes en la población que invoca la función.
 void Poblacion::fusionar(int n, Poblacion pobs[])
 {
     int idx = 0;
     int numC=0;
     for (int i = 0; i < n; i++)
     {
-        numC += pobs[i].getNumCam();
+        numC += pobs[i].getNumCam();   //Actualizando el valor de numCam.
     }
     maxCami = 2 * numC;
 
@@ -471,14 +473,14 @@ void Poblacion::fusionar(int n, Poblacion pobs[])
     {
         for (int j = 0; j < pobs[i].getNumCam(); j++)
         {
-            caminantes[idx] = pobs[i].caminantes[j];
+            caminantes[idx] = pobs[i].caminantes[j];    //Igualando caminantes.
             idx++;
         }
         }
 }
 
 //Devuelve un string que almacena la matriz de distancias de la Poblacion según el siguiente formato:
-// "(dist11,dist12, ... , dist1n;dist21,dist22, ... , dist2n; ... ;distn1,distn2, ..., distnn;) "
+// "(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)"
 string Poblacion::codificarMatriz()
 {
     string MiMat = "(";
@@ -499,7 +501,7 @@ string Poblacion::codificarMatriz()
 }
 
 //Guarda en dist la matriz de distancias de la Población almacenada en <MiMatriz> según el siguiente formato:
-// "(dist10;dist20,dist21;, ... , ;distn0,distn1, ... , distn(n-2), distn(n-1);)"
+// ""(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)""
 //Y aumenta <avance> con el número de letras entre "(" y ")", ambos incluidos.
 void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
 {
@@ -519,7 +521,7 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
             {
                 avance++;
             }
-            aux = stoi(&MiMatriz[avance]);
+            aux = stoi(&MiMatriz[avance]);              //Descodificación según el formato.
             while (isDigit(MiMatriz[avance]))
             {
                 avance++;
@@ -537,10 +539,13 @@ void Poblacion::descodificarMatriz(const string MiMatriz, int &avance)
     avance++;
 }
 
-//transforma los datos de la poblacion en un único string, por defecto toda
+//Transforma los datos de la poblacion en un único string, en distintos formatos según el flag <flg>:
 //con UPGRADE_POB, unicamente el vector de caminantes
-//ALL_POB=> "numcities:(matriz)numCam:[caminante]*"
-//UPGRADE_POB=> "numCam:[caminante]*"
+//ALL_POB=> "(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)numCam:Cam1,Cam2, ... , CamN;"
+//UPGRADE_POB=> "numCam:Cam1,Cam2, ... , CamN;"
+//MATRX => "(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)"
+//NCIT => "numCities"
+//ALL_POB por defecto.
 string Poblacion::codificar(int flg)
 {   
     string msg="";
@@ -548,7 +553,7 @@ string Poblacion::codificar(int flg)
     {
     case ALL_POB:
         msg = to_string(numCities) + ":";
-        msg += codificarMatriz();
+        msg += codificarMatriz();               //Codificación según el formato
         msg += to_string(numCam) + ":";
        
         for (int i = 0; i < numCam; i++)
@@ -580,6 +585,13 @@ string Poblacion::codificar(int flg)
     return msg;
 }
 
+//Actualiza los datos de la poblacion según el string <msg>, sigue distintos formatos según el flag <flg>:
+//con UPGRADE_POB, unicamente el vector de caminantes
+//ALL_POB=> "(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)numCam:Cam1,Cam2, ... , CamN;"
+//UPGRADE_POB=> "numCam:Cam1,Cam2, ... , CamN;"
+//MATRX => "(dist10;dist20,dist21; ... ;distn0,distn1, ... ,distn(n-2),distn(n-1);)"
+//NCIT => "numCities"
+//ALL_POB por defecto.
 void Poblacion::descodificar(string msg, int flg)
 {
    
@@ -679,13 +691,15 @@ void Poblacion::descodificar(string msg, int flg)
     }
 }
 
+
+//Guarda en la población que llama la función la matriz dist de la Poblacion <pob>.
 void Poblacion::getMatrixFrom(Poblacion pob){
    
     numCities = pob.numCities;
 
     if (dist == nullptr)
     {
-        dist = new int *[numCities];
+        dist = new int *[numCities];        //Guarda espacio en <dist> para una matriz de numCities ciudades.
         for (int i = 0; i < numCities; i++)
         {
             dist[i] = new int[i];
@@ -696,28 +710,30 @@ void Poblacion::getMatrixFrom(Poblacion pob){
     {
         for (int j = 0; j < i; j++)
         {
-            dist[i][j]=pob.dist[i][j];
+            dist[i][j]=pob.dist[i][j];      //Iguala la matriz.
         }
         
     }
     
 }
 
+//Pre: id>=0 && id<Poblacion.getNumCams()
+//Devuelve el caminante número <id> de la población.
 Caminante Poblacion::getCaminante(int id) {
   
     assert(id>=0);
-    assert(id<numCam);
+    assert(id<numCam); 
     return caminantes[id];
 }
 
-//aumenta en num el numero de caminantes posibles en la población
+//Pre: <num>+Poblacion.getNumCams() < Población.maxCami()
+//Aumenta en num el numero de caminantes posibles en la población
 void Poblacion::addCams(int num){
     assert(num+numCam <= maxCami);
     numCam+=num;
 }
 
 
-//muta el caminante de la pos num
 void Poblacion::mutar(int num){
     
     caminantes[num].mutar(numCities);
@@ -731,8 +747,6 @@ void Poblacion::mutar_v2(int num)
     caminantes[num].mutar_v2(numCities, media());
 }
 
-//cruza los caminantes de la pos p1,p2 y coloca al hijo el ultimo de la
-//población, para que funcione la población no puede tener CAM_MAX caminantes
 void Poblacion::cruzar(int p1,int p2){
     
     assert(1 + numCam <= maxCami);
@@ -793,6 +807,8 @@ void Poblacion::seleccionar(){
     
 }
 
+
+//Seleccionar v2
 void Poblacion::seleccionar_v2(){
 
     Caminante selected[numCamOrig];
@@ -870,13 +886,15 @@ void Poblacion::seleccionar_v2(){
         }
 }
 
+
+//Devuelve la media de los fitness de los caminantes almacenados en la población
 float Poblacion::media()
 {
     float media;
     for (int i = 0; i < numCam; i++)
     {
-        //calculo de la media
+        //Sumatorio de los fitness.
         media += caminantes[i].MyFit();
-    }
+    }       //Cálculo de la media.
     return media = media / numCam;
 }

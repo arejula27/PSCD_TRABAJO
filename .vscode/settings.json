@@ -8,6 +8,10 @@
         "new": "cpp",
         "string": "cpp",
         "__mutex_base": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "array": "cpp",
+        "iterator": "cpp",
+        "string_view": "cpp",
+        "vector": "cpp"
     }
 }
