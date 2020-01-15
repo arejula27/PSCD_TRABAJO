@@ -189,6 +189,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 	*/bool prim = true;
 	for (int i = 0; i < gen && !pa.finEjec(personas); i++){
 		cout <<"Generación: "<< (i+1) << endl;
+        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
 		personas.dividir(serversAceptados,pobs);
 		for (int j = 0; j < 3; j++){
             
@@ -221,6 +222,7 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 			for(int k = 0; k < serversAceptados; k++){
 				string resp;
 				socketServ[k].Recv(server_fd[k],resp,MESSAGE_SIZE);
+                
                 cout << "Mensaje recibido del servidor(" << k << "),  operacion (" << j << ") generación: " << i + 1 << endl;
 
                 pobs[k].descodificar(resp,UPGRADE_POB);
@@ -231,6 +233,10 @@ void controlGenetico(int numServers, int puerto, Poblacion &personas, PobActual 
 
 		}
 		personas.fusionar(serversAceptados,pobs);
+        chrono::steady_clock::time_point final = chrono::steady_clock::now();
+        chrono::milliseconds time = chrono::duration_cast<chrono::milliseconds>(final - begin);
+        double tiempo = time.count();
+        cout <<  " Le cuesta : " << tiempo << endl ;
         pa.esperaEstadistico();
 	}
 	//mando mensaje de finalizacion
