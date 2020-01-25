@@ -20,7 +20,7 @@ Caminante::Caminante()
 Caminante::~Caminante()
 {
 }
-
+//Xadsjdna
 //Devuelve true si y sólo si <c> es un dígito ([0-9])
  bool isDigit(char c){
      bool res = true;
